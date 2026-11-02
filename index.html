@@ -507,7 +507,58 @@
             opacity: 0 !important;
             pointer-events: none !important;
         }
-    </style>
+    
+        /* Skeleton Breathing Animation for Curation Loader */
+        @keyframes skeletonBreathe {
+            0%, 100% {
+                opacity: 0.35;
+                transform: scale(0.985);
+            }
+            50% {
+                opacity: 0.95;
+                transform: scale(1.008);
+            }
+        }
+        .skeleton-breathe {
+            animation: skeletonBreathe 1.3s ease-in-out infinite;
+        }
+
+        @keyframes scissorRotate {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .scissor-rotate {
+            animation: scissorRotate 2s ease-in-out infinite;
+        }
+
+        /* Curated 1-Tap Review Chips */
+        .curated-chip {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .curated-chip.is-curated-active {
+            background: linear-gradient(135deg, #292929, #1C1C1C) !important;
+            color: #FAF9F7 !important;
+            border-color: #D7B27A !important;
+            box-shadow: 0 4px 14px rgba(41, 41, 41, 0.25) !important;
+            transform: scale(1.02);
+        }
+        .curated-chip.is-curated-active .curated-chip-check {
+            background-color: #D7B27A !important;
+            color: #1C1C1C !important;
+        }
+
+        /* Modal category selection card active state */
+        .modal-cat-card.is-active {
+            border-color: #D7B27A !important;
+            background-color: #FBF6EE !important;
+            box-shadow: 0 0 0 2px rgba(215, 178, 122, 0.45) !important;
+        }
+
+</style>
 </head>
 
 <body class="antialiased selection:bg-gold selection:text-charcoal pb-32"
@@ -617,124 +668,14 @@
                 </p>
             </div>
 
-            <!-- 3. INITIAL SECTION — WHAT BRINGS YOU HERE? ✨ (Writing-First Concierge) -->
-            <div id="intentSection"
-                class="mt-3.5 p-4 sm:p-5 rounded-3xl bg-white border border-champagne shadow-sm relative overflow-hidden transition-all">
-                
-                <!-- Headline & Subtitle -->
-                <div class="mb-3.5">
-                    <div class="flex items-center gap-2.5">
-                        <div
-                            class="w-10 h-10 rounded-2xl bg-gold-light border border-gold/60 flex items-center justify-center text-gold-deep text-lg font-black shadow-sm flex-shrink-0">
-                            ✨
-                        </div>
-                        <div>
-                            <h2 class="text-base sm:text-lg font-black text-charcoal tracking-tight leading-tight">
-                                What brings you here? ✨
-                            </h2>
-                            <p class="text-xs sm:text-[13px] text-greyx font-medium mt-0.5 leading-snug">
-                                Tell us what you're looking for, or choose from the options below.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interactive Writing Space with Real-time Animated Typing Placeholder -->
-                <div class="relative">
-                    <textarea id="intentWritingField" rows="2"
-                        class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3.5 pr-10 leading-relaxed focus:bg-white focus:outline-none transition-all resize-none shadow-inner"
-                        placeholder="I'm looking for a fresh haircut..."></textarea>
-                    
-                    <button type="button" id="clearIntentBtn" onclick="clearIntentInput()"
-                        class="hidden absolute right-3 top-3.5 w-6 h-6 rounded-full bg-champagne hover:bg-champagne-light text-charcoal-soft text-xs flex items-center justify-center cursor-pointer transition-all"
-                        title="Clear text">✕</button>
-                </div>
-
-                <!-- Intelligent Intent Detection Banner -->
-                <div id="detectedIntentBanner"
-                    class="hidden mt-2 px-3 py-2 rounded-xl bg-gold-pale border border-gold/60 text-[11.5px] font-semibold text-gold-deep flex items-center justify-between gap-2 transition-all">
-                    <span class="flex items-center gap-1.5 truncate">
-                        <span>🎯</span>
-                        <span id="detectedIntentText" class="truncate font-bold text-charcoal">Matching services...</span>
-                    </span>
-                    <button type="button" onclick="clearDetectedIntent()"
-                        class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer flex-shrink-0">Clear</button>
-                </div>
-
-                <!-- Suggested Categories Below Writing Space -->
-                <div class="mt-4 pt-3.5 border-t border-champagne">
-                    <div class="flex items-center justify-between mb-2.5">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-greyx">
-                            Or explore our services
-                        </h3>
-                        <span class="text-[10.5px] font-semibold text-gold-dark">Tap any card</span>
-                    </div>
-
-                    <!-- 2x2 Grid for first 4 categories -->
-                    <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
-                        <!-- 1. Hair & Styling -->
-                        <button type="button" onclick="selectIntentCategory('HAIR')" data-intent-cat="HAIR"
-                            class="intent-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                            <div
-                                class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                                ✂️
-                            </div>
-                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Hair &amp; Styling</h4>
-                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Cuts, Colour, Spa &amp; Keratin</p>
-                        </button>
-
-                        <!-- 2. Makeup & Beauty -->
-                        <button type="button" onclick="selectIntentCategory('BEAUTY')" data-intent-cat="BEAUTY"
-                            class="intent-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                            <div
-                                class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                                💄
-                            </div>
-                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Makeup &amp; Beauty</h4>
-                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Bridal, Waxing &amp; Threading</p>
-                        </button>
-
-                        <!-- 3. Skincare & Facials -->
-                        <button type="button" onclick="selectIntentCategory('SKIN')" data-intent-cat="SKIN"
-                            class="intent-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                            <div
-                                class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                                ✨
-                            </div>
-                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Skincare &amp; Facials</h4>
-                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Hydrating, Clean-up &amp; D-Tan</p>
-                        </button>
-
-                        <!-- 4. Nails & Manicure -->
-                        <button type="button" onclick="selectIntentCategory('NAILS')" data-intent-cat="NAILS"
-                            class="intent-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                            <div
-                                class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                                💅
-                            </div>
-                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Nails &amp; Manicure</h4>
-                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Nail Art, Gel &amp; Extensions</p>
-                        </button>
-                    </div>
-
-                    <!-- 5. Something Else / Explore All (Full-width 5th option) -->
-                    <button type="button" onclick="selectIntentCategory('EXPLORE_ALL')" data-intent-cat="EXPLORE_ALL"
-                        class="intent-cat-card w-full mt-2 p-2.5 sm:p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98] flex items-center justify-between">
-                        <div class="flex items-center gap-2.5">
-                            <div
-                                class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
-                                🌟
-                            </div>
-                            <div>
-                                <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">
-                                    Something Else / Explore All
-                                </h4>
-                                <p class="text-[10px] text-greyx mt-0.5 leading-snug">Browse all salon treatments, pricing &amp; reviews</p>
-                            </div>
-                        </div>
-                        <span class="text-xs text-gold-deep font-bold mr-1">➔</span>
-                    </button>
-                </div>
+            <!-- 3. QUICK PERSONALIZATION TRIGGER PILL -->
+            <div class="text-center my-3">
+                <button type="button" onclick="openEntryIntentModal()"
+                    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white hover:bg-gold-pale border border-gold/70 text-charcoal font-bold text-xs shadow-sm hover:shadow transition-all cursor-pointer active:scale-95">
+                    <span class="text-gold-dark text-sm">✨</span>
+                    <span>What brings you here?</span>
+                    <span class="px-2 py-0.5 rounded-full bg-gold-pale border border-gold/40 text-[10px] text-gold-deep font-extrabold uppercase">Personalize</span>
+                </button>
             </div>
 
             <!-- 4. ADAPTIVE WHATSAPP APPOINTMENT BOOKING -->
@@ -769,15 +710,15 @@
                 </div>
             </div>
 
-            <!-- 5. ADAPTIVE REVIEW EXPERIENCE — "How was your experience? ✨" (Writing-First) -->
+            <!-- 5. ADAPTIVE REVIEW EXPERIENCE — "How was your experience? ✨" (Curated 1-Tap Options, Zero Typing) -->
             <div id="aiSection"
                 class="mt-4 p-4 sm:p-5 rounded-3xl bg-champagne-light border border-champagne shadow-sm scroll-mt-4">
 
-                <!-- 5A. REVIEW HEADING & FREE WRITING AREA -->
+                <!-- 5A. REVIEW HEADING & CURATED 1-TAP OPTIONS (NO WRITING TEXTAREA) -->
                 <div id="reviewSelectionSection"
-                    class="p-3 sm:p-3.5 rounded-3xl bg-white border border-transparent transition-all">
+                    class="p-3.5 sm:p-4 rounded-3xl bg-white border border-transparent transition-all">
                     
-                    <!-- Heading & Subtitle per Requirement 4 -->
+                    <!-- Heading & Subtitle -->
                     <div class="mb-3.5 pb-3 border-b border-champagne flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div
@@ -789,73 +730,56 @@
                                     How was your experience? ✨
                                 </h2>
                                 <p class="text-xs sm:text-[13px] font-semibold text-greyx mt-1">
-                                    Every experience has a story. We'd love to hear yours.
+                                    Tap what made your visit memorable — zero typing needed!
                                 </p>
                             </div>
                         </div>
                         <span class="text-gold text-base select-none">✨</span>
                     </div>
 
-                    <!-- Review Free Writing Area (multiline with contextual animated placeholder) -->
-                    <div class="mb-4">
+                    <!-- Category Quick Filter Bar -->
+                    <div class="mb-3">
                         <div class="flex items-center justify-between mb-1.5 px-0.5">
-                            <label for="reviewFreeWritingField" class="text-xs font-extrabold text-charcoal flex items-center gap-1.5">
-                                <span>✍️</span>
-                                <span>Describe your experience in your words:</span>
-                            </label>
-                            <span id="reviewFreeWordCount" class="text-[10.5px] font-bold text-greyx">0 words</span>
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-greyx">
+                                Curated Options:
+                            </span>
+                            <span id="reviewSelectedBadge"
+                                class="text-[10.5px] font-bold text-gold-deep bg-gold-pale px-2.5 py-0.5 rounded-full border border-gold/40">
+                                1 selected
+                            </span>
                         </div>
-                        <div class="relative">
-                            <textarea id="reviewFreeWritingField" rows="3"
-                                class="luxury-field w-full text-xs sm:text-[13.5px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3.5 leading-relaxed focus:bg-white focus:outline-none transition-all resize-none shadow-inner"
-                                placeholder="Loved my haircut! The stylist understood exactly what I wanted..."></textarea>
-                        </div>
-                    </div>
-
-                    <!-- 5B. NEED A LITTLE INSPIRATION? SECTION (Requirement 5) -->
-                    <div class="pt-3 border-t border-champagne">
-                        <div class="mb-2.5">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-xs sm:text-[13px] font-extrabold text-charcoal flex items-center gap-1">
-                                    <span>Need a little inspiration? ✨</span>
-                                </h3>
-                                <span class="text-[10px] text-greyx font-semibold">Optional</span>
-                            </div>
-                            <p class="text-[11px] text-greyx font-medium mt-0.5">
-                                Choose what made your visit memorable.
-                            </p>
-                        </div>
-
-                        <!-- 8 Categories Grid with Sub-option Bottom Sheets -->
-                        <div id="categoryGrid"
-                            class="grid grid-cols-2 gap-2 sm:gap-2.5 mb-3 p-1 rounded-2xl transition-all">
-                            <!-- Populated dynamically via renderCategoryChips() -->
-                        </div>
-
-                        <!-- Selected Inspiration Summary -->
-                        <div id="selectedMenuSummary"
-                            class="hidden text-xs font-bold text-gold-deep bg-gold-pale border border-gold/60 rounded-xl p-2.5 mb-3">
-                            <div class="flex items-start justify-between gap-2">
-                                <span class="leading-snug">Selected Details: <span id="selectedMenuSummaryText"
-                                        class="font-extrabold text-charcoal"></span></span>
-                                <button type="button" onclick="clearAllSelections()"
-                                    class="flex-shrink-0 text-[11px] text-gold-deep underline hover:text-charcoal cursor-pointer">Clear</button>
-                            </div>
+                        <div id="reviewCategoryPillBar" class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar pb-1">
+                            <!-- Populated dynamically via renderReviewCategoryPills() -->
                         </div>
                     </div>
 
-                    <!-- 5C. REVIEW CONTROLS (Length + Language) -->
+                    <!-- Direct Curated 1-Tap Chips Grid (Replaces 8 static categories) -->
+                    <div id="curatedReviewChipsGrid" class="flex flex-wrap gap-2 mb-3">
+                        <!-- Populated dynamically via renderCuratedReviewChips() -->
+                    </div>
+
+                    <!-- Selected Inspiration Summary -->
+                    <div id="selectedMenuSummary"
+                        class="hidden text-xs font-bold text-gold-deep bg-gold-pale border border-gold/60 rounded-xl p-2.5 mb-3">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="leading-snug">Selected Highlights: <span id="selectedMenuSummaryText"
+                                    class="font-extrabold text-charcoal"></span></span>
+                            <button type="button" onclick="clearAllSelections()"
+                                class="flex-shrink-0 text-[11px] text-gold-deep underline hover:text-charcoal cursor-pointer">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- 5B. REVIEW CONTROLS (Length + Language) -->
                     <div class="pt-2.5 border-t border-champagne flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
-                        
-                        <!-- Review Length Selector (Requirement 6) -->
+                        <!-- Review Length Selector -->
                         <div class="flex items-center gap-1.5">
                             <span class="text-[11px] font-bold text-charcoal-soft mr-0.5">Length:</span>
                             <div class="inline-flex p-0.5 rounded-xl bg-ivory border border-champagne text-[11px] font-bold">
-                                <button type="button" onclick="setReviewLength('SHORT')" data-length="SHORT"
+                                <button type="button" onclick="setReviewLength('SHORT')" id="lenBtnShort"
                                     class="length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Short</button>
-                                <button type="button" onclick="setReviewLength('BALANCED')" data-length="BALANCED"
+                                <button type="button" onclick="setReviewLength('BALANCED')" id="lenBtnBalanced"
                                     class="length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer">Balanced</button>
-                                <button type="button" onclick="setReviewLength('DETAILED')" data-length="DETAILED"
+                                <button type="button" onclick="setReviewLength('DETAILED')" id="lenBtnDetailed"
                                     class="length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Detailed</button>
                             </div>
                         </div>
@@ -873,15 +797,14 @@
                     </div>
                 </div>
 
-                <!-- Primary Action Button: Dynamically Adapts (Polish / Enhance / Help Me Write) -->
+                <!-- Primary Action Button: "Help Me Write" -->
                 <button id="generateBtn" type="button" onclick="handleGenerateReviewClick()"
                     class="gold-glow-btn w-full mt-3 py-3.5 px-6 rounded-2xl text-charcoal-deep font-extrabold text-sm sm:text-base shadow-lg shadow-gold/40 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] cursor-pointer">
                     <span id="generateBtnIcon" class="text-base">✨</span>
-                    <span id="generateBtnText">Help Me Write</span>
-                    <span class="text-base">➔</span>
+                    <span id="generateBtnText">Help Me Write Review ➔</span>
                 </button>
                 <div class="text-center text-[11px] sm:text-xs text-greyx font-semibold mt-2 mb-3.5 flex items-center justify-center gap-2">
-                    <span id="generateBtnHint">Based on your own words &amp; selections</span>
+                    <span>1-Tap AI review from your highlights</span>
                     <span class="w-1 h-1 rounded-full bg-greyx"></span>
                     <span>100% editable</span>
                 </div>
@@ -2258,14 +2181,14 @@
            ======================================================== */
         let currentLang = 'ENGLISH';
         let currentReviewLength = 'BALANCED'; // 'SHORT', 'BALANCED', 'DETAILED'
-        let customerOriginalWriting = '';
-        let activeIntentCategory = null;
+        let activeIntentCategory = 'HAIR'; // Default to Hair & Styling
 
         let selectedCategoryData = {};
         Object.keys(REVIEW_CATEGORIES).forEach(k => {
             selectedCategoryData[k] = { services: [], highlights: [] };
         });
-        // Default selection: Overall Experience
+        // Default initial selections for immediate delight
+        selectedCategoryData.HAIR.services = ["Hair Spa"];
         selectedCategoryData.ALL.services = ["Loved the Results"];
 
         let activeSheetCatKey = null;
@@ -2279,11 +2202,9 @@
         let hasTriggeredWhatsAppScrollGuide = false;
         let currentLightboxIndex = 0;
 
-        /* Typewriter Animation Controllers */
+        /* Typewriter Animation Controller for Welcome Popup */
         let intentPlaceholderInterval = null;
-        let reviewPlaceholderInterval = null;
         let isIntentTypingActive = true;
-        let isReviewTypingActive = true;
         let intentDebounceTimer = null;
 
         const INTENT_ANIMATION_EXAMPLES = [
@@ -2297,42 +2218,119 @@
             "I'm planning a complete makeover..."
         ];
 
-        const REVIEW_PLACEHOLDER_BANK = {
-            HAIR: [
-                "Loved my haircut! The stylist understood exactly what I wanted...",
-                "My hair spa was so relaxing...",
-                "Really happy with my new hair colour..."
-            ],
-            BEAUTY: [
-                "My bridal makeup turned out beautifully...",
-                "Loved the natural makeup look...",
-                "The makeup artist understood my preferences..."
-            ],
-            SKIN: [
-                "My facial was refreshing and relaxing...",
-                "The skincare treatment felt wonderful...",
-                "Really enjoyed the cleanup session..."
-            ],
-            NAILS: [
-                "Absolutely loved my nail art...",
-                "The manicure was neat and beautifully done...",
-                "Really happy with the nail extensions..."
-            ],
-            ALL: [
-                "The staff was friendly and welcoming...",
-                "The salon was clean and comfortable...",
-                "Had a wonderful experience overall..."
-            ]
-        };
+        /* ========================================================
+           ENTRY MODAL (POP-UP BEFORE ENTERING PAGE)
+           ======================================================== */
+        function openEntryIntentModal() {
+            const modal = document.getElementById('entryIntentModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                initIntentPlaceholderTypewriter();
+            }
+        }
+
+        function closeEntryIntentModal() {
+            const modal = document.getElementById('entryIntentModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function selectModalCategory(catKey) {
+            activeIntentCategory = (catKey === 'ALL' || catKey === 'EXPLORE_ALL') ? null : catKey;
+
+            // Highlight modal cards
+            document.querySelectorAll('.modal-cat-card').forEach(c => {
+                const cat = c.getAttribute('data-modal-cat');
+                if (cat === catKey || (!activeIntentCategory && (cat === 'ALL' || cat === 'EXPLORE_ALL'))) {
+                    c.classList.add('is-active');
+                } else {
+                    c.classList.remove('is-active');
+                }
+            });
+
+            // If selected, prefill a default service for that category
+            if (activeIntentCategory && REVIEW_CATEGORIES[activeIntentCategory]) {
+                const defService = REVIEW_CATEGORIES[activeIntentCategory].services[0];
+                if (!selectedCategoryData[activeIntentCategory].services.includes(defService)) {
+                    selectedCategoryData[activeIntentCategory].services = [defService];
+                }
+            }
+
+            const btnText = document.getElementById('continueBtnText');
+            if (btnText) {
+                const titles = {
+                    HAIR: 'Continue to Hair Care ➔',
+                    BEAUTY: 'Continue to Makeup & Beauty ➔',
+                    SKIN: 'Continue to Skincare & Facials ➔',
+                    NAILS: 'Continue to Nails & Manicure ➔'
+                };
+                btnText.textContent = activeIntentCategory ? (titles[activeIntentCategory] || 'Continue to Salon ➔') : 'Continue to Salon ➔';
+            }
+        }
+
+        function continueToSalonWithLoader() {
+            closeEntryIntentModal();
+
+            const loader = document.getElementById('salonCuratingLoader');
+            const loaderTitle = document.getElementById('loaderTitle');
+            const loaderSubtitle = document.getElementById('loaderSubtitle');
+
+            if (loader) {
+                const catNames = {
+                    HAIR: 'Hair Care & Styling options',
+                    BEAUTY: 'Makeup & Beauty packages',
+                    SKIN: 'Skincare & Facial treatments',
+                    NAILS: 'Nails & Manicure art'
+                };
+                const curatedName = activeIntentCategory ? (catNames[activeIntentCategory] || 'personalized salon services') : 'personalized salon services';
+
+                if (loaderTitle) loaderTitle.textContent = "Personalizing your salon visit... ✨";
+                if (loaderSubtitle) loaderSubtitle.textContent = `Curating ${curatedName} for you...`;
+
+                loader.classList.remove('hidden');
+                loader.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            // Immediately apply curations
+            renderAdaptiveWaButtons(activeIntentCategory);
+            renderCoreOfferings();
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            updateSelectionSummary();
+
+            // Smooth 850ms transition delay with skeleton breathing effect
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => loader.classList.add('hidden'), 320);
+                }
+                regenerateReview(true);
+                const label = activeIntentCategory ? REVIEW_CATEGORIES[activeIntentCategory]?.title : 'All Services';
+                showToast(`Welcome! Page curated for ${label} ✨`, '✨');
+            }, 850);
+        }
+
+        function skipToSalonDirect() {
+            closeEntryIntentModal();
+            renderAdaptiveWaButtons(activeIntentCategory);
+            renderCoreOfferings();
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            updateSelectionSummary();
+            regenerateReview(true);
+            showToast('Welcome to THE UNISEX SALON! ✨', '✨');
+        }
 
         /* ========================================================
-           INTENT & TYPEWRITER ANIMATION CONTROLLERS
+           INTENT & TYPEWRITER ANIMATION CONTROLLER (MODAL)
            ======================================================== */
         function initIntentPlaceholderTypewriter() {
             const field = document.getElementById('intentWritingField');
             if (!field) return;
 
-            // Accessibility: Respect reduced motion preference
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (prefersReducedMotion) {
                 field.placeholder = "Tell us what you're looking for, or choose below...";
@@ -2388,70 +2386,6 @@
             step();
         }
 
-        function initReviewPlaceholderTypewriter() {
-            const field = document.getElementById('reviewFreeWritingField');
-            if (!field) return;
-
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                field.placeholder = "Describe your experience in your words...";
-                return;
-            }
-
-            let bank = REVIEW_PLACEHOLDER_BANK[activeIntentCategory] || REVIEW_PLACEHOLDER_BANK.ALL;
-            let exampleIdx = 0;
-            let charIdx = 0;
-            let isDeleting = false;
-
-            function step() {
-                if (!isReviewTypingActive) return;
-                if (document.activeElement === field || field.value.length > 0) return;
-
-                bank = REVIEW_PLACEHOLDER_BANK[activeIntentCategory] || REVIEW_PLACEHOLDER_BANK.ALL;
-                const currentText = bank[exampleIdx % bank.length];
-
-                if (isDeleting) {
-                    charIdx--;
-                    field.placeholder = currentText.substring(0, charIdx);
-                    if (charIdx <= 0) {
-                        isDeleting = false;
-                        exampleIdx = (exampleIdx + 1) % bank.length;
-                        reviewPlaceholderInterval = setTimeout(step, 350);
-                        return;
-                    }
-                    reviewPlaceholderInterval = setTimeout(step, 25);
-                } else {
-                    charIdx++;
-                    field.placeholder = currentText.substring(0, charIdx);
-                    if (charIdx >= currentText.length) {
-                        isDeleting = true;
-                        reviewPlaceholderInterval = setTimeout(step, 1800);
-                        return;
-                    }
-                    reviewPlaceholderInterval = setTimeout(step, 50);
-                }
-            }
-
-            field.addEventListener('focus', () => {
-                isReviewTypingActive = false;
-                clearTimeout(reviewPlaceholderInterval);
-            });
-
-            field.addEventListener('blur', () => {
-                if (field.value.trim().length === 0) {
-                    isReviewTypingActive = true;
-                    charIdx = 0;
-                    isDeleting = false;
-                    step();
-                }
-            });
-
-            step();
-        }
-
-        /* ========================================================
-           INTELLIGENT INTENT DETECTION & ADAPTATION
-           ======================================================== */
         function handleIntentInput() {
             const field = document.getElementById('intentWritingField');
             const clearBtn = document.getElementById('clearIntentBtn');
@@ -2483,12 +2417,7 @@
             const banner = document.getElementById('detectedIntentBanner');
             if (banner) banner.classList.add('hidden');
             activeIntentCategory = null;
-            document.querySelectorAll('.intent-cat-card').forEach(c => {
-                c.classList.remove('border-gold', 'ring-2', 'ring-gold/50', 'bg-gold-pale');
-            });
-            renderAdaptiveWaButtons();
-            renderCoreOfferings();
-            renderCategoryChips();
+            document.querySelectorAll('.modal-cat-card').forEach(c => c.classList.remove('is-active'));
         }
 
         function analyzeCustomerIntent(rawText) {
@@ -2519,21 +2448,9 @@
                 }
             }
 
-            const pastKeywords = ['got', 'had', 'loved', 'visited', 'did my', 'was great', 'experience', 'went for', 'done and loved', 'awesome', 'amazing', 'best'];
-            const isPastExperience = pastKeywords.some(w => text.includes(w));
-
             if (detected.length > 0) {
                 const primaryCat = detected[0];
-                activeIntentCategory = primaryCat;
-
-                document.querySelectorAll('.intent-cat-card').forEach(c => {
-                    const cat = c.getAttribute('data-intent-cat');
-                    if (cat === primaryCat) {
-                        c.classList.add('border-gold', 'ring-2', 'ring-gold/50', 'bg-gold-pale');
-                    } else {
-                        c.classList.remove('border-gold', 'ring-2', 'ring-gold/50', 'bg-gold-pale');
-                    }
-                });
+                selectModalCategory(primaryCat);
 
                 if (banner && bannerText) {
                     const titles = {
@@ -2542,103 +2459,214 @@
                         SKIN: '✨ Skincare & Facials',
                         NAILS: '💅 Nails & Manicure'
                     };
-                    const statusMsg = isPastExperience
-                        ? `Identified: ${titles[primaryCat]} (Visit story recognized)`
-                        : `Identified: ${titles[primaryCat]} — personalized options updated below`;
-                    bannerText.textContent = statusMsg;
+                    bannerText.textContent = `Identified: ${titles[primaryCat]} — ready to curate`;
                     banner.classList.remove('hidden');
-                }
-
-                renderAdaptiveWaButtons(primaryCat);
-                renderCoreOfferings();
-                renderCategoryChips();
-                updateReviewActionState();
-
-                if (isPastExperience) {
-                    const reviewField = document.getElementById('reviewFreeWritingField');
-                    if (reviewField && reviewField.value.trim().length === 0) {
-                        reviewField.value = rawText;
-                        customerOriginalWriting = rawText;
-                        updateReviewActionState();
-                    }
                 }
             } else {
                 if (banner) banner.classList.add('hidden');
             }
         }
 
-        function selectIntentCategory(catKey) {
-            if (catKey === 'ALL') {
-                activeIntentCategory = null;
-            } else {
-                activeIntentCategory = (activeIntentCategory === catKey) ? null : catKey;
-            }
-
-            document.querySelectorAll('.intent-cat-card').forEach(c => {
-                const cat = c.getAttribute('data-intent-cat');
-                if (cat === activeIntentCategory) {
-                    c.classList.add('border-gold', 'ring-2', 'ring-gold/50', 'bg-gold-pale');
-                } else {
-                    c.classList.remove('border-gold', 'ring-2', 'ring-gold/50', 'bg-gold-pale');
-                }
-            });
-
-            if (activeIntentCategory && REVIEW_CATEGORIES[activeIntentCategory]) {
-                const defService = REVIEW_CATEGORIES[activeIntentCategory].services[0];
-                if (!selectedCategoryData[activeIntentCategory].services.includes(defService)) {
-                    selectedCategoryData[activeIntentCategory].services = [defService];
-                }
-            }
-
-            renderAdaptiveWaButtons(activeIntentCategory);
-            renderCoreOfferings();
-            renderCategoryChips();
-            updateReviewActionState();
-
-            const catTitles = {
-                HAIR: 'Hair & Styling',
-                BEAUTY: 'Makeup & Beauty',
-                SKIN: 'Skincare & Facials',
-                NAILS: 'Nails & Manicure'
-            };
-            const label = activeIntentCategory ? (catTitles[activeIntentCategory] || 'Personalized') : 'All services';
-            showToast(`Showing ${label} options ✨`, '✨');
-        }
-
         /* ========================================================
-           UI RENDERING & ADAPTIVE UPDATES
+           CURATED "HOW WAS YOUR EXPERIENCE?" 1-TAP CHIPS ENGINE
+           (Zero Typing Required, Completely Eliminates Customer Laziness)
            ======================================================== */
-        function renderCategoryChips() {
-            const grid = document.getElementById('categoryGrid');
-            if (!grid) return;
+        function renderReviewCategoryPills() {
+            const container = document.getElementById('reviewCategoryPillBar');
+            if (!container) return;
 
-            let catKeys = Object.keys(REVIEW_CATEGORIES);
-            if (activeIntentCategory && REVIEW_CATEGORIES[activeIntentCategory]) {
-                catKeys = [activeIntentCategory, ...catKeys.filter(k => k !== activeIntentCategory)];
-            }
+            const categories = [
+                { key: 'HAIR', label: 'Hair & Styling', icon: '✂️' },
+                { key: 'BEAUTY', label: 'Makeup & Beauty', icon: '💄' },
+                { key: 'SKIN', label: 'Skincare', icon: '✨' },
+                { key: 'NAILS', label: 'Nails & Manicure', icon: '💅' },
+                { key: 'ALL', label: 'All Services', icon: '⭐' }
+            ];
 
-            grid.innerHTML = catKeys.map(catKey => {
-                const cat = REVIEW_CATEGORIES[catKey];
-                const count = (selectedCategoryData[catKey]?.services?.length || 0) +
-                    (selectedCategoryData[catKey]?.highlights?.length || 0);
-                const isActive = count > 0;
+            const current = activeIntentCategory || 'ALL';
 
+            container.innerHTML = categories.map(cat => {
+                const isActive = (cat.key === current) || (cat.key === 'ALL' && !activeIntentCategory);
                 return `
-                    <button type="button" data-cat="${catKey}"
-                        class="category-chip py-2.5 px-3 rounded-full text-xs font-bold border border-champagne bg-white text-charcoal hover:border-gold hover:text-charcoal-deep shadow-sm transition-all flex items-center justify-between gap-1.5 cursor-pointer ${isActive ? 'chip-active' : ''}"
-                        onclick="openSubOptionSheet('${catKey}')">
-                        <span class="flex items-center gap-1.5 truncate">
-                            <span>${cat.icon}</span>
-                            <span class="truncate">${cat.title}</span>
-                        </span>
-                        <span class="chip-count inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-charcoal text-ivory text-[10px] font-black flex-shrink-0">
-                            ${count > 0 ? count : '✓'}
-                        </span>
+                    <button type="button" onclick="setReviewCategoryFilter('${cat.key}')"
+                        class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${isActive ? 'bg-charcoal text-ivory font-black shadow-sm border border-charcoal' : 'bg-ivory text-charcoal hover:bg-champagne border border-champagne'}">
+                        <span>${cat.icon}</span>
+                        <span class="ml-1">${cat.label}</span>
                     </button>
                 `;
             }).join('');
         }
 
+        function setReviewCategoryFilter(catKey) {
+            activeIntentCategory = (catKey === 'ALL') ? null : catKey;
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            renderAdaptiveWaButtons(activeIntentCategory);
+            renderCoreOfferings();
+            regenerateReview(true);
+
+            const catLabel = activeIntentCategory ? REVIEW_CATEGORIES[activeIntentCategory]?.title : 'All Services';
+            showToast(`Showing ${catLabel} options ✨`, '✨');
+        }
+
+        function renderCuratedReviewChips(categoryKey = null) {
+            const grid = document.getElementById('curatedReviewChipsGrid');
+            const badge = document.getElementById('reviewSelectedBadge');
+            if (!grid) return;
+
+            const cat = categoryKey && REVIEW_CATEGORIES[categoryKey] ? REVIEW_CATEGORIES[categoryKey] : null;
+
+            // Collect direct actionable chips:
+            // 1. Direct services for this category (or top popular services if ALL)
+            // 2. Direct highlights for this category
+            // 3. Constant Salon Qualities: Friendly Staff, Value for Money, Clean & Hygienic, Overall Experience
+            let items = [];
+
+            if (cat) {
+                // Category Specific Services
+                cat.services.slice(0, 5).forEach(s => {
+                    const isSelected = selectedCategoryData[categoryKey]?.services?.includes(s);
+                    items.push({
+                        type: 'service',
+                        catKey: categoryKey,
+                        name: s,
+                        icon: cat.icon,
+                        isSelected
+                    });
+                });
+
+                // Category Specific Highlights
+                if (cat.highlights) {
+                    cat.highlights.slice(0, 3).forEach(h => {
+                        const isSelected = selectedCategoryData[categoryKey]?.highlights?.includes(h);
+                        items.push({
+                            type: 'highlight',
+                            catKey: categoryKey,
+                            name: h,
+                            icon: '✨',
+                            isSelected
+                        });
+                    });
+                }
+            } else {
+                // ALL / Popular Services
+                const popular = [
+                    { catKey: 'HAIR', service: 'Hair Spa', icon: '✂️' },
+                    { catKey: 'HAIR', service: 'Haircut', icon: '💇' },
+                    { catKey: 'SKIN', service: 'Hydrating Facial', icon: '✨' },
+                    { catKey: 'NAILS', service: 'Nail Art', icon: '💅' },
+                    { catKey: 'BEAUTY', service: 'Party Makeup', icon: '💄' },
+                    { catKey: 'BEAUTY', service: 'Waxing', icon: '🌿' }
+                ];
+                popular.forEach(p => {
+                    const isSelected = selectedCategoryData[p.catKey]?.services?.includes(p.service);
+                    items.push({
+                        type: 'service',
+                        catKey: p.catKey,
+                        name: p.service,
+                        icon: p.icon,
+                        isSelected
+                    });
+                });
+            }
+
+            // Always present: Salon Qualities ("except overall experience")
+            const qualities = [
+                { catKey: 'STAFF', name: 'Friendly Staff', icon: '🤝' },
+                { catKey: 'VALUE', name: 'Value for Money', icon: '💰' },
+                { catKey: 'HYGIENE', name: 'Clean & Hygienic', icon: '🫧' },
+                { catKey: 'ALL', name: 'Loved the Results', icon: '⭐' }
+            ];
+
+            qualities.forEach(q => {
+                const isSelected = selectedCategoryData[q.catKey]?.services?.includes(q.name);
+                items.push({
+                    type: 'service',
+                    catKey: q.catKey,
+                    name: q.name,
+                    icon: q.icon,
+                    isSelected
+                });
+            });
+
+            // Count total selected items
+            let totalSelected = 0;
+            Object.keys(selectedCategoryData).forEach(k => {
+                totalSelected += (selectedCategoryData[k].services?.length || 0) + (selectedCategoryData[k].highlights?.length || 0);
+            });
+
+            if (badge) {
+                badge.textContent = `${totalSelected} selected`;
+            }
+
+            // Render chips as 1-tap toggles
+            grid.innerHTML = items.map(item => `
+                <button type="button" onclick="toggleCuratedChip('${item.type}', '${item.catKey}', '${item.name}')"
+                    class="curated-chip py-2 px-3 sm:px-3.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${item.isSelected ? 'is-curated-active' : 'bg-white text-charcoal border-champagne hover:border-gold hover:shadow-sm'}">
+                    <span>${item.icon}</span>
+                    <span>${item.name}</span>
+                    <span class="curated-chip-check inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-black ${item.isSelected ? 'bg-gold text-charcoal' : 'text-greyx'}">
+                        ${item.isSelected ? '✓' : '+'}
+                    </span>
+                </button>
+            `).join('');
+
+            updateSelectionSummary();
+        }
+
+        function toggleCuratedChip(type, catKey, itemName) {
+            if (!selectedCategoryData[catKey]) {
+                selectedCategoryData[catKey] = { services: [], highlights: [] };
+            }
+
+            const arr = type === 'highlight' ? selectedCategoryData[catKey].highlights : selectedCategoryData[catKey].services;
+            const idx = arr.indexOf(itemName);
+
+            if (idx > -1) {
+                arr.splice(idx, 1);
+            } else {
+                arr.push(itemName);
+            }
+
+            renderCuratedReviewChips(activeIntentCategory);
+            regenerateReview(true);
+        }
+
+        function clearAllSelections() {
+            Object.keys(selectedCategoryData).forEach(k => {
+                selectedCategoryData[k] = { services: [], highlights: [] };
+            });
+            renderCuratedReviewChips(activeIntentCategory);
+            updateSelectionSummary();
+            regenerateReview(true);
+            showToast('Selections cleared', '🧹');
+        }
+
+        function updateSelectionSummary() {
+            const summary = document.getElementById('selectedMenuSummary');
+            const summaryText = document.getElementById('selectedMenuSummaryText');
+            if (!summary || !summaryText) return;
+
+            const picked = [];
+            Object.keys(selectedCategoryData).forEach(k => {
+                const s = selectedCategoryData[k].services;
+                const h = selectedCategoryData[k].highlights;
+                if (s && s.length) picked.push(...s);
+                if (h && h.length) picked.push(...h);
+            });
+
+            if (picked.length === 0) {
+                summary.classList.add('hidden');
+                summaryText.textContent = '';
+            } else {
+                summary.classList.remove('hidden');
+                summaryText.textContent = picked.join(', ');
+            }
+        }
+
+        /* ========================================================
+           UI RENDERING & ADAPTIVE UPDATES
+           ======================================================== */
         function renderCoreOfferings() {
             const grid = document.getElementById('coreOfferingsGrid');
             if (!grid) return;
@@ -2782,225 +2810,73 @@
             `).join('');
         }
 
-        function updateSelectionSummary() {
-            const summary = document.getElementById('selectedMenuSummary');
-            const summaryText = document.getElementById('selectedMenuSummaryText');
-            if (!summary || !summaryText) return;
-
-            const picked = [];
-            Object.keys(selectedCategoryData).forEach(k => {
-                const s = selectedCategoryData[k].services;
-                const h = selectedCategoryData[k].highlights;
-                if (s && s.length) picked.push(...s);
-                if (h && h.length) picked.push(...h);
-            });
-
-            if (picked.length === 0) {
-                summary.classList.add('hidden');
-                summaryText.textContent = '';
-            } else {
-                summary.classList.remove('hidden');
-                summaryText.textContent = picked.join(', ');
-            }
-        }
-
-        /* ========================================================
-           SUB-OPTION BOTTOM SHEET
-           ======================================================== */
-        function openSubOptionSheet(catKey) {
-            activeSheetCatKey = catKey;
-            sheetShowAll = false;
-            const modal = document.getElementById('subOptionSheetModal');
-            if (!modal) return;
-
-            renderSheetContent();
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSubOptionSheet() {
-            const modal = document.getElementById('subOptionSheetModal');
-            if (modal) modal.classList.add('hidden');
-            activeSheetCatKey = null;
-            document.body.style.overflow = '';
-            renderCategoryChips();
-            updateSelectionSummary();
-            updateReviewActionState();
-        }
-
-        function renderSheetContent() {
-            if (!activeSheetCatKey) return;
-            const cat = REVIEW_CATEGORIES[activeSheetCatKey];
-            if (!cat) return;
-
-            document.getElementById('sheetIcon').textContent = cat.icon;
-            document.getElementById('sheetTitle').textContent = cat.title;
-
-            const selServices = selectedCategoryData[activeSheetCatKey]?.services || [];
-            const selHighlights = selectedCategoryData[activeSheetCatKey]?.highlights || [];
-            const totalSelected = selServices.length + selHighlights.length;
-
-            const badge = document.getElementById('sheetSelectedCount');
-            if (totalSelected > 0) {
-                badge.textContent = `${totalSelected} selected`;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
-
-            const visibleServices = sheetShowAll ? cat.services : cat.services.slice(0, 6);
-            const servicesContainer = document.getElementById('sheetServicesContainer');
-            servicesContainer.innerHTML = visibleServices.map(s => {
-                const isSelected = selServices.includes(s);
-                return `
-                    <button type="button" onclick="toggleSubOption('${s}')"
-                        class="p-2.5 rounded-xl text-xs font-bold border transition-all flex items-center justify-between text-left cursor-pointer active:scale-[0.98] ${isSelected ? 'bg-charcoal text-ivory border-charcoal shadow-sm' : 'bg-white text-charcoal border-champagne hover:border-gold'}">
-                        <span class="truncate">${s}</span>
-                        <span class="text-xs font-black ml-1.5 ${isSelected ? 'text-gold' : 'text-greyx'}">${isSelected ? '✓' : '+'}</span>
-                    </button>
-                `;
-            }).join('');
-
-            const showMoreBtn = document.getElementById('sheetShowMoreBtn');
-            const showMoreText = document.getElementById('sheetShowMoreText');
-            const showMoreIcon = document.getElementById('sheetShowMoreIcon');
-            if (cat.services.length > 6) {
-                showMoreBtn.classList.remove('hidden');
-                showMoreText.textContent = sheetShowAll ? 'Show fewer options' : `+ ${cat.services.length - 6} more options`;
-                showMoreIcon.textContent = sheetShowAll ? '▲' : '▼';
-            } else {
-                showMoreBtn.classList.add('hidden');
-            }
-
-            const highlightsBlock = document.getElementById('sheetHighlightsBlock');
-            const highlightsContainer = document.getElementById('sheetHighlightsContainer');
-            if (cat.highlights && cat.highlights.length > 0) {
-                highlightsBlock.classList.remove('hidden');
-                highlightsContainer.innerHTML = cat.highlights.map(h => {
-                    const isSelected = selHighlights.includes(h);
-                    return `
-                        <button type="button" onclick="toggleHighlight('${h}')"
-                            class="py-2 px-3 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-[0.98] ${isSelected ? 'bg-gold-deep text-white border-gold-deep shadow-sm' : 'bg-ivory text-charcoal border-champagne hover:border-gold'}">
-                            <span>${isSelected ? '★' : '✦'}</span>
-                            <span>${h}</span>
-                        </button>
-                    `;
-                }).join('');
-            } else {
-                highlightsBlock.classList.add('hidden');
-            }
-        }
-
-        function toggleSubOption(serviceName) {
-            if (!activeSheetCatKey) return;
-            const arr = selectedCategoryData[activeSheetCatKey].services;
-            const idx = arr.indexOf(serviceName);
-            if (idx > -1) {
-                arr.splice(idx, 1);
-            } else {
-                arr.push(serviceName);
-            }
-            renderSheetContent();
-        }
-
-        function toggleHighlight(highlightName) {
-            if (!activeSheetCatKey) return;
-            const arr = selectedCategoryData[activeSheetCatKey].highlights;
-            const idx = arr.indexOf(highlightName);
-            if (idx > -1) {
-                arr.splice(idx, 1);
-            } else {
-                arr.push(highlightName);
-            }
-            renderSheetContent();
-        }
-
-        function toggleShowMoreSubOptions() {
-            sheetShowAll = !sheetShowAll;
-            renderSheetContent();
-        }
-
-        function clearCurrentCategorySelections() {
-            if (!activeSheetCatKey) return;
-            selectedCategoryData[activeSheetCatKey] = { services: [], highlights: [] };
-            renderSheetContent();
-        }
-
-        function clearAllSelections() {
-            Object.keys(REVIEW_CATEGORIES).forEach(k => {
-                selectedCategoryData[k] = { services: [], highlights: [] };
-            });
-            renderCategoryChips();
-            updateSelectionSummary();
-            updateReviewActionState();
-            closeSubOptionSheet();
-            showToast('Selections cleared', '🧹');
-        }
-
-        function confirmSubOptionSheet() {
-            closeSubOptionSheet();
-            updateReviewActionState();
-            regenerateReview(true);
-            showToast('Selections updated! Review ready ✨', '✦');
-        }
-
         function quickSelectOffering(catKey, serviceName) {
-            if (selectedCategoryData[catKey]) {
-                if (!selectedCategoryData[catKey].services.includes(serviceName)) {
-                    selectedCategoryData[catKey].services.push(serviceName);
-                }
+            if (!selectedCategoryData[catKey]) {
+                selectedCategoryData[catKey] = { services: [], highlights: [] };
+            }
+            if (!selectedCategoryData[catKey].services.includes(serviceName)) {
+                selectedCategoryData[catKey].services.push(serviceName);
             }
             activeIntentCategory = catKey;
-            renderCategoryChips();
+            renderCuratedReviewChips(activeIntentCategory);
+            renderReviewCategoryPills();
+            renderAdaptiveWaButtons(activeIntentCategory);
             updateSelectionSummary();
-            updateReviewActionState();
             regenerateReview(true);
             focusReviewGenerator();
             showToast(`Added ${serviceName}! ✨`, '✂️');
         }
 
-        /* ========================================================
-           DYNAMIC REVIEW SCENARIO & ACTION STATE
-           ======================================================== */
-        function getReviewScenario() {
-            const field = document.getElementById('reviewFreeWritingField');
-            const text = (field ? field.value : '').trim();
-            const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
-
-            if (words >= 12) return 'POLISH';
-            if (words > 0) return 'ENHANCE';
-            return 'HELP_WRITE';
+        function restoreOriginalWriting() {
+            regenerateReview(true);
+            showToast('Review refreshed! ↺', '↺');
         }
 
-        function updateReviewActionState() {
-            const field = document.getElementById('reviewFreeWritingField');
-            const countEl = document.getElementById('reviewFreeWordCount');
-            const genBtn = document.getElementById('generateBtn');
-            const genBtnText = document.getElementById('generateBtnText');
-            const restoreBtn = document.getElementById('restoreWritingBtn');
+        /* Modal & Sheet Compatibility Handlers */
+        function openSubOptionSheet(catKey) {
+            activeSheetCatKey = catKey;
+            const modal = document.getElementById('subOptionSheetModal');
+            if (modal) modal.classList.remove('hidden');
+        }
 
-            const text = (field ? field.value : '').trim();
-            const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+        function closeSubOptionSheet() {
+            const modal = document.getElementById('subOptionSheetModal');
+            if (modal) modal.classList.add('hidden');
+        }
 
-            if (countEl) {
-                countEl.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
-            }
+        function toggleShowMoreSubOptions() {
+            sheetShowAll = !sheetShowAll;
+        }
 
-            const scenario = getReviewScenario();
+        function clearCurrentCategorySelections() {
+            if (!activeSheetCatKey) return;
+            selectedCategoryData[activeSheetCatKey] = { services: [], highlights: [] };
+            renderCuratedReviewChips(activeIntentCategory);
+        }
 
-            if (genBtnText) {
-                if (scenario === 'POLISH') {
-                    genBtnText.textContent = "✨ Polish My Review";
-                } else if (scenario === 'ENHANCE') {
-                    genBtnText.textContent = "✨ Enhance My Review";
-                } else {
-                    genBtnText.textContent = "✨ Help Me Write";
-                }
-            }
+        function confirmSubOptionSheet() {
+            closeSubOptionSheet();
+            renderCuratedReviewChips(activeIntentCategory);
+            regenerateReview(true);
+        }
 
-            if (restoreBtn) {
-                restoreBtn.classList.toggle('hidden', !customerOriginalWriting || customerOriginalWriting.trim().length === 0);
-            }
+        function openWelcomeModal() {
+            openEntryIntentModal();
+        }
+
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function toggleWelcomeItem(btn, catKey, serviceName) {
+            toggleCuratedChip('service', catKey, serviceName);
+        }
+
+        function confirmWelcomeModal() {
+            closeWelcomeModal();
+            renderCuratedReviewChips(activeIntentCategory);
+            regenerateReview(true);
         }
 
         function setReviewLength(length) {
@@ -3009,9 +2885,9 @@
                 const btn = document.getElementById('lenBtn' + l);
                 if (btn) {
                     if (l.toUpperCase() === length) {
-                        btn.className = 'length-pill px-3 py-1 rounded-full text-xs font-bold transition-all bg-charcoal text-ivory shadow-sm cursor-pointer';
+                        btn.className = 'length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer font-bold';
                     } else {
-                        btn.className = 'length-pill px-3 py-1 rounded-full text-xs font-bold transition-all bg-white text-charcoal hover:border-gold border border-champagne cursor-pointer';
+                        btn.className = 'length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer';
                     }
                 }
             });
@@ -3019,29 +2895,11 @@
             showToast(`Length: ${length.toLowerCase()} review`, '📏');
         }
 
-        function restoreOriginalWriting() {
-            const field = document.getElementById('reviewFreeWritingField');
-            if (field && customerOriginalWriting) {
-                field.value = customerOriginalWriting;
-                const ta = document.getElementById('aiReviewOutput');
-                const display = document.getElementById('aiReviewDisplay');
-                if (ta) ta.value = customerOriginalWriting;
-                if (display) display.textContent = customerOriginalWriting;
-                currentFullReviewText = customerOriginalWriting;
-                updateReviewActionState();
-                showToast('Restored your original writing! ↺', '↺');
-            }
-        }
-
         /* ========================================================
-           AI REVIEW SYNTHESIS ENGINE (Scenarios A, B, C & Zero Hallucination)
+           AI REVIEW SYNTHESIS ENGINE (1-Tap Zero-Typing Synthesis)
            ======================================================== */
         const REVIEW_AI_ENGINE = {
             generate(lang = 'ENGLISH', length = 'BALANCED') {
-                const scenario = getReviewScenario();
-                const field = document.getElementById('reviewFreeWritingField');
-                const writtenText = (field ? field.value : '').trim();
-
                 const hair = selectedCategoryData.HAIR || { services: [], highlights: [] };
                 const beauty = selectedCategoryData.BEAUTY || { services: [], highlights: [] };
                 const skin = selectedCategoryData.SKIN || { services: [], highlights: [] };
@@ -3055,7 +2913,6 @@
                 const allHighlights = [...hair.highlights, ...beauty.highlights, ...skin.highlights, ...nails.highlights];
 
                 const ctx = {
-                    writtenText,
                     services: allServices,
                     highlights: allHighlights,
                     staff, value, hygiene, overall,
@@ -3068,103 +2925,14 @@
                     lang
                 };
 
-                if (scenario === 'POLISH') {
-                    return this.synthesizePolish(ctx);
-                } else if (scenario === 'ENHANCE') {
-                    return this.synthesizeEnhance(ctx);
+                if (lang === 'HINGLISH') {
+                    return this.synthesizeHinglish(ctx);
                 } else {
-                    return this.synthesizeHelpWrite(ctx);
+                    return this.synthesizeEnglish(ctx);
                 }
             },
 
-            synthesizePolish(ctx) {
-                let text = ctx.writtenText.replace(/\s+/g, ' ').trim();
-                if (!/[.!?]$/.test(text)) text += '.';
-
-                const mentionsSalon = /unisex salon|the unisex salon/i.test(text);
-
-                if (ctx.lang === 'HINGLISH') {
-                    if (!mentionsSalon) {
-                        text = "THE UNISEX SALON mein visit kiya tha. " + text;
-                    }
-                    if (ctx.length === 'SHORT') {
-                        return text;
-                    } else if (ctx.length === 'DETAILED') {
-                        return text + " Overall bahut hi pleasant experience tha aur staff ne poora dhyan diya. 5/5 stars!";
-                    }
-                    return text + " Definitely recommend karunga/karungi!";
-                } else {
-                    if (!mentionsSalon) {
-                        text = "Had a great visit to THE UNISEX SALON in Clement Town. " + text;
-                    }
-                    if (ctx.length === 'SHORT') {
-                        return text;
-                    } else if (ctx.length === 'DETAILED') {
-                        return text + " The team was polite, attentive, and ensured everything was comfortable. Will definitely be visiting again!";
-                    }
-                    return text + " Highly recommended!";
-                }
-            },
-
-            synthesizeEnhance(ctx) {
-                const words = ctx.writtenText.replace(/[.!?]$/, '');
-                const sList = ctx.hasServices ? this.joinItems(ctx.services) : '';
-                const hList = ctx.hasHighlights ? this.joinItems(ctx.highlights.map(h => h.toLowerCase())) : '';
-
-                if (ctx.lang === 'HINGLISH') {
-                    let parts = [];
-                    if (sList) {
-                        parts.push(`THE UNISEX SALON mein ${sList} ke liye visit kiya tha.`);
-                    } else {
-                        parts.push("THE UNISEX SALON, Clement Town mein bahut accha experience raha.");
-                    }
-                    parts.push(`${words.charAt(0).toUpperCase() + words.slice(1)}.`);
-                    if (hList) {
-                        parts.push(`Stylist ne acche se dhyan diya — ${hList}.`);
-                    }
-                    if (ctx.hasStaff || ctx.hasHygiene) {
-                        parts.push("Staff polite tha aur salon ekdum clean & hygienic hai.");
-                    }
-                    if (ctx.length === 'SHORT') {
-                        return parts.slice(0, 2).join(' ');
-                    } else if (ctx.length === 'DETAILED') {
-                        parts.push("Services genuinely value for money hain aur main zaroor dubara aaunga/aaungi.");
-                    }
-                    return parts.join(' ');
-                } else {
-                    let parts = [];
-                    if (sList) {
-                        parts.push(`Visited THE UNISEX SALON in Clement Town for ${sList}.`);
-                    } else {
-                        parts.push("Had a really good visit to THE UNISEX SALON.");
-                    }
-                    parts.push(`${words.charAt(0).toUpperCase() + words.slice(1)}.`);
-                    if (hList) {
-                        parts.push(`The stylist took great care — ${hList}.`);
-                    }
-                    if (ctx.hasStaff || ctx.hasHygiene) {
-                        parts.push("The staff was welcoming and the salon was clean and comfortable.");
-                    }
-                    if (ctx.length === 'SHORT') {
-                        return parts.slice(0, 2).join(' ');
-                    } else if (ctx.length === 'DETAILED') {
-                        parts.push("Very happy with the overall outcome and pricing. Highly recommended to everyone!");
-                    } else {
-                        parts.push("Definitely recommended!");
-                    }
-                    return parts.join(' ');
-                }
-            },
-
-            synthesizeHelpWrite(ctx) {
-                if (ctx.lang === 'HINGLISH') {
-                    return this.synthesizeHinglishDraft(ctx);
-                } else {
-                    return this.synthesizeEnglishDraft(ctx);
-                }
-            },
-
-            synthesizeEnglishDraft(ctx) {
+            synthesizeEnglish(ctx) {
                 const parts = [];
 
                 if (ctx.hasServices) {
@@ -3216,7 +2984,7 @@
                 return parts.join(' ');
             },
 
-            synthesizeHinglishDraft(ctx) {
+            synthesizeHinglish(ctx) {
                 const parts = [];
 
                 if (ctx.hasServices) {
@@ -3281,7 +3049,7 @@
         };
 
         /* ========================================================
-           REVIEW DISPLAY & INTERACTIVE ACTIONS
+           REVIEW DISPLAY & ACTIONS
            ======================================================== */
         function regenerateReview(isSilent = false) {
             if (typingTimer) {
@@ -3332,7 +3100,6 @@
         function toggleEditReview() {
             const ta = document.getElementById('aiReviewOutput');
             const display = document.getElementById('aiReviewDisplay');
-            const btn = document.getElementById('editReviewBtn');
             const btnText = document.getElementById('editReviewBtnText');
             if (!ta || !display) return;
 
@@ -3358,9 +3125,9 @@
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => {
                 if (b.getAttribute('data-lang') === lang) {
-                    b.className = 'lang-btn px-3 py-1 rounded-full transition-all bg-charcoal text-ivory font-black shadow-sm cursor-pointer';
+                    b.className = 'lang-btn px-2.5 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer';
                 } else {
-                    b.className = 'lang-btn px-3 py-1 rounded-full transition-all text-charcoal-soft hover:text-charcoal font-bold cursor-pointer';
+                    b.className = 'lang-btn px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer';
                 }
             });
             regenerateReview(true);
@@ -3467,49 +3234,6 @@
             if (card) {
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-        }
-
-        function openWelcomeModal() {
-            const modal = document.getElementById('welcomeModal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeWelcomeModal() {
-            const modal = document.getElementById('welcomeModal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function toggleWelcomeItem(btn, catKey, serviceName) {
-            btn.classList.toggle('is-selected');
-            const anySelected = document.querySelectorAll('.modal-service-item.is-selected').length > 0;
-            const confirmBtn = document.getElementById('modalConfirmBtn');
-            if (confirmBtn) {
-                if (anySelected) {
-                    confirmBtn.classList.remove('opacity-50', 'pointer-events-none');
-                } else {
-                    confirmBtn.classList.add('opacity-50', 'pointer-events-none');
-                }
-            }
-        }
-
-        function confirmWelcomeModal() {
-            const selectedBtns = document.querySelectorAll('.modal-service-item.is-selected');
-            selectedBtns.forEach(btn => {
-                const cat = btn.getAttribute('data-cat');
-                const s = btn.getAttribute('data-service');
-                if (cat && s && selectedCategoryData[cat]) {
-                    if (!selectedCategoryData[cat].services.includes(s)) {
-                        selectedCategoryData[cat].services.push(s);
-                    }
-                }
-            });
-
-            closeWelcomeModal();
-            renderCategoryChips();
-            updateSelectionSummary();
-            updateReviewActionState();
-            regenerateReview(true);
-            showToast('Visit highlights saved! ✨', '✨');
         }
 
         /* ========================================================
@@ -3872,7 +3596,9 @@
            ======================================================== */
         window.addEventListener('DOMContentLoaded', () => {
             // Render components
-            renderCategoryChips();
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            renderAdaptiveWaButtons(activeIntentCategory);
             renderCoreOfferings();
             renderTestimonials();
             renderFaqs();
@@ -3882,7 +3608,17 @@
             // Set language buttons initial state
             setLanguage('ENGLISH');
 
-            // Gallery track scroll listener
+            // Wire input event on modal writing space
+            const intentField = document.getElementById('intentWritingField');
+            if (intentField) {
+                intentField.addEventListener('input', handleIntentInput);
+            }
+
+            // Pop up the "What brings you here?" onboarding dialogue immediately on entry
+            setTimeout(() => {
+                openEntryIntentModal();
+            }, 300);
+
             const galleryTrack = document.getElementById('galleryCarouselTrack');
             if (galleryTrack) {
                 galleryTrack.addEventListener('scroll', () => {
@@ -3989,6 +3725,193 @@
             }, 1200);
         });
     </script>
+
+    <!-- ========================================================
+         ENTRY INTENT MODAL (POP-UP / DIALOGUE BOX BEFORE ENTERING PAGE)
+         ======================================================== -->
+    <div id="entryIntentModal"
+        class="fixed inset-0 z-[120] bg-charcoal-deep/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
+        <div class="max-w-md w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-2xl border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
+            onclick="event.stopPropagation()">
+            
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-pale border border-gold/60 text-gold-deep mb-2 shadow-sm">
+                    <span>✦</span>
+                    <span>THE UNISEX SALON • CLEMENT TOWN</span>
+                </span>
+                <h2 class="text-xl sm:text-2xl font-black text-charcoal tracking-tight leading-tight">
+                    What brings you here? ✨
+                </h2>
+                <p class="text-xs sm:text-[13px] text-greyx font-medium mt-1 leading-snug">
+                    Tell us what you're looking for, or choose from our services below.
+                </p>
+            </div>
+
+            <!-- Interactive Writing Space with Real-time Animated Typing Placeholder -->
+            <div class="relative mb-3">
+                <textarea id="intentWritingField" rows="2"
+                    class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3.5 pr-10 leading-relaxed focus:bg-white focus:outline-none transition-all resize-none shadow-inner"
+                    placeholder="I'm looking for a fresh haircut..."></textarea>
+                
+                <button type="button" id="clearIntentBtn" onclick="clearIntentInput()"
+                    class="hidden absolute right-3 top-3.5 w-6 h-6 rounded-full bg-champagne hover:bg-champagne-light text-charcoal-soft text-xs flex items-center justify-center cursor-pointer transition-all"
+                    title="Clear text">✕</button>
+            </div>
+
+            <!-- Intelligent Intent Detection Banner -->
+            <div id="detectedIntentBanner"
+                class="hidden mb-3 px-3 py-2 rounded-xl bg-gold-pale border border-gold/60 text-[11.5px] font-semibold text-gold-deep flex items-center justify-between gap-2 transition-all">
+                <span class="flex items-center gap-1.5 truncate">
+                    <span>🎯</span>
+                    <span id="detectedIntentText" class="truncate font-bold text-charcoal">Matching services...</span>
+                </span>
+                <button type="button" onclick="clearDetectedIntent()"
+                    class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer flex-shrink-0">Clear</button>
+            </div>
+
+            <!-- Suggested Categories Grid -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2 px-0.5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-greyx">
+                        Or choose your interest:
+                    </span>
+                    <span class="text-[10.5px] font-semibold text-gold-dark">Tap to select</span>
+                </div>
+
+                <!-- 2x2 Grid for first 4 categories -->
+                <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
+                    <!-- 1. Hair & Styling -->
+                    <button type="button" onclick="selectModalCategory('HAIR')" data-modal-cat="HAIR"
+                        class="modal-cat-card is-active p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
+                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                            ✂️
+                        </div>
+                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Hair &amp; Styling</h4>
+                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Cuts, Colour, Spa &amp; Keratin</p>
+                    </button>
+
+                    <!-- 2. Makeup & Beauty -->
+                    <button type="button" onclick="selectModalCategory('BEAUTY')" data-modal-cat="BEAUTY"
+                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
+                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                            💄
+                        </div>
+                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Makeup &amp; Beauty</h4>
+                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Bridal, Waxing &amp; Threading</p>
+                    </button>
+
+                    <!-- 3. Skincare & Facials -->
+                    <button type="button" onclick="selectModalCategory('SKIN')" data-modal-cat="SKIN"
+                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
+                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                            ✨
+                        </div>
+                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Skincare &amp; Facials</h4>
+                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Hydrating, Clean-up &amp; D-Tan</p>
+                    </button>
+
+                    <!-- 4. Nails & Manicure -->
+                    <button type="button" onclick="selectModalCategory('NAILS')" data-modal-cat="NAILS"
+                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
+                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
+                            💅
+                        </div>
+                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Nails &amp; Manicure</h4>
+                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Nail Art, Gel &amp; Extensions</p>
+                    </button>
+                </div>
+
+                <!-- 5. Something Else / Explore All (Full-width 5th option) -->
+                <button type="button" onclick="selectModalCategory('ALL')" data-modal-cat="ALL"
+                    class="modal-cat-card w-full mt-2 p-2.5 sm:p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98] flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                            🌟
+                        </div>
+                        <div>
+                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">
+                                Something Else / Explore All
+                            </h4>
+                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Browse all salon treatments, pricing &amp; reviews</p>
+                        </div>
+                    </div>
+                    <span class="text-xs text-gold-deep font-bold mr-1">➔</span>
+                </button>
+            </div>
+
+            <!-- CONTINUE BUTTON per user request -->
+            <button type="button" id="continueToSalonBtn" onclick="continueToSalonWithLoader()"
+                class="gold-glow-btn w-full py-3.5 px-6 rounded-2xl text-charcoal-deep font-extrabold text-sm sm:text-base shadow-lg shadow-gold/30 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] cursor-pointer">
+                <span class="text-base">✨</span>
+                <span id="continueBtnText">Continue to Salon ➔</span>
+            </button>
+
+            <!-- Skip Link -->
+            <div class="text-center mt-2.5">
+                <button type="button" onclick="skipToSalonDirect()"
+                    class="text-xs font-semibold text-greyx hover:text-charcoal underline cursor-pointer">
+                    Skip &amp; explore all services
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         SCISSORS & COMB LOADER WITH SKELETON BREATHING EFFECT
+         ======================================================== -->
+    <div id="salonCuratingLoader"
+        class="fixed inset-0 z-[130] hidden bg-ivory/95 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-opacity duration-300">
+        <div class="max-w-xs sm:max-w-sm w-full mx-auto flex flex-col items-center">
+            
+            <!-- Animated Scissors & Comb Medallion -->
+            <div class="relative w-20 h-20 mb-3 flex items-center justify-center">
+                <!-- Outer rotating golden orbit -->
+                <div class="absolute inset-0 rounded-full border-2 border-dashed border-gold/70 animate-spin" style="animation-duration: 5s;"></div>
+                
+                <!-- Glowing inner medallion -->
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-pale via-white to-gold-light border-2 border-gold flex items-center justify-center shadow-lg shadow-gold/30 scissor-rotate">
+                    <div class="relative flex items-center justify-center text-gold-dark text-2xl select-none">
+                        <span>✂️</span>
+                        <span class="text-lg -ml-1">💈</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loader Status Text -->
+            <h3 id="loaderTitle" class="text-base sm:text-lg font-black text-charcoal tracking-tight">
+                Personalizing your salon visit... ✨
+            </h3>
+            <p id="loaderSubtitle" class="text-xs font-bold text-gold-deep mt-1">
+                Curating Hair Care &amp; Styling options for you...
+            </p>
+
+            <!-- Skeleton Breathing Effect Cards -->
+            <div class="w-full mt-5 p-4 rounded-3xl bg-white border border-champagne shadow-md skeleton-breathe text-left">
+                <!-- Skeleton Profile Bar -->
+                <div class="flex items-center gap-2.5 mb-3">
+                    <div class="w-9 h-9 rounded-full bg-champagne"></div>
+                    <div class="flex-1 space-y-1.5">
+                        <div class="h-3 bg-champagne rounded-full w-28"></div>
+                        <div class="h-2 bg-champagne-light rounded-full w-40"></div>
+                    </div>
+                </div>
+                <!-- Skeleton WhatsApp Appointment Cards -->
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <div class="h-9 bg-emerald-100/70 rounded-xl"></div>
+                    <div class="h-9 bg-emerald-100/70 rounded-xl"></div>
+                </div>
+                <!-- Skeleton Curated Review Chips -->
+                <div class="flex flex-wrap gap-1.5 justify-center pt-1 border-t border-champagne/40">
+                    <div class="h-6 w-20 bg-champagne rounded-full"></div>
+                    <div class="h-6 w-24 bg-champagne rounded-full"></div>
+                    <div class="h-6 w-16 bg-champagne rounded-full"></div>
+                    <div class="h-6 w-28 bg-champagne rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
