@@ -1,0 +1,11 @@
+{
+  "name": "the-unisex-salon",
+  "version": "1.0.0",
+  "description": "AI-Powered Google Reviews & Experience Landing Page for THE UNISEX SALON, Clement Town, Dehradun",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "preview": "npx serve . -l 8080"
+  },
+  "author": "devanshmittal3",
+  "license": "MIT"
+}

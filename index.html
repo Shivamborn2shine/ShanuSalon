@@ -1,0 +1,3245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>THE UNISEX SALON — Hair, Beauty, Skin &amp; Nails | Clement Town, Dehradun</title>
+    <meta name="description"
+        content="THE UNISEX SALON — Hair Spa, Facials, Waxing, Threading, Hair Styling &amp; Nail Art at Post Office Rd, near Char Khamba, Clement Town, Dehradun. Look Good. Feel Confident.">
+    <meta name="theme-color" content="#292929">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#FAF9F7',
+                        charcoal: { DEFAULT: '#292929', soft: '#3A3A3A', deep: '#1C1C1C' },
+                        gold: { DEFAULT: '#D7B27A', dark: '#B08A4E', deep: '#8A6A35', light: '#F4EBDD', pale: '#FBF6EE' },
+                        champagne: { DEFAULT: '#EAE4DA', light: '#F3EFE8' },
+                        greyx: '#A9A9A9'
+                    },
+                    fontFamily: {
+                        display: ['"Cormorant Garamond"', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <style>
+        html,
+        body {
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+
+        /* Mobile zoom prevention: iOS Safari auto-zooms if font-size < 16px */
+        input,
+        textarea,
+        select {
+            font-size: 16px !important;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #EAE4DA;
+            color: #292929;
+            min-height: 100vh;
+        }
+
+        .font-script {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar,
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar,
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes shineSweep {
+            0% {
+                transform: translateX(-150%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(250%) rotate(45deg);
+            }
+        }
+
+        .gold-glow-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gold-glow-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            animation: shineSweep 4s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Category chips */
+        .chip-active {
+            background: linear-gradient(135deg, #C9A266, #E3C695) !important;
+            color: #1C1C1C !important;
+            border-color: #B08A4E !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 14px rgba(176, 138, 78, 0.32) !important;
+            transform: scale(1.01);
+        }
+
+        .category-chip .chip-count {
+            display: none;
+        }
+
+        .category-chip.chip-active .chip-count {
+            display: inline-flex;
+        }
+
+        /* Golden Shimmering Bar for Choose Language */
+        .golden-shine-bar {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #FBF6EE 0%, #F4EBDD 50%, #EBDCC1 100%);
+            border: 1.5px solid #D7B27A;
+        }
+
+        .golden-shine-bar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+            transform: rotate(25deg);
+            animation: shineSweep 3.2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes goldenPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 1.5px #D7B27A, 0 0 12px rgba(215, 178, 122, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 3px #E3C695, 0 0 20px rgba(215, 178, 122, 0.6);
+            }
+        }
+
+        .golden-pulse-glow {
+            animation: goldenPulse 2.2s infinite ease-in-out;
+        }
+
+        /* Welcome modal service circles */
+        .modal-circle {
+            border: 2.5px solid transparent;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-service-item.is-selected .modal-circle {
+            border-color: #D7B27A;
+            box-shadow: 0 0 0 3px rgba(215, 178, 122, 0.4);
+            transform: scale(1.05);
+        }
+
+        .modal-checkmark {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-service-item.is-selected .modal-checkmark {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Sub-option bottom sheet */
+        .sheet-panel {
+            transform: translateY(105%);
+            transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .sheet-open .sheet-panel {
+            transform: translateY(0);
+        }
+
+        .sheet-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sheet-open .sheet-overlay {
+            opacity: 1;
+        }
+
+        .opt-pill {
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .opt-pill.is-on {
+            background: #292929;
+            color: #F4EBDD;
+            border-color: #292929;
+            box-shadow: 0 4px 12px rgba(41, 41, 41, 0.22);
+        }
+
+        .opt-pill.is-on .opt-tick {
+            display: inline;
+        }
+
+        .opt-pill .opt-tick {
+            display: none;
+        }
+
+        .hl-pill.is-on {
+            background: linear-gradient(135deg, #C9A266, #E3C695);
+            color: #1C1C1C;
+            border-color: #B08A4E;
+            box-shadow: 0 4px 12px rgba(176, 138, 78, 0.28);
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-slide-in {
+            animation: fadeSlideIn 0.28s ease-out both;
+        }
+
+        /* Guided Tour Spotlight & Backdrop Deep Blur */
+        .tour-backdrop-blur {
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(28, 28, 28, 0.6) !important;
+        }
+
+        /* Guided Spotlight Highlight for WhatsApp Section */
+        .tour-highlight-whatsapp {
+            position: relative !important;
+            z-index: 92 !important;
+            background: #ffffff !important;
+            border-radius: 1.25rem !important;
+            border: 2px solid #34D399 !important;
+            box-shadow: 0 0 0 2.5px #34D399, 0 0 35px rgba(52, 211, 153, 0.8) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        @keyframes pulseGlowGreen {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2px #34D399, 0 0 24px rgba(52, 211, 153, 0.65);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px #10B981, 0 0 42px rgba(52, 211, 153, 0.95);
+            }
+        }
+
+        .tour-pulse-whatsapp {
+            animation: pulseGlowGreen 1.8s infinite ease-in-out !important;
+        }
+
+        /* Guided Spotlight Highlight for Review Section */
+        .tour-highlight-review {
+            position: relative !important;
+            z-index: 92 !important;
+            background: #ffffff !important;
+            border-radius: 1.5rem !important;
+            border: 2px solid #D7B27A !important;
+            box-shadow: 0 0 0 3px #D7B27A, 0 0 36px rgba(215, 178, 122, 0.8) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        @keyframes pulseGlowGold {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2.5px #D7B27A, 0 0 24px rgba(215, 178, 122, 0.65);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5.5px #E3C695, 0 0 42px rgba(215, 178, 122, 0.95);
+            }
+        }
+
+        .tour-pulse-review {
+            animation: pulseGlowGold 1.8s infinite ease-in-out !important;
+        }
+
+        @keyframes copyBtnGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 3px #D7B27A, 0 0 20px rgba(215, 178, 122, 0.7);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5.5px #E3C695, 0 0 32px rgba(215, 178, 122, 1);
+                transform: scale(1.02);
+            }
+        }
+
+        .tour-pulse-button {
+            animation: copyBtnGlow 1.2s infinite ease-in-out !important;
+            position: relative !important;
+            z-index: 96 !important;
+        }
+
+        @keyframes fingerBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-7px) scale(1.15);
+            }
+        }
+
+        .finger-bounce {
+            display: inline-block;
+            animation: fingerBounce 1.1s infinite ease-in-out;
+        }
+
+        /* Floating Reviews Marquee (Right to Left) */
+        @keyframes reviewsFloatMarquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .reviews-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: reviewsFloatMarquee 38s linear infinite;
+        }
+
+        .reviews-marquee-track:hover,
+        .reviews-marquee-track:active {
+            animation-play-state: paused;
+        }
+
+        .reviews-marquee-wrapper {
+            mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+        }
+
+        /* Hero Google Review Badge Pop-in & Pulse */
+        @keyframes heroBadgePopIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.2) rotate(-8deg);
+            }
+
+            70% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1) rotate(2deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes heroBadgeFloatPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 8px 22px rgba(215, 178, 122, 0.75));
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                filter: drop-shadow(0 14px 32px rgba(215, 178, 122, 0.95));
+                transform: translateX(-50%) scale(1.04);
+            }
+        }
+
+        .hero-badge-floating {
+            position: fixed !important;
+            top: auto !important;
+            bottom: max(4.85rem, calc(4.6rem + env(safe-area-inset-bottom, 0px))) !important;
+            left: 50% !important;
+            width: 142px !important;
+            max-width: 44vw !important;
+            z-index: 45 !important;
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), bottom 0.3s ease, opacity 0.3s ease !important;
+        }
+
+        .hero-badge-hidden {
+            opacity: 0 !important;
+            transform: translateX(-50%) scale(0.2) !important;
+            pointer-events: none !important;
+        }
+
+        .hero-badge-animate {
+            animation: heroBadgePopIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+            pointer-events: auto !important;
+        }
+
+        .hero-badge-idle-glow {
+            animation: heroBadgeFloatPulse 2.2s ease-in-out infinite !important;
+        }
+
+        .hero-badge-floating:hover {
+            animation-play-state: paused !important;
+            transform: translateX(-50%) scale(1.08) !important;
+        }
+
+        .hero-badge-floating:active {
+            transform: translateX(-50%) scale(0.94) !important;
+        }
+
+        .hero-badge-dismissed {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        .hero-script-shadow {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65), 0 0 22px rgba(215, 178, 122, 0.45);
+        }
+
+        /* Hide Netlify branding badge */
+        #nl-badge-frame,
+        iframe[title="Powered by Netlify"],
+        [id^="netlify-"] {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-gold selection:text-charcoal pb-32"
+    style="padding-bottom: max(7rem, calc(6rem + env(safe-area-inset-bottom)));">
+
+    <!-- APP CONTAINER (Ivory Luxury Theme) -->
+    <div id="appContainer"
+        class="max-w-md mx-auto relative min-h-screen bg-ivory shadow-[0_20px_50px_rgba(41,41,41,0.10)] border-x border-champagne">
+
+        <!-- 1. HERO HEADER & PROFILE -->
+        <header class="relative w-full overflow-visible bg-ivory select-none">
+            <div class="relative w-full aspect-[4/3] overflow-hidden bg-charcoal">
+                <img src="./assets/images/salon/hero-top.jpg" alt="THE UNISEX SALON storefront, Clement Town"
+                    class="w-full h-full object-cover block">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/5 to-black/30 pointer-events-none">
+                </div>
+
+                <!-- Handwritten tagline (top-left) -->
+                <div class="absolute top-[7%] left-[5%] leading-[0.95] pointer-events-none">
+                    <p class="font-script text-[30px] sm:text-[34px] text-gold-light hero-script-shadow">Look Good.</p>
+                    <p class="font-script text-[30px] sm:text-[34px] text-gold hero-script-shadow ml-4">Feel Confident.
+                    </p>
+                </div>
+
+                <!-- Clickable Phone Call Pill (top-right) -->
+                <a href="tel:+918755527539" title="Call THE UNISEX SALON at 87555 27539"
+                    aria-label="Call 87555 27539"
+                    class="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-charcoal/80 backdrop-blur-sm border border-gold/70 text-ivory text-[11px] font-extrabold tracking-wide shadow-lg active:scale-95 transition-transform">
+                    <svg class="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    <span>87555 27539</span>
+                </a>
+
+                <!-- Bottom-right mini tags -->
+                <div class="absolute bottom-[16%] right-3 flex flex-col items-end gap-1 pointer-events-none">
+                    <span
+                        class="px-2.5 py-0.5 rounded-full bg-black/55 backdrop-blur-sm border border-gold/50 text-gold-light text-[9.5px] font-bold tracking-wider uppercase">Hair
+                        • Beauty • Skin • Nails</span>
+                </div>
+            </div>
+
+            <!-- Ivory card edge overlapping hero -->
+            <div class="relative -mt-7 h-9 bg-ivory rounded-t-[30px]"></div>
+
+            <!-- Profile logo with verified tick -->
+            <div class="absolute left-1/2 -translate-x-1/2 bottom-[-30px] z-10">
+                <div
+                    class="relative w-[92px] h-[92px] rounded-full bg-charcoal border-[4px] border-ivory shadow-[0_10px_28px_rgba(41,41,41,0.35)] overflow-hidden">
+                    <img src="./assets/images/salon/profile-logo.jpg" alt="THE UNISEX SALON logo"
+                        class="w-full h-full object-cover scale-[1.62]">
+                </div>
+                <span
+                    class="absolute bottom-0.5 right-0.5 w-6 h-6 rounded-full bg-emerald-500 border-[3px] border-ivory flex items-center justify-center shadow-md">
+                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </span>
+            </div>
+
+            <!-- Accessible hidden H1 for SEO and screen readers -->
+            <h1 class="sr-only">THE UNISEX SALON — Hair, Beauty, Skin &amp; Nails, Clement Town, Dehradun</h1>
+        </header>
+
+        <!-- 2. CENTRAL LUXURY IVORY CARD -->
+        <main class="relative bg-ivory px-4 sm:px-6 pt-0 pb-12 text-charcoal">
+
+            <!-- SALON TITLE UNDER PROFILE -->
+            <div class="text-center pt-10 pb-0.5">
+                <h2
+                    class="font-display text-[30px] sm:text-[34px] font-bold text-charcoal tracking-[0.08em] uppercase leading-none">
+                    The Unisex Salon
+                </h2>
+            </div>
+
+            <!-- BRAND TRUST -->
+            <div class="text-center pt-2 pb-0.5 max-w-lg mx-auto">
+                <!-- Google Rating Pill -->
+                <div class="flex items-center justify-center gap-1.5">
+                    <div
+                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-champagne shadow-sm">
+                        <div class="flex items-center gap-0.5 text-gold text-xs">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <span class="text-xs font-extrabold text-charcoal" data-bind="rating">4.9</span>
+                        <span class="text-greyx">•</span>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-charcoal-soft">
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
+                                <path fill="#4285F4"
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                <path fill="#34A853"
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                <path fill="#FBBC05"
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                                <path fill="#EA4335"
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                            </svg>
+                            Google Rated
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Subtitle -->
+                <p class="text-xs font-semibold text-greyx mt-2 tracking-[0.18em] uppercase">Look Good. Feel Confident.
+                </p>
+            </div>
+
+            <!-- 3. SALON INTRO CARD (Gold Bar & Scissors Graphic) -->
+            <div
+                class="mt-3 p-3.5 sm:p-4 rounded-3xl bg-white border border-champagne shadow-sm relative overflow-hidden flex items-center justify-between gap-3">
+                <div class="border-l-4 border-gold pl-3 flex-1">
+                    <p class="text-xs sm:text-[13px] text-charcoal-soft font-medium leading-relaxed">
+                        Expert stylists, hygienic care and premium products — hair, beauty, skin &amp; nails, all under
+                        one roof at <strong class="text-charcoal font-extrabold">THE UNISEX SALON</strong>.
+                    </p>
+                </div>
+                <div class="w-20 sm:w-24 flex-shrink-0 relative select-none -my-2 -mr-1">
+                    <img src="./assets/images/salon/store-intro.jpg" alt="Gold scissors and comb"
+                        class="w-full h-auto object-contain block mix-blend-multiply">
+                </div>
+            </div>
+
+            <!-- 4. INSTANT WHATSAPP APPOINTMENT BOOKING -->
+            <div id="whatsAppInquiryBox"
+                class="mt-3.5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-emerald-50/70 via-white to-champagne-light text-charcoal border border-emerald-200/80 shadow-sm transition-all scroll-mt-28">
+                <div class="flex items-center justify-between mb-2.5 gap-1.5 sm:gap-2">
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                        <span
+                            class="text-xs sm:text-[13px] font-extrabold tracking-wide text-charcoal whitespace-nowrap">Appointment
+                            Book Karo</span>
+                    </div>
+
+                    <!-- Dotted line then arrow leading directly to button -->
+                    <div class="flex-1 flex items-center min-w-[16px] mx-1 sm:mx-1.5 overflow-hidden">
+                        <div class="flex-1 border-b-[2.5px] border-dotted border-emerald-500/80 mb-[1px]"></div>
+                        <span class="text-emerald-700 text-xs sm:text-sm font-black -ml-0.5 leading-none">➔</span>
+                    </div>
+
+                    <a href="https://wa.me/918755527539?text=Hi%20THE%20UNISEX%20SALON%2C%20I%27d%20like%20to%20book%20an%20appointment"
+                        target="_blank" rel="noopener"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-extrabold shadow-sm whitespace-nowrap transition-all flex-shrink-0 cursor-pointer">
+                        <span>WhatsApp Karo!</span>
+                        <span class="text-xs">➔</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <button type="button" onclick="sendWhatsAppInquiry('Hair Spa')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>💆 Hair Spa</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                    <button type="button" onclick="sendWhatsAppInquiry('Facial')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>🧖 Facial</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                    <button type="button" onclick="sendWhatsAppInquiry('Waxing')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>🍯 Waxing</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                    <button type="button" onclick="sendWhatsAppInquiry('Threading')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>🧵 Threading</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                    <button type="button" onclick="sendWhatsAppInquiry('Hair Styling')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>💇 Hair Styling</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                    <button type="button" onclick="sendWhatsAppInquiry('Nail Art')"
+                        class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
+                        <span>💅 Nail Art</span>
+                        <span class="text-emerald-600 text-xs">➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 5. INTERACTIVE AI REVIEW GENERATOR SECTION -->
+            <div id="aiSection"
+                class="mt-4 p-4 sm:p-5 rounded-3xl bg-champagne-light border border-champagne shadow-sm scroll-mt-4">
+
+                <!-- 5A. REVIEW SELECTION BLOCK (Categories + Language) -->
+                <div id="reviewSelectionSection"
+                    class="p-2 sm:p-2.5 rounded-3xl bg-white border border-transparent transition-all">
+                    <!-- "SHARE YOUR EXPERIENCE — Review Us" Header -->
+                    <div class="mb-3 pb-3 border-b border-champagne flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gold-light border border-gold/60 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <span class="text-gold-dark text-lg font-black">✦</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <h2
+                                        class="text-base sm:text-lg font-extrabold text-charcoal tracking-tight uppercase leading-none">
+                                        Share Your Experience
+                                    </h2>
+                                    <span class="text-base" title="Salon">✂️</span>
+                                </div>
+                                <p class="text-xs sm:text-[13px] font-semibold text-greyx mt-1">Tap what you got done
+                                    — Review Us</p>
+                            </div>
+                        </div>
+                        <span class="text-gold text-base select-none">✨</span>
+                    </div>
+
+                    <!-- 2-Column Category Grid (8 pills, 4 rows) — each opens a sub-option sheet -->
+                    <div id="categoryGrid" class="grid grid-cols-2 gap-2 sm:gap-2.5 mb-3 p-1 rounded-2xl transition-all">
+                        <!-- Rendered by renderCategoryChips() from REVIEW_CATEGORIES -->
+                    </div>
+
+                    <!-- Selection Summary -->
+                    <div id="selectedMenuSummary"
+                        class="hidden text-xs font-bold text-gold-deep bg-gold-pale border border-gold/60 rounded-xl p-2.5 mb-3">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="leading-snug">Selected: <span id="selectedMenuSummaryText"
+                                    class="font-extrabold text-charcoal"></span></span>
+                            <button type="button" onclick="clearAllSelections()"
+                                class="flex-shrink-0 text-[11px] text-gold-deep underline hover:text-charcoal cursor-pointer">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Choose Language Row (Golden Shimmering Bar) -->
+                    <div
+                        class="golden-shine-bar golden-pulse-glow rounded-2xl p-2.5 sm:p-3 mb-1 flex items-center justify-between gap-2 transition-all">
+                        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-extrabold text-charcoal min-w-0">
+                            <div
+                                class="w-6 h-6 rounded-lg bg-gold text-charcoal flex items-center justify-center flex-shrink-0 shadow-sm font-bold text-xs">
+                                🌐
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="tracking-tight leading-tight">Choose Language</span>
+                                <span class="text-[9.5px] sm:text-[10px] text-gold-deep font-bold leading-tight">Pick
+                                    for review draft</span>
+                            </div>
+                        </div>
+                        <div
+                            class="inline-flex p-1 rounded-full bg-white/95 border border-gold/70 text-xs font-bold shadow-sm z-10 flex-shrink-0">
+                            <button type="button" data-lang="ENGLISH"
+                                class="lang-btn px-3 py-1 rounded-full transition-all cursor-pointer"
+                                onclick="setLanguage('ENGLISH')">English</button>
+                            <button type="button" data-lang="HINGLISH"
+                                class="lang-btn px-3 py-1 rounded-full transition-all cursor-pointer"
+                                onclick="setLanguage('HINGLISH')">Hinglish</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Action: Generate Review with AI Button -->
+                <button id="generateBtn" type="button" onclick="handleGenerateReviewClick()"
+                    class="gold-glow-btn w-full mt-3 py-3.5 px-6 rounded-2xl text-charcoal-deep font-extrabold text-sm sm:text-base shadow-lg shadow-gold/40 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] cursor-pointer">
+                    <span class="text-base">✦</span>
+                    <span>Generate Review with AI</span>
+                    <span class="text-base">➔</span>
+                </button>
+                <div
+                    class="text-center text-[11px] sm:text-xs text-greyx font-semibold mt-2 mb-3.5 flex items-center justify-center gap-2">
+                    <span>Based only on what you select</span>
+                    <span class="w-1 h-1 rounded-full bg-greyx"></span>
+                    <span>Edit before posting</span>
+                </div>
+
+                <!-- DEDICATED REVIEW OUTPUT CARD -->
+                <div id="reviewOutputCard"
+                    class="rounded-3xl bg-white border border-champagne p-4 sm:p-5 shadow-sm relative mt-2 transition-all">
+                    <!-- Review Card Header -->
+                    <div class="flex items-center justify-between mb-1.5">
+                        <div class="flex items-center gap-2">
+                            <div
+                                class="w-7 h-7 rounded-xl bg-gold-light border border-gold/60 flex items-center justify-center text-gold-dark text-xs font-black shadow-sm">
+                                ✦
+                            </div>
+                            <span class="text-sm font-extrabold text-charcoal tracking-tight">Your AI Generated
+                                Review</span>
+                        </div>
+                        <div
+                            class="px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep text-xs font-extrabold flex items-center gap-1 shadow-sm">
+                            <span class="text-gold">★</span> <span>5.0</span>
+                        </div>
+                    </div>
+
+                    <!-- Centered Gold Stars with Radiant Bursts -->
+                    <div class="flex items-center justify-center gap-2.5 py-2">
+                        <span class="text-gold/70 text-xs font-bold tracking-widest select-none">彡</span>
+                        <div class="flex items-center gap-1 text-gold text-base sm:text-lg select-none">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <span class="text-gold/70 text-xs font-bold tracking-widest select-none">ミ</span>
+                    </div>
+
+                    <!-- Clean Formatted Review Text (Default Display) -->
+                    <div id="aiReviewDisplay"
+                        class="text-charcoal-soft text-[13.5px] sm:text-sm leading-relaxed text-center font-medium px-2 py-2 min-h-[82px] sm:min-h-[88px] flex items-center justify-center transition-all">
+                        Tap a category above, pick what you had done, and your personalised review will appear here.
+                    </div>
+
+                    <!-- Hidden Textarea for In-Place Editing -->
+                    <textarea id="aiReviewOutput" rows="5"
+                        class="hidden w-full text-[13.5px] sm:text-sm font-medium text-charcoal bg-gold-pale border-2 border-gold rounded-2xl p-3 leading-relaxed focus:bg-white focus:outline-none focus:ring-4 focus:ring-gold/30 focus:border-gold-dark transition-all resize-none shadow-inner my-2"></textarea>
+
+                    <!-- Status Bar -->
+                    <div
+                        class="flex items-center justify-between text-[11px] text-greyx font-medium px-1 py-1.5 border-t border-champagne mt-2 gap-2">
+                        <span class="flex items-center gap-1.5 text-charcoal-soft truncate">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                            <span id="reviewBasisText" class="truncate font-semibold">Built only from your
+                                selections</span>
+                        </span>
+                        <button type="button" onclick="regenerateReview(true)"
+                            class="flex-shrink-0 text-[10px] font-bold text-gold-deep hover:text-charcoal bg-gold-pale hover:bg-gold-light border border-gold/60 px-2 py-0.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shadow-sm">
+                            <span>↻ New Wording</span>
+                        </button>
+                    </div>
+
+                    <!-- Bottom Action Buttons: Edit Review + Copy & Open Google Review Page -->
+                    <div class="flex items-stretch gap-2 mt-3 pt-1">
+                        <!-- 1. Edit Review Button -->
+                        <button id="editReviewBtn" type="button" onclick="toggleEditReview()"
+                            class="py-2.5 px-3.5 rounded-xl border border-gold/70 hover:border-gold-dark bg-white hover:bg-gold-pale text-gold-deep font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm flex-shrink-0 cursor-pointer">
+                            <svg class="w-3.5 h-3.5 text-gold-dark" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            <span id="editReviewBtnText">Edit Review</span>
+                        </button>
+
+                        <!-- 2. Copy & Open Google Review Page Button -->
+                        <button id="copyGoogleBtn" type="button" onclick="copyAndRedirectReview()"
+                            class="flex-1 py-2 px-3 rounded-xl bg-charcoal hover:bg-charcoal-deep text-ivory font-extrabold text-xs shadow-md flex items-center justify-between gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+                                    <path fill="#4285F4"
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.920 3.28-4.74 3.28-8.09z" />
+                                    <path fill="#34A853"
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                    <path fill="#FBBC05"
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                                    <path fill="#EA4335"
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                                </svg>
+                                <div class="text-left leading-tight">
+                                    <span class="block text-[11px] sm:text-xs font-extrabold whitespace-nowrap">Copy
+                                        &amp; Open Google</span>
+                                    <span
+                                        class="block text-[10px] text-gold-light/80 font-semibold whitespace-nowrap">Review
+                                        Page</span>
+                                </div>
+                            </div>
+                            <svg class="w-3.5 h-3.5 stroke-[2.5] flex-shrink-0 text-gold" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 6. CORE OFFERINGS STRIP (6 services, under Copy Review CTA) -->
+            <div class="mt-4 rounded-3xl bg-white border border-champagne shadow-sm overflow-hidden">
+                <div class="px-4 pt-3 pb-1 flex items-center justify-between">
+                    <h3 class="text-[11px] font-bold uppercase tracking-wider text-greyx">Our Core Services</h3>
+                    <span class="text-[10px] font-semibold text-gold-dark">Tap to review ➔</span>
+                </div>
+                <div id="coreOfferingsGrid" class="grid grid-cols-3 gap-y-3 py-3 px-1">
+                    <!-- Rendered by renderCoreOfferings() from CORE_OFFERINGS -->
+                </div>
+            </div>
+
+            <!-- 7. PROMO SHOWCASE BANNER -->
+            <div class="mt-4 rounded-3xl overflow-hidden shadow-md group border border-champagne hover:border-gold transition-all cursor-pointer bg-charcoal relative"
+                onclick="sendWhatsAppInquiry('an appointment')">
+                <img src="./assets/images/salon/promo-banner.jpg"
+                    alt="THE UNISEX SALON — luxury interior with gold arched mirrors"
+                    class="w-full h-44 sm:h-48 object-cover group-hover:scale-[1.03] transition-transform duration-500 block select-none">
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/55 to-transparent p-4 sm:p-5 flex flex-col justify-center">
+                    <span class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Open 7 Days • 8 AM – 10
+                        PM</span>
+                    <h3 class="font-display text-[26px] sm:text-[30px] font-bold text-ivory leading-[1.05] mt-1">Look
+                        Good.<br>Feel Confident.</h3>
+                    <span
+                        class="mt-3 inline-flex items-center gap-1.5 w-fit px-3 py-1.5 rounded-full bg-gold text-charcoal-deep text-[11px] font-extrabold shadow-md">
+                        Book on WhatsApp <span>➔</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- 8. TRUST BADGES / WHY CHOOSE US -->
+            <div class="mt-6 pt-5 border-t border-champagne">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-greyx">Why Choose The Unisex Salon
+                        </h3>
+                        <p class="text-xs text-charcoal-soft font-medium mt-0.5">Clement Town's care-first salon for
+                            him &amp; her</p>
+                    </div>
+                    <span
+                        class="inline-flex items-center gap-1 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border border-gold/60 bg-gold-pale text-gold-deep shadow-sm">
+                        <svg class="w-3 h-3 text-gold-dark" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span>Unisex</span>
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
+                    <div
+                        class="p-3 sm:p-3.5 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm transition-all group">
+                        <div
+                            class="w-8 h-8 rounded-xl bg-gold-light border border-gold/50 text-gold-deep flex items-center justify-center mb-1.5 shadow-sm group-hover:scale-105 transition-all text-sm">
+                            ✂️</div>
+                        <h4 class="text-xs sm:text-[13px] font-bold text-charcoal leading-tight">Expert Stylists</h4>
+                        <p class="text-[11px] text-greyx font-normal mt-0.5 leading-snug">Cuts, colour &amp; styling
+                            tailored to you</p>
+                    </div>
+                    <div
+                        class="p-3 sm:p-3.5 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm transition-all group">
+                        <div
+                            class="w-8 h-8 rounded-xl bg-gold-light border border-gold/50 text-gold-deep flex items-center justify-center mb-1.5 shadow-sm group-hover:scale-105 transition-all text-sm">
+                            🫧</div>
+                        <h4 class="text-xs sm:text-[13px] font-bold text-charcoal leading-tight">Hygiene First</h4>
+                        <p class="text-[11px] text-greyx font-normal mt-0.5 leading-snug">Sanitised tools &amp; fresh
+                            towels every time</p>
+                    </div>
+                    <div
+                        class="p-3 sm:p-3.5 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm transition-all group">
+                        <div
+                            class="w-8 h-8 rounded-xl bg-gold-light border border-gold/50 text-gold-deep flex items-center justify-center mb-1.5 shadow-sm group-hover:scale-105 transition-all text-sm">
+                            ✨</div>
+                        <h4 class="text-xs sm:text-[13px] font-bold text-charcoal leading-tight">Premium Products</h4>
+                        <p class="text-[11px] text-greyx font-normal mt-0.5 leading-snug">Quality hair &amp; skin care
+                            you can trust</p>
+                    </div>
+                    <div
+                        class="p-3 sm:p-3.5 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm transition-all group">
+                        <div
+                            class="w-8 h-8 rounded-xl bg-gold-light border border-gold/50 text-gold-deep flex items-center justify-center mb-1.5 shadow-sm group-hover:scale-105 transition-all text-sm">
+                            💰</div>
+                        <h4 class="text-xs sm:text-[13px] font-bold text-charcoal leading-tight">Honest Pricing</h4>
+                        <p class="text-[11px] text-greyx font-normal mt-0.5 leading-snug">Clear prices, no hidden
+                            charges</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. SALON GALLERY (Dynamic Slider) -->
+            <div class="mt-6 pt-5 border-t border-champagne">
+                <div class="p-4 sm:p-5 rounded-3xl bg-white border border-champagne shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-3.5">
+                        <div>
+                            <h3 class="text-sm font-extrabold uppercase tracking-wider text-charcoal">Salon Gallery</h3>
+                            <p class="text-xs text-greyx font-medium mt-0.5">Inside THE UNISEX SALON</p>
+                        </div>
+                        <span id="galleryCountBadge"
+                            class="text-[11px] font-bold px-3 py-1 rounded-full border border-gold/60 bg-gold-pale text-gold-deep shadow-sm">
+                            5 Photos
+                        </span>
+                    </div>
+
+                    <div class="relative group/slider my-1">
+                        <div id="galleryCarouselTrack"
+                            class="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-1 px-0.5">
+                            <!-- Cards dynamically rendered from STORE_GALLERY -->
+                        </div>
+                        <button type="button" id="galleryNextBtn" onclick="scrollGalleryTrack(1)"
+                            class="w-9 h-9 rounded-full bg-white text-charcoal shadow-md border border-champagne flex items-center justify-center font-black text-sm cursor-pointer hover:bg-ivory active:scale-90 transition-all absolute right-1 top-1/2 -translate-y-1/2 z-10 hover:shadow-lg"
+                            aria-label="Next Photo">
+                            <svg class="w-4 h-4 text-charcoal" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="galleryDots" class="flex items-center justify-center gap-1.5 mt-2.5 mb-3"></div>
+
+                    <button type="button" onclick="openFullGalleryModal()"
+                        class="w-full py-3 px-4 rounded-2xl bg-gold-pale hover:bg-gold-light border-2 border-gold/70 hover:border-gold text-charcoal font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.99] cursor-pointer">
+                        <svg class="w-4 h-4 text-gold-dark flex-shrink-0" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <polyline points="21 15 16 10 5 21" />
+                        </svg>
+                        <span id="galleryViewAllBtnText">View All 5 Photos</span>
+                        <span class="text-sm font-black">➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 10. LOCATION & HOURS -->
+            <div class="mt-6 pt-5 border-t border-champagne">
+                <div class="flex items-center justify-between mb-2.5">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-greyx">Visit &amp; Connect</h3>
+                    <span
+                        class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-champagne-light text-charcoal-soft border border-champagne">Clement
+                        Town, Dehradun</span>
+                </div>
+                <div class="space-y-2 text-xs sm:text-[13px]">
+                    <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-white border border-champagne shadow-sm">
+                        <span class="text-gold-dark mt-0.5 text-base">🕒</span>
+                        <div>
+                            <span id="openStatusText" class="font-bold text-charcoal">Open Daily • 8:00 AM – 10:00
+                                PM</span>
+                            <p class="text-xs text-greyx mt-0.5 font-normal">Monday – Sunday: 8:00 AM – 10:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-white border border-champagne shadow-sm">
+                        <span class="text-rose-500 mt-0.5 text-base">📍</span>
+                        <div>
+                            <span class="font-bold text-charcoal">140, Post Office Rd, near Char Khamba</span>
+                            <p class="text-xs text-greyx mt-0.5 leading-relaxed font-normal">Clement Town, Dehradun,
+                                Bharu Wala Grant, Uttarakhand 248002</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 rounded-2xl overflow-hidden border border-champagne h-44 shadow-sm">
+                    <iframe title="THE UNISEX SALON on Google Maps"
+                        src="https://maps.google.com/maps?q=30.2701468,77.996367&z=17&output=embed" width="100%"
+                        height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+                <a href="https://www.google.com/maps?cid=9438144801872518145" target="_blank" rel="noopener"
+                    class="w-full mt-3 py-3 px-4 rounded-2xl bg-charcoal hover:bg-charcoal-deep text-ivory font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md">
+                    <span>Open in Google Maps</span>
+                    <svg class="w-3.5 h-3.5 stroke-[2.5] text-gold" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- 11. CUSTOMER REVIEWS (Floating Right to Left Row) -->
+            <div class="mt-6 pt-5 border-t border-champagne overflow-hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-greyx">What Clients Say</h3>
+                        <p class="text-xs text-charcoal-soft font-medium mt-0.5">Love from our salon chair</p>
+                    </div>
+                    <span
+                        class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-gold/60 bg-gold-pale text-gold-deep shadow-sm"><span
+                            data-bind="rating">4.9</span> ★ Rating</span>
+                </div>
+
+                <div class="reviews-marquee-wrapper overflow-hidden py-1 relative">
+                    <div id="reviewsMarqueeTrack" class="reviews-marquee-track flex gap-3.5">
+                        <!-- Rendered twice by renderTestimonials() for a seamless loop -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. FAQ ACCORDION -->
+            <div class="mt-6 pt-5 border-t border-champagne">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-greyx">Frequently Asked Questions</h3>
+                        <p class="text-xs text-charcoal-soft font-medium mt-0.5">Quick answers before your visit</p>
+                    </div>
+                </div>
+                <div id="faqList" class="space-y-2">
+                    <!-- Rendered by renderFaqs() from FAQS -->
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="mt-8 pt-5 border-t border-champagne text-center text-greyx text-xs">
+                <p class="font-display text-base font-bold text-charcoal tracking-[0.12em] uppercase">The Unisex Salon
+                </p>
+                <p class="mt-0.5 font-medium text-greyx">Clement Town, Dehradun • All rights reserved</p>
+                <a href="https://www.instagram.com/the_unisexsalon/" target="_blank" rel="noopener"
+                    class="mt-2 inline-flex items-center gap-1.5 text-[11px] font-bold text-charcoal-soft hover:text-charcoal">
+                    <span>📸</span><span>@the_unisexsalon</span>
+                </a>
+                <p class="mt-2 text-[11px] text-greyx">Crafted with precision by <a
+                        href="https://www.instagram.com/onescan360" target="_blank" rel="noopener"
+                        class="font-bold text-gold-dark hover:text-gold-deep">ONE Scan 360</a></p>
+            </footer>
+        </main>
+
+        <!-- 13.5 GOOGLE REVIEW FLOATING BUTTON (Positioned bottom center until tapped) -->
+        <button id="heroGoogleReviewBtn" type="button" onclick="startGuidedReviewFromHero()"
+            class="hero-badge-floating hero-badge-hidden cursor-pointer focus:outline-none select-none group"
+            title="Give Review on Google" aria-label="Give Review on Google">
+            <img src="./assets/images/salon/google-review-badge.png" alt="Give Review on Google"
+                class="w-full h-auto block select-none">
+        </button>
+
+        <!-- 14. FIXED BOTTOM ACTION BAR (DOCK) -->
+        <nav class="fixed bottom-0 left-0 right-0 z-40 bg-ivory/95 backdrop-blur-2xl border-t border-champagne shadow-[0_-8px_30px_rgba(41,41,41,0.08)] py-2 px-3"
+            style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
+            <div class="max-w-md mx-auto grid grid-cols-4 gap-2 text-center">
+                <!-- 1. View on Map -->
+                <a href="https://www.google.com/maps?cid=9438144801872518145" target="_blank" rel="noopener"
+                    class="flex flex-col items-center justify-center py-1 rounded-xl hover:bg-white transition-colors group">
+                    <div
+                        class="w-11 h-11 rounded-2xl bg-white border border-champagne shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z"
+                                fill="#EA4335" />
+                            <path d="M12 22C12 22 19 14.25 19 9C19 6.79 17.98 4.82 16.4 3.52L12 22Z" fill="#D93025" />
+                            <path d="M12 22C12 22 5 14.25 5 9C5 8.1 5.18 7.24 5.51 6.45L12 22Z" fill="#34A853" />
+                            <path d="M16.4 3.52C15.17 2.56 13.65 2 12 2V6.2L16.4 3.52Z" fill="#FBBC04" />
+                            <circle cx="12" cy="9" r="3.2" fill="#FFFFFF" />
+                            <circle cx="12" cy="9" r="1.8" fill="#4285F4" />
+                        </svg>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal-soft leading-none group-hover:text-charcoal">View on Map</span>
+                </a>
+
+                <!-- 2. Call Now -->
+                <a href="tel:+918755527539"
+                    class="flex flex-col items-center justify-center py-1 rounded-xl hover:bg-white transition-colors group">
+                    <div
+                        class="w-11 h-11 rounded-2xl bg-white border border-champagne shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal-soft leading-none group-hover:text-charcoal">Call Now</span>
+                </a>
+
+                <!-- 3. Instagram -->
+                <a href="https://www.instagram.com/the_unisexsalon/" target="_blank" rel="noopener"
+                    class="flex flex-col items-center justify-center py-1 rounded-xl hover:bg-white transition-colors group">
+                    <div
+                        class="w-11 h-11 rounded-2xl bg-white border border-champagne shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                            <defs>
+                                <radialGradient id="rg-ig-salon" cx="30%" cy="107%" r="130%" fx="30%" fy="107%">
+                                    <stop offset="0%" stop-color="#fdf497" />
+                                    <stop offset="5%" stop-color="#fdf497" />
+                                    <stop offset="45%" stop-color="#fd5949" />
+                                    <stop offset="60%" stop-color="#d6249f" />
+                                    <stop offset="90%" stop-color="#285AEB" />
+                                </radialGradient>
+                            </defs>
+                            <rect width="24" height="24" rx="6" fill="url(#rg-ig-salon)" />
+                            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#FFFFFF"
+                                stroke-width="1.8" />
+                            <circle cx="12" cy="12" r="4.2" fill="none" stroke="#FFFFFF" stroke-width="1.8" />
+                            <circle cx="17.2" cy="6.8" r="1.1" fill="#FFFFFF" />
+                        </svg>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal-soft leading-none group-hover:text-charcoal">Instagram</span>
+                </a>
+
+                <!-- 4. WhatsApp -->
+                <a href="https://wa.me/918755527539?text=Hi%20THE%20UNISEX%20SALON%2C%20I%20am%20interested%20in%20your%20services!"
+                    target="_blank" rel="noopener"
+                    class="flex flex-col items-center justify-center py-1 rounded-xl hover:bg-white transition-colors group">
+                    <div
+                        class="w-11 h-11 rounded-2xl bg-white border border-champagne shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#25D366"
+                                d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z" />
+                            <path fill="#FFFFFF"
+                                d="M17.5 14.33C17.2 14.18 15.73 13.45 15.45 13.35C15.18 13.25 14.98 13.2 14.78 13.5C14.58 13.8 14.02 14.47 13.85 14.67C13.68 14.86 13.5 14.89 13.2 14.74C12.9 14.59 11.94 14.28 10.8 13.27C9.91 12.48 9.31 11.51 9.14 11.21C8.97 10.91 9.12 10.75 9.27 10.6C9.41 10.46 9.58 10.24 9.73 10.07C9.88 9.9 9.93 9.77 10.03 9.57C10.13 9.37 10.08 9.2 10 9.05C9.93 8.9 9.33 7.42 9.08 6.83C8.84 6.25 8.59 6.33 8.41 6.32C8.24 6.31 8.04 6.31 7.84 6.31C7.64 6.31 7.32 6.38 7.05 6.68C6.77 6.97 6 7.7 6 9.17C6 10.64 7.07 12.06 7.22 12.26C7.37 12.46 9.33 15.48 12.33 16.78C13.04 17.09 13.61 17.28 14.04 17.41C14.76 17.64 15.41 17.61 15.93 17.53C16.51 17.44 17.72 16.8 17.97 16.1C18.22 15.39 18.22 14.79 18.15 14.67C18.07 14.54 17.8 14.48 17.5 14.33Z" />
+                        </svg>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal-soft leading-none group-hover:text-charcoal">WhatsApp</span>
+                </a>
+            </div>
+        </nav>
+
+    </div><!-- End #appContainer -->
+
+    <!-- 15. SUB-OPTION BOTTOM SHEET MODAL (8 Categories Specific Lists) -->
+    <div id="subOptionSheetModal"
+        class="fixed inset-0 z-[115] hidden flex items-end sm:items-center justify-center transition-all duration-300">
+        <!-- Backdrop -->
+        <div class="sheet-overlay fixed inset-0 bg-charcoal/60 backdrop-blur-sm" onclick="closeSubOptionSheet()"></div>
+
+        <!-- Sheet Panel -->
+        <div class="sheet-panel relative w-full max-w-md bg-ivory rounded-t-[32px] sm:rounded-3xl p-5 pb-8 sm:pb-6 shadow-2xl border-t sm:border border-champagne z-10 max-h-[88vh] flex flex-col text-charcoal"
+            style="padding-bottom: max(2rem, calc(1.5rem + env(safe-area-inset-bottom)));">
+            
+            <!-- Drag Handle for Mobile -->
+            <div class="w-12 h-1.5 bg-champagne rounded-full mx-auto mb-3 sm:hidden"></div>
+
+            <!-- Header -->
+            <div class="flex items-start justify-between pb-3 border-b border-champagne gap-3">
+                <div class="flex items-center gap-3">
+                    <div id="sheetIcon"
+                        class="w-11 h-11 rounded-2xl bg-gold-light border border-gold/70 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
+                        ✂️
+                    </div>
+                    <div>
+                        <h3 id="sheetTitle" class="text-base font-extrabold text-charcoal tracking-tight leading-tight">
+                            Hair &amp; Styling
+                        </h3>
+                        <p id="sheetSubtitle" class="text-xs text-greyx font-medium mt-0.5">
+                            Select the services you received
+                        </p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeSubOptionSheet()"
+                    class="w-8 h-8 rounded-full bg-champagne-light hover:bg-champagne text-charcoal-soft hover:text-charcoal flex items-center justify-center text-xs font-bold transition-all cursor-pointer"
+                    aria-label="Close">✕</button>
+            </div>
+
+            <!-- Scrollable Options Content -->
+            <div class="overflow-y-auto no-scrollbar py-3.5 flex-1 space-y-4">
+                <!-- Services Section -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider text-charcoal">
+                            Choose Services
+                        </span>
+                        <span id="sheetSelectedCount" class="text-[11px] font-bold text-gold-deep">
+                            0 selected
+                        </span>
+                    </div>
+                    <div id="sheetServicesContainer" class="flex flex-wrap gap-2">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                    <button id="sheetShowMoreBtn" type="button" onclick="toggleShowMoreSubOptions()"
+                        class="hidden mt-2.5 text-xs font-bold text-gold-deep hover:text-charcoal flex items-center gap-1 cursor-pointer">
+                        <span id="sheetShowMoreText">Show More (+6 more)</span>
+                        <span id="sheetShowMoreIcon">▾</span>
+                    </button>
+                </div>
+
+                <!-- Experience Highlights Section (for categories 1-4) -->
+                <div id="sheetHighlightsBlock" class="hidden pt-3 border-t border-champagne">
+                    <div class="mb-2">
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider text-charcoal">
+                            Experience Highlights <span class="text-greyx font-semibold lowercase">(optional)</span>
+                        </span>
+                        <p class="text-[11px] text-greyx font-medium">How was your look &amp; feel?</p>
+                    </div>
+                    <div id="sheetHighlightsContainer" class="flex flex-wrap gap-2">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-3 border-t border-champagne flex items-center gap-2">
+                <button type="button" onclick="clearCurrentCategorySelections()"
+                    class="py-3 px-4 rounded-xl border border-champagne hover:border-gold text-charcoal-soft hover:text-charcoal font-bold text-xs cursor-pointer transition-all">
+                    Reset
+                </button>
+                <button type="button" onclick="confirmSubOptionSheet()"
+                    class="flex-1 py-3 px-5 rounded-xl bg-charcoal hover:bg-charcoal-deep text-ivory font-extrabold text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer">
+                    <span>Save &amp; Update Review</span>
+                    <span class="text-gold">✓</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 16. WELCOME MODAL (Interactive Service Selector for Salon) -->
+    <div id="welcomeModal"
+        class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 transition-opacity duration-300">
+        <div class="w-full max-w-sm bg-ivory rounded-t-3xl sm:rounded-3xl p-5 pb-8 sm:pb-5 shadow-2xl border border-champagne max-h-[85vh] overflow-y-auto text-charcoal"
+            style="padding-bottom: max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)));">
+            <div class="text-center mb-4">
+                <span
+                    class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-gold/60 bg-gold-pale text-gold-deep shadow-sm">Salon
+                    Service Selector</span>
+                <h3 class="text-base sm:text-lg font-black text-charcoal mt-2 leading-tight">What service did you get<br>at
+                    THE UNISEX SALON?</h3>
+                <p class="text-xs text-greyx mt-1">Tap one or more to personalize your review</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 mb-5">
+                <!-- 1. Hair Spa -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'HAIR', 'Hair Spa')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/service-hair-spa.jpg" alt="Hair Spa"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Hair Spa</span>
+                </button>
+
+                <!-- 2. Facial -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'SKIN', 'Facial')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/service-facial.jpg" alt="Facial"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Facial</span>
+                </button>
+
+                <!-- 3. Waxing -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'BEAUTY', 'Waxing')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/service-waxing-threading.jpg" alt="Waxing"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Waxing</span>
+                </button>
+
+                <!-- 4. Threading -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'BEAUTY', 'Threading')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/service-waxing-threading.jpg" alt="Threading"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Threading</span>
+                </button>
+
+                <!-- 5. Hair Styling -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'HAIR', 'Hair Styling')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/service-hair-styling-nails.jpg" alt="Hair Styling"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Hair Styling</span>
+                </button>
+
+                <!-- 6. Nail Art -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'NAILS', 'Nail Art')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/gallery-nail-bar.jpg" alt="Nail Art"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Nail Art</span>
+                </button>
+
+                <!-- 7. Beard & Grooming -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'HAIR', 'Haircut')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light border-2 border-champagne">
+                        <img src="./assets/images/salon/gallery-styling-stations.jpg" alt="Men's Grooming"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Haircut</span>
+                </button>
+
+                <!-- 8. General Visit -->
+                <button type="button" class="modal-service-item flex flex-col items-center gap-1.5 cursor-pointer"
+                    onclick="toggleWelcomeItem(this, 'ALL', 'General Visit')">
+                    <div
+                        class="modal-circle relative w-[68px] h-[68px] rounded-full overflow-hidden shadow-sm bg-champagne-light flex items-center justify-center border-2 border-champagne">
+                        <span class="text-2xl">⭐</span>
+                        <div
+                            class="modal-checkmark absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-charcoal flex items-center justify-center text-[10px] font-black border-2 border-white shadow-sm">
+                            ✓</div>
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal text-center leading-tight">Overall Visit</span>
+                </button>
+            </div>
+
+            <button type="button" id="modalConfirmBtn" onclick="confirmWelcomeModal()"
+                class="w-full py-3.5 rounded-2xl text-charcoal-deep font-extrabold text-sm shadow-lg shadow-gold/30 transition-all opacity-50 cursor-not-allowed bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266]"
+                disabled>
+                View My Tailored Review ✨
+            </button>
+            <button type="button" onclick="closeWelcomeModal()"
+                class="w-full text-center text-xs text-greyx font-semibold mt-3 hover:text-charcoal cursor-pointer">
+                Skip for now
+            </button>
+        </div>
+    </div>
+
+    <!-- 17A. FULL STORE GALLERY MODAL -->
+    <div id="fullGalleryModal"
+        class="fixed inset-0 z-[105] hidden bg-charcoal-deep/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
+        onclick="closeFullGalleryModal()">
+        <div class="max-w-md w-full bg-charcoal rounded-[36px] overflow-hidden shadow-2xl border border-charcoal-soft text-ivory flex flex-col max-h-[92vh] my-auto"
+            onclick="event.stopPropagation()">
+            <!-- Top App Bar -->
+            <div
+                class="p-4 flex items-center justify-between border-b border-charcoal-soft bg-charcoal/95 sticky top-0 z-20 backdrop-blur-sm">
+                <button type="button" onclick="closeFullGalleryModal()"
+                    class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-ivory flex items-center justify-center text-sm font-bold transition-all cursor-pointer"
+                    aria-label="Close">✕</button>
+                <div class="text-center">
+                    <h3 class="text-sm sm:text-base font-extrabold text-ivory tracking-tight">Salon Gallery</h3>
+                    <p id="fullGallerySubtitle" class="text-[11px] text-greyx font-medium">5 Photos • THE UNISEX SALON</p>
+                </div>
+                <div class="w-9"></div>
+            </div>
+
+            <!-- 2-Column Responsive Grid -->
+            <div id="fullGalleryGrid" class="grid grid-cols-2 gap-3 p-4 overflow-y-auto flex-1">
+                <!-- Injected dynamically from STORE_GALLERY -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 17B. HIGH-RES SINGLE PHOTO LIGHTBOX MODAL -->
+    <div id="galleryModal"
+        class="fixed inset-0 z-[110] hidden bg-charcoal-deep/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4"
+        onclick="closeGalleryModal()">
+        <div class="max-w-md w-full bg-ivory rounded-3xl overflow-hidden shadow-2xl border border-champagne"
+            onclick="event.stopPropagation()">
+            <div class="relative aspect-[4/3] sm:aspect-square bg-charcoal flex items-center justify-center">
+                <img id="galleryModalImg" src="" alt="" class="w-full h-full object-contain">
+                <!-- Top Actions Bar -->
+                <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none">
+                    <span id="galleryModalCounter"
+                        class="px-2.5 py-1 rounded-full bg-black/60 text-ivory text-[11px] font-bold backdrop-blur-sm border border-white/10 pointer-events-auto shadow-sm">
+                        1 of 5
+                    </span>
+                    <button type="button" onclick="closeGalleryModal()"
+                        class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-ivory flex items-center justify-center text-sm font-bold transition-all pointer-events-auto cursor-pointer">✕</button>
+                </div>
+                <!-- Prev / Next Navigation Arrows -->
+                <button type="button" onclick="prevLightboxPhoto()"
+                    class="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/75 text-ivory flex items-center justify-center text-base font-bold transition-all cursor-pointer">‹</button>
+                <button type="button" onclick="nextLightboxPhoto()"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/75 text-ivory flex items-center justify-center text-base font-bold transition-all cursor-pointer">›</button>
+            </div>
+            <div class="p-4">
+                <span id="galleryModalBadge"
+                    class="text-[10px] font-black uppercase tracking-wider text-gold-deep bg-gold-pale px-2.5 py-0.5 rounded border border-gold/60"></span>
+                <h4 id="galleryModalTitle" class="text-sm sm:text-base font-bold text-charcoal mt-1.5"></h4>
+                <p id="galleryModalDesc" class="text-xs text-charcoal-soft mt-1 leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 18. TOAST -->
+    <div id="toast"
+        class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-charcoal text-ivory text-xs font-bold py-3 px-5 rounded-2xl shadow-xl flex items-center gap-2.5 opacity-0 pointer-events-none transition-opacity duration-200 border border-charcoal-soft">
+        <span id="toastIcon" class="text-sm">✨</span>
+        <span id="toastMessage">Copied!</span>
+    </div>
+
+    <!-- 19. GUIDED WALKTHROUGH BACKDROP OVERLAY -->
+    <div id="tourBackdrop" class="fixed inset-0 z-[88] hidden tour-backdrop-blur transition-opacity duration-300"
+        onclick="closeAllTourPopups()"></div>
+
+    <!-- 20A. WHATSAPP GUIDED POPUP -->
+    <div id="whatsappTourPopup"
+        class="fixed z-[99] hidden max-w-sm w-[92%] left-1/2 -translate-x-1/2 bg-white rounded-3xl p-5 shadow-[0_25px_60px_rgba(0,0,0,0.38)] border border-champagne text-charcoal transition-all duration-300">
+        <!-- Close button -->
+        <button type="button" onclick="closeAllTourPopups()"
+            class="absolute top-4 right-4 w-7 h-7 rounded-full bg-champagne-light hover:bg-champagne text-charcoal-soft hover:text-charcoal font-bold flex items-center justify-center text-xs transition-all cursor-pointer"
+            aria-label="Close">✕</button>
+
+        <!-- Top Section -->
+        <div class="flex items-start gap-3.5 mb-4 pr-5">
+            <div class="relative flex-shrink-0">
+                <span class="absolute -top-1.5 -left-1.5 text-emerald-500 text-xs font-black select-none animate-pulse">✦</span>
+                <span class="absolute -top-1 -right-1 text-emerald-400 text-xs select-none">✨</span>
+                <span class="absolute -bottom-1 -left-1 text-emerald-500 text-xs select-none">彡</span>
+
+                <div
+                    class="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-[#128C7E] via-[#25D366] to-[#4ADE80] shadow-lg shadow-emerald-500/25 flex items-center justify-center p-2.5 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-black/10 pointer-events-none"></div>
+                    <svg class="w-11 h-11 sm:w-12 sm:h-12 text-white fill-current filter drop-shadow-sm" viewBox="0 0 24 24">
+                        <path
+                            d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z" />
+                        <path fill="#25D366"
+                            d="M17.5 14.33C17.2 14.18 15.73 13.45 15.45 13.35C15.18 13.25 14.98 13.2 14.78 13.5C14.58 13.8 14.02 14.47 13.85 14.67C13.68 14.86 13.5 14.89 13.2 14.74C12.9 14.59 11.94 14.28 10.8 13.27C9.91 12.48 9.31 11.51 9.14 11.21C8.97 10.91 9.12 10.75 9.27 10.6C9.41 10.46 9.58 10.24 9.73 10.07C9.88 9.9 9.93 9.77 10.03 9.57C10.13 9.37 10.08 9.2 10 9.05C9.93 8.9 9.33 7.42 9.08 6.83C8.84 6.25 8.59 6.33 8.41 6.32C8.24 6.31 8.04 6.31 7.84 6.31C7.64 6.31 7.32 6.38 7.05 6.68C6.77 6.97 6 7.7 6 9.17C6 10.64 7.07 12.06 7.22 12.26C7.37 12.46 9.33 15.48 12.33 16.78C13.04 17.09 13.61 17.28 14.04 17.41C14.76 17.64 15.41 17.61 15.93 17.53C16.51 17.44 17.72 16.8 17.97 16.1C18.22 15.39 18.22 14.79 18.15 14.67C18.07 14.54 17.8 14.48 17.5 14.33Z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="flex-1 min-w-0">
+                <span class="block text-[11px] font-black uppercase tracking-wider text-greyx mb-0.5">
+                    NEED AN APPOINTMENT?
+                </span>
+                <h3 class="text-xl sm:text-[22px] font-black text-charcoal leading-tight">
+                    Chat with us on <br><span class="text-[#25D366]">WhatsApp!</span>
+                </h3>
+                <p class="text-xs text-charcoal-soft mt-1.5 leading-relaxed font-medium">
+                    Connect instantly for hair cuts, styling advice, skin treatments or appointment slots.
+                </p>
+            </div>
+        </div>
+
+        <!-- 4 Feature Columns -->
+        <div class="grid grid-cols-4 divide-x divide-champagne pt-3 border-t border-champagne text-center">
+            <div class="px-1 flex flex-col items-center justify-start">
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mb-1 shadow-sm">
+                    💬
+                </div>
+                <span class="text-[10px] sm:text-[11px] font-bold text-charcoal leading-tight">Instant Booking</span>
+            </div>
+            <div class="px-1 flex flex-col items-center justify-start">
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mb-1 shadow-sm">
+                    ✂️
+                </div>
+                <span class="text-[10px] sm:text-[11px] font-bold text-charcoal leading-tight">Hair Guidance</span>
+            </div>
+            <div class="px-1 flex flex-col items-center justify-start">
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mb-1 shadow-sm">
+                    ✨
+                </div>
+                <span class="text-[10px] sm:text-[11px] font-bold text-charcoal leading-tight">Skin &amp; Spa Advice</span>
+            </div>
+            <div class="px-1 flex flex-col items-center justify-start">
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mb-1 shadow-sm">
+                    💰
+                </div>
+                <span class="text-[10px] sm:text-[11px] font-bold text-charcoal leading-tight">Rates &amp; Packages</span>
+            </div>
+        </div>
+
+        <!-- Next Step Button -->
+        <div class="mt-3.5 pt-2 flex items-center justify-between gap-2 border-t border-champagne">
+            <span class="text-[11px] font-bold text-greyx">Step 1 of 3</span>
+            <button type="button" onclick="goToReviewTourStep()"
+                class="py-2 px-4 rounded-xl bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] hover:brightness-105 text-charcoal-deep font-extrabold text-xs shadow-md shadow-gold/30 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer">
+                <span>Go to Review</span>
+                <span class="text-xs font-black">➔</span>
+            </button>
+        </div>
+
+        <!-- Upward Pointing Triangle Beak -->
+        <div
+            class="absolute -top-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 border-l border-t border-champagne shadow-sm pointer-events-none">
+        </div>
+    </div>
+
+    <!-- 20B. REVIEW SELECTION GUIDE POPUP -->
+    <div id="reviewSelectGuidePopup"
+        class="fixed z-[99] hidden max-w-sm w-[92%] left-1/2 -translate-x-1/2 bg-white rounded-3xl p-4 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.38)] border-2 border-gold text-charcoal transition-all duration-300">
+        <button type="button" onclick="closeAllTourPopups()"
+            class="absolute top-3.5 right-3.5 w-7 h-7 rounded-full bg-champagne-light hover:bg-champagne text-charcoal-soft hover:text-charcoal font-bold flex items-center justify-center text-xs transition-all cursor-pointer"
+            aria-label="Close">✕</button>
+
+        <div class="flex items-center gap-2 mb-2 pr-6">
+            <span
+                class="inline-block px-2.5 py-0.5 rounded-full bg-gold-pale text-gold-deep text-[10px] font-black uppercase tracking-wider border border-gold/50">
+                Step 1 of 2 • Review Setup
+            </span>
+        </div>
+
+        <div
+            class="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-gold-pale via-champagne-light to-gold-pale border border-gold/60 flex items-center justify-between gap-3 shadow-sm">
+            <div class="flex-1 min-w-0">
+                <h3 class="text-sm sm:text-[14.5px] font-black text-charcoal leading-snug">
+                    Tap a salon service and your preferred language above.
+                </h3>
+            </div>
+            <div class="flex flex-col items-center gap-1 flex-shrink-0">
+                <span class="finger-bounce text-xl select-none leading-none">👇</span>
+                <button type="button" onclick="goToReviewOutputStep()"
+                    class="py-1.5 px-4 rounded-xl bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] hover:brightness-105 text-charcoal-deep font-extrabold text-xs shadow-md shadow-gold/30 flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer">
+                    <span>Next</span>
+                    <span class="text-xs font-black">➔</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-2.5 pt-1.5 flex items-center justify-between text-xs border-t border-champagne">
+            <button type="button" onclick="closeAllTourPopups()"
+                class="text-[11px] font-bold text-greyx hover:text-charcoal py-0.5 px-1 cursor-pointer">
+                Skip Guide
+            </button>
+            <span class="text-[10px] text-greyx font-semibold">Tap any service to customize</span>
+        </div>
+
+        <div class="popup-beak-down absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 border-r border-b border-gold shadow-sm pointer-events-none"></div>
+        <div class="popup-beak-up hidden absolute -top-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 border-l border-t border-gold shadow-sm pointer-events-none"></div>
+    </div>
+
+    <!-- 20C. REVIEW OUTPUT GUIDE POPUP -->
+    <div id="reviewSubmitGuidePopup"
+        class="fixed z-[99] hidden max-w-sm w-[92%] left-1/2 -translate-x-1/2 bg-white rounded-3xl p-4 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.38)] border-2 border-gold text-charcoal transition-all duration-300">
+        <button type="button" onclick="closeAllTourPopups()"
+            class="absolute top-3.5 right-3.5 w-7 h-7 rounded-full bg-champagne-light hover:bg-champagne text-charcoal-soft hover:text-charcoal font-bold flex items-center justify-center text-xs transition-all cursor-pointer"
+            aria-label="Close">✕</button>
+
+        <div class="flex items-start justify-between gap-3 pr-8">
+            <div class="flex-1 min-w-0">
+                <span
+                    class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-1.5 border border-emerald-200">
+                    Step 2 of 2 • Ready to Post
+                </span>
+                <h3 class="text-base sm:text-lg font-black text-charcoal leading-tight">
+                    Your Review Is Ready! ✨
+                </h3>
+            </div>
+            <div class="flex flex-col items-center flex-shrink-0 select-none pt-1">
+                <span class="finger-bounce text-2xl leading-none">👆</span>
+                <span class="text-[10px] font-black text-gold-deep mt-1 uppercase tracking-tight">Click Here</span>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 my-3">
+            <button type="button" onclick="regenerateReview(true)" title="Regenerate review"
+                class="w-9 h-9 rounded-full bg-gold-pale hover:bg-gold-light border border-gold/70 text-charcoal flex items-center justify-center transition-all active:scale-90 shadow-sm cursor-pointer group">
+                <svg class="w-4 h-4 text-gold-deep transition-transform duration-500 group-hover:rotate-180" fill="none"
+                    stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </button>
+            <span class="text-xs font-semibold text-charcoal-soft">New Wording</span>
+        </div>
+
+        <div class="flex items-center justify-center pt-2.5 border-t border-champagne">
+            <button type="button" onclick="goToReviewTourStep()"
+                class="text-xs font-bold text-greyx hover:text-charcoal py-1.5 px-4 rounded-xl hover:bg-champagne-light transition-all cursor-pointer flex items-center gap-1.5">
+                <span>⬅</span>
+                <span>Back</span>
+            </button>
+        </div>
+
+        <div class="popup-beak-down absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 border-r border-b border-gold shadow-sm pointer-events-none"></div>
+        <div class="popup-beak-up hidden absolute -top-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 border-l border-t border-gold shadow-sm pointer-events-none"></div>
+    </div>
+
+    <!-- 20D. REVIEW TOUR FLOATING CARD -->
+    <div id="tourCard"
+        class="fixed z-[99] hidden max-w-sm w-[92%] left-1/2 -translate-x-1/2 bg-white rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.38)] border-2 border-gold text-charcoal transition-all duration-300">
+        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-champagne">
+            <div class="flex items-center gap-2">
+                <span id="tourStepBadge"
+                    class="px-2.5 py-0.5 rounded-full bg-gold-pale text-gold-deep text-[11px] font-black tracking-wide border border-gold/60">
+                    🤝 STEP 1 OF 3
+                </span>
+                <span class="text-gold-deep text-xs font-bold">Guided Assistant</span>
+            </div>
+            <button type="button" onclick="skipReviewTour()"
+                class="text-xs text-greyx hover:text-charcoal font-bold px-2 py-0.5 rounded-lg hover:bg-champagne-light transition-all cursor-pointer">
+                ✕ Skip
+            </button>
+        </div>
+
+        <div class="flex items-start gap-3 my-2.5">
+            <div id="tourFinger" class="text-2xl finger-bounce flex-shrink-0 select-none">👇</div>
+            <div class="flex-1">
+                <h3 id="tourTitle" class="text-sm sm:text-base font-black text-charcoal leading-snug">
+                    Pick What You Got Done
+                </h3>
+                <p id="tourDesc" class="text-xs sm:text-[13px] text-charcoal-soft mt-1 leading-relaxed font-medium">
+                    Tap any service below (Haircut, Spa, Facial, etc.).
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-3 mt-1 border-t border-champagne">
+            <div class="flex items-center gap-1.5" id="tourDots">
+                <span class="tour-dot w-2.5 h-2.5 rounded-full bg-gold transition-all" data-step="1"></span>
+                <span class="tour-dot w-2 h-2 rounded-full bg-champagne transition-all" data-step="2"></span>
+                <span class="tour-dot w-2 h-2 rounded-full bg-champagne transition-all" data-step="3"></span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button type="button" id="tourPrevBtn" onclick="prevTourStep()"
+                    class="hidden py-1.5 px-3 rounded-xl border border-champagne hover:border-gold text-charcoal-soft hover:text-charcoal font-bold text-xs cursor-pointer transition-all">
+                    ← Back
+                </button>
+                <button type="button" id="tourNextBtn" onclick="nextTourStep()"
+                    class="py-1.5 px-4 rounded-xl bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] hover:brightness-105 text-charcoal-deep font-extrabold text-xs shadow-sm cursor-pointer flex items-center gap-1 active:scale-95 transition-all">
+                    <span id="tourNextBtnText">Next Step</span>
+                    <span>➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 21. GOOGLE MAPS GUIDANCE / CHEAT SHEET MODAL -->
+    <div id="googleGuideModal"
+        class="fixed inset-0 z-[100] hidden bg-charcoal-deep/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="max-w-md sm:max-w-[490px] w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-[0_25px_60px_-15px_rgba(215,178,122,0.35)] border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
+            onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button type="button" onclick="closeGoogleGuideModal()"
+                class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-champagne-light hover:bg-champagne text-charcoal-soft font-bold flex items-center justify-center text-sm cursor-pointer transition-all z-20"
+                aria-label="Close">✕</button>
+
+            <!-- Success Header -->
+            <div class="text-center mb-3 sm:mb-4">
+                <div
+                    class="w-14 h-14 mx-auto rounded-[20px] bg-gold-pale border border-gold/70 flex items-center justify-center text-gold-deep text-2xl font-black mb-2 shadow-sm">
+                    ✓
+                </div>
+                <span
+                    class="inline-block px-3.5 py-0.5 rounded-full bg-[#E6F8F0] text-[#0D8A58] text-[10.5px] sm:text-xs font-black uppercase tracking-wider mb-1.5 border border-[#B3E8D3]">
+                    REVIEW COPIED TO CLIPBOARD!
+                </span>
+                <h3 class="text-xl sm:text-2xl font-black text-charcoal tracking-tight">
+                    Just 3 Simple Steps on Google ✨
+                </h3>
+                <p class="text-xs sm:text-sm text-greyx font-medium mt-0.5">
+                    Follow this quick guide to complete your review.
+                </p>
+            </div>
+
+            <!-- Realistic Google Review Form Mockup -->
+            <div
+                class="w-full p-4 sm:p-4.5 rounded-2xl border border-champagne bg-white shadow-sm flex flex-col justify-between relative overflow-visible my-2 sm:my-3">
+                <div class="mb-2">
+                    <div class="text-base font-black tracking-tight mb-2 flex items-center gap-0.5">
+                        <span class="text-[#4285F4]">G</span><span class="text-[#EA4335]">o</span><span
+                            class="text-[#FBBC05]">o</span><span class="text-[#4285F4]">g</span><span
+                            class="text-[#34A853]">l</span><span class="text-[#EA4335]">e</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full overflow-hidden bg-charcoal flex-shrink-0 border border-champagne">
+                            <img src="./assets/images/salon/profile-logo.jpg" alt="THE UNISEX SALON"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-black text-charcoal leading-tight">THE UNISEX SALON</h4>
+                            <p class="text-[9.5px] text-greyx font-medium flex items-center gap-0.5 leading-tight">
+                                <span>Posting publicly across Google</span>
+                                <span class="text-[9px]">ⓘ</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5 Stars Rating Row with Callout 1 -->
+                <div class="relative py-1 my-0.5">
+                    <div class="absolute -top-1 right-0 flex flex-col items-end z-10 pointer-events-none">
+                        <div
+                            class="py-0.5 px-2.5 rounded-full bg-[#FEF3C7] border border-amber-300 text-charcoal font-black text-[10px] shadow-sm flex items-center gap-1">
+                            <span
+                                class="w-3.5 h-3.5 rounded-full bg-[#FFB800] text-charcoal flex items-center justify-center text-[8.5px] font-black">1</span>
+                            <span>Give 5 Stars</span>
+                        </div>
+                        <svg class="w-7 h-7 text-[#F59E0B] -mt-1 mr-3 drop-shadow-sm" viewBox="0 0 28 28" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2 C22 14, 15 20, 6 22" />
+                            <path d="M12 17 L6 22 L11 27" />
+                        </svg>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-1 text-gold text-xl sm:text-2xl select-none">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <div class="text-[10px] text-greyx text-center font-medium mt-0.5">Exceptional</div>
+                </div>
+
+                <!-- Review Input Box Mockup with Callout 2 -->
+                <div class="relative rounded-xl border border-blue-400/80 p-2.5 sm:p-3 my-1.5 bg-white">
+                    <div class="absolute -top-3.5 right-1 sm:right-2 flex flex-col items-end z-10 pointer-events-none">
+                        <div
+                            class="py-0.5 px-2.5 rounded-full bg-[#FEF3C7] border border-amber-300 text-charcoal font-black text-[10px] shadow-sm flex items-center gap-1">
+                            <span
+                                class="w-3.5 h-3.5 rounded-full bg-[#FFB800] text-charcoal flex items-center justify-center text-[8.5px] font-black">2</span>
+                            <span>Paste Your Review</span>
+                        </div>
+                        <svg class="w-7 h-7 text-[#F59E0B] -mt-1 mr-3 drop-shadow-sm" viewBox="0 0 28 28" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2 C22 14, 15 20, 6 22" />
+                            <path d="M12 17 L6 22 L11 27" />
+                        </svg>
+                    </div>
+
+                    <p class="text-[10px] text-greyx font-medium mb-1.5 leading-tight">Share details of your own experience</p>
+                    <div
+                        class="p-2 sm:p-2.5 rounded-xl bg-gold-pale border border-gold/60 text-[10.5px] sm:text-[11px] text-charcoal font-medium leading-relaxed shadow-sm">
+                        <span id="googleGuideModalReviewText">Great experience at THE UNISEX SALON! Loved the haircut and relaxing facial. Very hygienic and polite staff.</span>
+                    </div>
+                </div>
+
+                <!-- Add Photos button -->
+                <div
+                    class="w-full py-1.5 px-3 rounded-xl bg-champagne-light text-[#1A73E8] text-[11px] font-bold flex items-center justify-center gap-1.5 mt-1">
+                    <svg class="w-3.5 h-3.5 text-[#1A73E8]" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <circle cx="12" cy="13" r="3" />
+                    </svg>
+                    <span>Add photos and videos</span>
+                </div>
+
+                <!-- Bottom Google Action buttons with Callout 3 -->
+                <div class="flex items-center justify-end gap-2 pt-2.5 mt-1 border-t border-champagne relative">
+                    <div class="absolute -top-4 right-1 flex flex-col items-center z-10 pointer-events-none">
+                        <div
+                            class="py-0.5 px-2.5 rounded-full bg-[#FEF3C7] border border-amber-300 text-charcoal font-black text-[10px] shadow-sm flex items-center gap-1">
+                            <span
+                                class="w-3.5 h-3.5 rounded-full bg-[#FFB800] text-charcoal flex items-center justify-center text-[8.5px] font-black">3</span>
+                            <span>Tap Post</span>
+                        </div>
+                        <svg class="w-5 h-6 text-[#F59E0B] -mt-0.5 drop-shadow-sm" viewBox="0 0 20 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 2 L10 18" />
+                            <path d="M5 13 L10 19 L15 13" />
+                        </svg>
+                    </div>
+
+                    <span class="text-xs font-semibold text-greyx px-2 py-1">Cancel</span>
+                    <button type="button" onclick="confirmOpenGoogleMaps()"
+                        class="py-1.5 px-4 rounded-lg bg-[#1A73E8] hover:bg-[#1557b0] text-white font-bold text-xs shadow-sm transition-all cursor-pointer">
+                        Post
+                    </button>
+                </div>
+            </div>
+
+            <!-- Big Final CTA Button -->
+            <button type="button" onclick="confirmOpenGoogleMaps()"
+                class="w-full mt-2.5 block transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none drop-shadow-[0_12px_28px_rgba(215,178,122,0.45)]">
+                <img src="./assets/images/salon/google-review-cta-btn.png" alt="Make Your Review Count - Last Step"
+                    class="w-full h-auto object-contain block mx-auto select-none pointer-events-none">
+            </button>
+            <p class="text-center text-[10.5px] sm:text-[11px] text-greyx font-semibold mt-2.5">
+                Thank you for supporting THE UNISEX SALON, Clement Town! ❤️
+            </p>
+        </div>
+    </div>
+
+    <!-- CLIENT SCRIPT RUNTIME -->
+    <script>
+        const STORE_CONFIG = {
+            id: "the-unisex-salon",
+            name: "THE UNISEX SALON",
+            shortName: "The Unisex Salon",
+            tagline: "Look Good. Feel Confident.",
+            categorySubtitle: "Hair, Beauty, Skin & Nails Studio",
+            address: "140, Post Office Rd, near Char Khamba, Clement Town, Dehradun, Bharu Wala Grant, Uttarakhand 248002",
+            contact: {
+                phone: "+918755527539",
+                phoneDisplay: "87555 27539",
+                whatsapp: "918755527539"
+            },
+            links: {
+                googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I",
+                googleMapsUrl: "https://www.google.com/maps?cid=9438144801872518145",
+                instagramUrl: "https://www.instagram.com/the_unisexsalon/"
+            },
+            rating: 4.9,
+            hours: "Monday – Sunday: 8:00 AM – 10:00 PM"
+        };
+
+        const CORE_OFFERINGS = [
+            {
+                id: "hair-spa",
+                title: "Hair Spa",
+                icon: "💆",
+                cat: "HAIR",
+                service: "Hair Spa",
+                image: "./assets/images/salon/service-hair-spa.jpg"
+            },
+            {
+                id: "facial",
+                title: "Facial",
+                icon: "🧖",
+                cat: "SKIN",
+                service: "Classic Facial",
+                image: "./assets/images/salon/service-facial.jpg"
+            },
+            {
+                id: "waxing",
+                title: "Waxing",
+                icon: "🍯",
+                cat: "BEAUTY",
+                service: "Waxing",
+                image: "./assets/images/salon/service-waxing-threading.jpg"
+            },
+            {
+                id: "threading",
+                title: "Threading",
+                icon: "🧵",
+                cat: "BEAUTY",
+                service: "Threading",
+                image: "./assets/images/salon/service-waxing-threading.jpg"
+            },
+            {
+                id: "hair-styling",
+                title: "Hair Styling",
+                icon: "💇",
+                cat: "HAIR",
+                service: "Hair Styling",
+                image: "./assets/images/salon/service-hair-styling-nails.jpg"
+            },
+            {
+                id: "nail-art",
+                title: "Nail Art",
+                icon: "💅",
+                cat: "NAILS",
+                service: "Nail Art",
+                image: "./assets/images/salon/gallery-nail-bar.jpg"
+            }
+        ];
+
+        const REVIEW_CATEGORIES = {
+            HAIR: {
+                title: "Hair & Styling",
+                icon: "✂️",
+                services: [
+                    "Haircut", "Hair Styling", "Hair Colouring", "Highlights / Balayage",
+                    "Hair Spa", "Keratin Treatment", "Hair Smoothening", "Hair Straightening",
+                    "Hair Wash & Blow Dry", "Hair Extensions", "Hair Treatment", "Other Hair Service"
+                ],
+                highlights: [
+                    "Loved the Final Look", "Stylist Understood My Preference",
+                    "Great Attention to Detail", "Hair Feels Healthier", "Long-Lasting Results"
+                ]
+            },
+            BEAUTY: {
+                title: "Makeup & Beauty",
+                icon: "💄",
+                services: [
+                    "Bridal Makeup", "Party Makeup", "Engagement Makeup", "Reception Makeup",
+                    "HD / Airbrush Makeup", "Natural / Soft Glam", "Saree Draping", "Waxing",
+                    "Threading", "Eyebrow Shaping", "Eyelash Services", "Other Beauty Service"
+                ],
+                highlights: [
+                    "Flawless Finish", "Matched My Desired Look",
+                    "Long-Lasting Makeup", "Felt Comfortable Throughout", "Great Product Quality"
+                ]
+            },
+            SKIN: {
+                title: "Skincare & Facials",
+                icon: "✨",
+                services: [
+                    "Classic Facial", "Hydrating Facial", "Brightening Facial", "Detan Treatment",
+                    "Fruit Facial", "Gold / Diamond Facial", "Cleanup", "Face Massage",
+                    "Face Bleach", "Skin Consultation", "Other Skincare Service"
+                ],
+                highlights: [
+                    "Skin Felt Refreshed", "Relaxing Treatment",
+                    "Gentle on My Skin", "Skin Felt Hydrated", "Clear Explanation of the Process"
+                ]
+            },
+            NAILS: {
+                title: "Nails & Manicure",
+                icon: "💅",
+                services: [
+                    "Classic Manicure", "Classic Pedicure", "Gel Polish", "Nail Art",
+                    "Nail Extensions", "Acrylic Nails", "Gel Extensions", "Nail Refill",
+                    "Nail Removal", "Nail Repair", "Spa Manicure / Pedicure", "Other Nail Service"
+                ],
+                highlights: [
+                    "Beautiful Nail Design", "Neat & Precise Work",
+                    "Loved the Colour", "Comfortable Experience", "Excellent Finishing"
+                ]
+            },
+            STAFF: {
+                title: "Friendly Staff",
+                icon: "🤝",
+                services: [
+                    "Polite & Welcoming", "Professional Behaviour", "Helpful Consultation",
+                    "Understood My Requirements", "Patient & Attentive", "Knowledgeable Staff",
+                    "Comfortable Experience", "Personalised Care"
+                ],
+                highlights: []
+            },
+            VALUE: {
+                title: "Value for Money",
+                icon: "💰",
+                services: [
+                    "Fair Pricing", "Worth the Price", "Affordable Services",
+                    "Good Service Quality", "Transparent Pricing", "Great Offers / Packages",
+                    "Premium Experience", "Satisfied with Results"
+                ],
+                highlights: []
+            },
+            HYGIENE: {
+                title: "Clean & Hygienic",
+                icon: "🫧",
+                services: [
+                    "Clean Salon", "Sanitised Tools", "Clean Towels & Equipment",
+                    "Hygienic Workstations", "Relaxing Ambience", "Comfortable Seating",
+                    "Well-Maintained Interior", "Good Overall Hygiene"
+                ],
+                highlights: []
+            },
+            ALL: {
+                title: "Overall Experience",
+                icon: "⭐",
+                services: [
+                    "Loved the Results", "Excellent Service", "Relaxing Visit",
+                    "Professional Team", "Easy Appointment", "Timely Service",
+                    "Would Visit Again", "Would Recommend"
+                ],
+                highlights: []
+            }
+        };
+
+        const STORE_GALLERY = [
+            {
+                id: 1,
+                title: "Salon Facade",
+                tag: "ENTRANCE",
+                desc: "Illuminated storefront of THE UNISEX SALON on Post Office Road, near Char Khamba, Clement Town.",
+                image: "./assets/images/salon/gallery-salon-front.jpg"
+            },
+            {
+                id: 2,
+                title: "Luxury Interior",
+                tag: "STYLING HALL",
+                desc: "Arched gold-backlit mirrors, spacious styling chairs, and ambient warm luxury lighting.",
+                image: "./assets/images/salon/gallery-salon-interior.jpg"
+            },
+            {
+                id: 3,
+                title: "Styling & Grooming",
+                tag: "STYLING STATIONS",
+                desc: "Precision haircutting and men's grooming station with expert stylists.",
+                image: "./assets/images/salon/gallery-styling-stations.jpg"
+            },
+            {
+                id: 4,
+                title: "Nail Bar & Care",
+                tag: "NAILS & MANI",
+                desc: "Modern manicure and nail art bar with vibrant polish collection and hygienic stations.",
+                image: "./assets/images/salon/gallery-nail-bar.jpg"
+            },
+            {
+                id: 5,
+                title: "Care & Products",
+                tag: "PREMIUM RETAIL",
+                desc: "Curated professional hair and skin care products for salon-fresh upkeep at home.",
+                image: "./assets/images/salon/gallery-product-shelf.jpg"
+            }
+        ];
+
+        const TESTIMONIALS = [
+            {
+                name: "Priya Sharma",
+                location: "Clement Town",
+                initial: "P",
+                text: "Had an amazing hair spa and styling session at THE UNISEX SALON! My hair feels so soft, healthy and voluminous. Very clean salon with courteous staff.",
+                badge: "Verified Client"
+            },
+            {
+                name: "Rohit Chauhan",
+                location: "Dehradun",
+                initial: "R",
+                text: "Best grooming and haircut experience in Clement Town. The stylist was patient, listened to what I wanted, and gave a sharp look. Highly recommended!",
+                badge: "Local Guide"
+            },
+            {
+                name: "Ananya Joshi",
+                location: "Subhash Nagar",
+                initial: "A",
+                text: "Got my bridal nail art and hydrating facial done here. The attention to detail and ambience was fantastic. Reasonable rates too!",
+                badge: "Verified Client"
+            },
+            {
+                name: "Karan Verma",
+                location: "Clement Town",
+                initial: "K",
+                text: "Super neat salon with sanitised tools and premium products. Beard shaping and haircut were on point. Will definitely visit again!",
+                badge: "Verified Client"
+            }
+        ];
+
+        const FAQS = [
+            {
+                q: "Do I need an appointment or do you accept walk-ins?",
+                a: "Both! Walk-ins are always warmly welcomed, but we recommend booking via WhatsApp or calling 87555 27539 to reserve your preferred stylist or treatment time."
+            },
+            {
+                q: "Are services available for both men and women?",
+                a: "Yes! We are a full-service unisex studio catering to men, women, and teenagers with dedicated hair, skincare, beauty, and nail services."
+            },
+            {
+                q: "What hair treatments and facials do you specialize in?",
+                a: "We specialize in Hair Spa, Keratin, Smoothening, Global Colour & Balayage, alongside Deep Hydrating Facials, D-Tan, Clean-ups, Waxing, Threading, and custom Nail Art."
+            },
+            {
+                q: "What are your opening hours and location?",
+                a: "We are open 7 days a week from 8:00 AM to 10:00 PM at 140, Post Office Rd, near Char Khamba, Clement Town, Dehradun."
+            }
+        ];
+
+        /* ========================================================
+           STATE MANAGEMENT
+           ======================================================== */
+        let currentLang = 'ENGLISH';
+        let selectedCategoryData = {};
+        Object.keys(REVIEW_CATEGORIES).forEach(k => {
+            selectedCategoryData[k] = { services: [], highlights: [] };
+        });
+        // Default selection: Overall Experience
+        selectedCategoryData.ALL.services = ["Loved the Results"];
+
+        let activeSheetCatKey = null;
+        let sheetShowAll = false;
+        let currentFullReviewText = '';
+        let typingTimer = null;
+        let hasAutoTypedOnScroll = false;
+        let currentTourStep = 0;
+        let currentHighlightedEl = null;
+        let isHeroReviewBtnTapped = false;
+        let hasTriggeredWhatsAppScrollGuide = false;
+        let currentLightboxIndex = 0;
+
+        /* ========================================================
+           UI RENDERING
+           ======================================================== */
+        function renderCategoryChips() {
+            const grid = document.getElementById('categoryGrid');
+            if (!grid) return;
+
+            grid.innerHTML = Object.keys(REVIEW_CATEGORIES).map(catKey => {
+                const cat = REVIEW_CATEGORIES[catKey];
+                const count = (selectedCategoryData[catKey]?.services?.length || 0) +
+                              (selectedCategoryData[catKey]?.highlights?.length || 0);
+                const isActive = count > 0;
+
+                return `
+                    <button type="button" data-cat="${catKey}"
+                        class="category-chip py-2.5 px-3 rounded-full text-xs font-bold border border-champagne bg-white text-charcoal hover:border-gold hover:text-charcoal-deep shadow-sm transition-all flex items-center justify-between gap-1.5 cursor-pointer ${isActive ? 'chip-active' : ''}"
+                        onclick="openSubOptionSheet('${catKey}')">
+                        <span class="flex items-center gap-1.5 truncate">
+                            <span>${cat.icon}</span>
+                            <span class="truncate">${cat.title}</span>
+                        </span>
+                        <span class="chip-count inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-charcoal text-ivory text-[10px] font-black flex-shrink-0">
+                            ${count > 0 ? count : '✓'}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderCoreOfferings() {
+            const grid = document.getElementById('coreOfferingsGrid');
+            if (!grid) return;
+
+            grid.innerHTML = CORE_OFFERINGS.map(item => `
+                <button type="button" onclick="quickSelectOffering('${item.cat}', '${item.service}')"
+                    class="flex flex-col items-center justify-start px-1 group text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-1.5 shadow-sm border border-champagne group-hover:border-gold group-hover:scale-105 transition-all bg-champagne-light">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal leading-tight">${item.title}</span>
+                </button>
+            `).join('');
+        }
+
+        function renderTestimonials() {
+            const track = document.getElementById('reviewsMarqueeTrack');
+            if (!track) return;
+
+            const cardHtml = (r) => `
+                <div class="w-[280px] sm:w-[310px] flex-shrink-0 p-4 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-full bg-gold-light text-gold-deep font-black text-xs flex items-center justify-center shadow-sm">
+                                    ${r.initial}
+                                </div>
+                                <div>
+                                    <h5 class="text-xs sm:text-[13px] font-bold text-charcoal leading-none">${r.name}</h5>
+                                    <span class="text-[11px] font-medium text-greyx">${r.location}</span>
+                                </div>
+                            </div>
+                            <div class="flex text-gold text-xs">★★★★★</div>
+                        </div>
+                        <p class="text-xs sm:text-[13px] text-charcoal-soft font-normal leading-relaxed italic">"${r.text}"</p>
+                    </div>
+                    <div class="mt-3 flex items-center gap-1.5 text-[10px] font-bold text-emerald-700">
+                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span>${r.badge}</span>
+                    </div>
+                </div>
+            `;
+
+            // Render twice for continuous infinite marquee loop
+            track.innerHTML = TESTIMONIALS.map(cardHtml).join('') + TESTIMONIALS.map(cardHtml).join('');
+        }
+
+        function renderFaqs() {
+            const list = document.getElementById('faqList');
+            if (!list) return;
+
+            list.innerHTML = FAQS.map(f => `
+                <div class="border border-champagne rounded-2xl overflow-hidden bg-white shadow-sm hover:border-gold transition-all">
+                    <button type="button" class="w-full p-3.5 text-left font-bold text-xs sm:text-[13px] text-charcoal flex items-center justify-between gap-2 hover:bg-champagne-light transition-colors cursor-pointer"
+                        onclick="toggleFaq(this)">
+                        <span class="leading-snug">${f.q}</span>
+                        <span class="faq-icon text-gold-dark text-base font-black transition-transform duration-200">＋</span>
+                    </button>
+                    <div class="faq-answer hidden px-3.5 pb-3.5 pt-0 text-xs sm:text-[13px] text-charcoal-soft leading-relaxed font-normal border-t border-champagne bg-ivory">
+                        ${f.a}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateSelectionSummary() {
+            const summary = document.getElementById('selectedMenuSummary');
+            const summaryText = document.getElementById('selectedMenuSummaryText');
+            if (!summary || !summaryText) return;
+
+            const picked = [];
+            Object.keys(selectedCategoryData).forEach(k => {
+                const s = selectedCategoryData[k].services;
+                const h = selectedCategoryData[k].highlights;
+                if (s && s.length) picked.push(...s);
+                if (h && h.length) picked.push(...h);
+            });
+
+            if (picked.length > 0) {
+                summary.classList.remove('hidden');
+                summaryText.textContent = picked.join(', ');
+            } else {
+                summary.classList.add('hidden');
+                summaryText.textContent = '';
+            }
+        }
+
+        /* ========================================================
+           SUB-OPTION BOTTOM SHEET
+           ======================================================== */
+        function openSubOptionSheet(catKey) {
+            activeSheetCatKey = catKey;
+            sheetShowAll = false;
+            const cat = REVIEW_CATEGORIES[catKey];
+            if (!cat) return;
+
+            const modal = document.getElementById('subOptionSheetModal');
+            document.getElementById('sheetIcon').textContent = cat.icon;
+            document.getElementById('sheetTitle').textContent = cat.title;
+            document.getElementById('sheetSubtitle').textContent = (catKey === 'STAFF' || catKey === 'VALUE' || catKey === 'HYGIENE' || catKey === 'ALL')
+                ? "Select what stood out to you"
+                : "Select the specific services you received";
+
+            renderSheetContent();
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.add('sheet-open'), 10);
+            }
+        }
+
+        function closeSubOptionSheet() {
+            const modal = document.getElementById('subOptionSheetModal');
+            if (modal) {
+                modal.classList.remove('sheet-open');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+            activeSheetCatKey = null;
+        }
+
+        function renderSheetContent() {
+            if (!activeSheetCatKey) return;
+            const cat = REVIEW_CATEGORIES[activeSheetCatKey];
+            const data = selectedCategoryData[activeSheetCatKey] || { services: [], highlights: [] };
+
+            const servicesContainer = document.getElementById('sheetServicesContainer');
+            const highlightsBlock = document.getElementById('sheetHighlightsBlock');
+            const highlightsContainer = document.getElementById('sheetHighlightsContainer');
+            const showMoreBtn = document.getElementById('sheetShowMoreBtn');
+            const showMoreText = document.getElementById('sheetShowMoreText');
+            const showMoreIcon = document.getElementById('sheetShowMoreIcon');
+            const countEl = document.getElementById('sheetSelectedCount');
+
+            const totalSelected = (data.services.length || 0) + (data.highlights.length || 0);
+            if (countEl) countEl.textContent = `${totalSelected} selected`;
+
+            // Display top 6 services initially, or all if sheetShowAll is true
+            const limit = 6;
+            const displayServices = (cat.services.length > limit && !sheetShowAll)
+                ? cat.services.slice(0, limit)
+                : cat.services;
+
+            if (servicesContainer) {
+                servicesContainer.innerHTML = displayServices.map(srv => {
+                    const isSelected = data.services.includes(srv);
+                    return `
+                        <button type="button" onclick="toggleSubOption('${srv.replace(/'/g, "\\'")}')"
+                            class="opt-pill py-2 px-3 rounded-full text-xs font-bold border ${isSelected ? 'is-on' : 'bg-white border-champagne text-charcoal hover:border-gold'} cursor-pointer flex items-center gap-1.5">
+                            <span>${srv}</span>
+                            <span class="opt-tick text-[11px] font-black text-gold">✓</span>
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            // Show More toggle button
+            if (showMoreBtn) {
+                if (cat.services.length > limit) {
+                    showMoreBtn.classList.remove('hidden');
+                    if (sheetShowAll) {
+                        showMoreText.textContent = "Show Less";
+                        showMoreIcon.textContent = "▴";
+                    } else {
+                        const remaining = cat.services.length - limit;
+                        showMoreText.textContent = `Show More (+${remaining} more)`;
+                        showMoreIcon.textContent = "▾";
+                    }
+                } else {
+                    showMoreBtn.classList.add('hidden');
+                }
+            }
+
+            // Experience Highlights for categories 1-4
+            if (highlightsBlock && highlightsContainer) {
+                if (cat.highlights && cat.highlights.length > 0) {
+                    highlightsBlock.classList.remove('hidden');
+                    highlightsContainer.innerHTML = cat.highlights.map(hl => {
+                        const isSelected = data.highlights.includes(hl);
+                        return `
+                            <button type="button" onclick="toggleHighlight('${hl.replace(/'/g, "\\'")}')"
+                                class="hl-pill py-2 px-3 rounded-full text-xs font-bold border ${isSelected ? 'is-on' : 'bg-white border-champagne text-charcoal hover:border-gold'} cursor-pointer flex items-center gap-1.5">
+                                <span>${hl}</span>
+                                ${isSelected ? '<span class="text-xs font-black">✓</span>' : ''}
+                            </button>
+                        `;
+                    }).join('');
+                } else {
+                    highlightsBlock.classList.add('hidden');
+                    highlightsContainer.innerHTML = '';
+                }
+            }
+        }
+
+        function toggleSubOption(serviceName) {
+            if (!activeSheetCatKey) return;
+            const arr = selectedCategoryData[activeSheetCatKey].services;
+            const idx = arr.indexOf(serviceName);
+            if (idx > -1) {
+                arr.splice(idx, 1);
+            } else {
+                arr.push(serviceName);
+            }
+            renderSheetContent();
+        }
+
+        function toggleHighlight(highlightName) {
+            if (!activeSheetCatKey) return;
+            const arr = selectedCategoryData[activeSheetCatKey].highlights;
+            const idx = arr.indexOf(highlightName);
+            if (idx > -1) {
+                arr.splice(idx, 1);
+            } else {
+                arr.push(highlightName);
+            }
+            renderSheetContent();
+        }
+
+        function toggleShowMoreSubOptions() {
+            sheetShowAll = !sheetShowAll;
+            renderSheetContent();
+        }
+
+        function clearCurrentCategorySelections() {
+            if (!activeSheetCatKey) return;
+            selectedCategoryData[activeSheetCatKey].services = [];
+            selectedCategoryData[activeSheetCatKey].highlights = [];
+            renderSheetContent();
+        }
+
+        function clearAllSelections() {
+            Object.keys(selectedCategoryData).forEach(k => {
+                selectedCategoryData[k].services = [];
+                selectedCategoryData[k].highlights = [];
+            });
+            renderCategoryChips();
+            updateSelectionSummary();
+            regenerateReview(true);
+            showToast('Selections reset ✨', '↺');
+        }
+
+        function confirmSubOptionSheet() {
+            closeSubOptionSheet();
+            renderCategoryChips();
+            updateSelectionSummary();
+            regenerateReview(true);
+            showToast('Review updated with selections! ✨', '👍');
+        }
+
+        function quickSelectOffering(catKey, serviceName) {
+            if (!selectedCategoryData[catKey].services.includes(serviceName)) {
+                selectedCategoryData[catKey].services.push(serviceName);
+            }
+            renderCategoryChips();
+            updateSelectionSummary();
+            regenerateReview(true);
+            focusReviewGenerator();
+            showToast(`Added ${serviceName}! ✨`, '✂️');
+        }
+
+        /* ========================================================
+           AI REVIEW SYNTHESIS ENGINE (Authentic, Natural & Strict)
+           ======================================================== */
+        const REVIEW_AI_ENGINE = {
+            generate(lang = 'ENGLISH') {
+                const hair = selectedCategoryData.HAIR || { services: [], highlights: [] };
+                const beauty = selectedCategoryData.BEAUTY || { services: [], highlights: [] };
+                const skin = selectedCategoryData.SKIN || { services: [], highlights: [] };
+                const nails = selectedCategoryData.NAILS || { services: [], highlights: [] };
+                const staff = selectedCategoryData.STAFF?.services || [];
+                const value = selectedCategoryData.VALUE?.services || [];
+                const hygiene = selectedCategoryData.HYGIENE?.services || [];
+                const overall = selectedCategoryData.ALL?.services || [];
+
+                const allServices = [
+                    ...hair.services,
+                    ...beauty.services,
+                    ...skin.services,
+                    ...nails.services
+                ];
+
+                const allHighlights = [
+                    ...hair.highlights,
+                    ...beauty.highlights,
+                    ...skin.highlights,
+                    ...nails.highlights
+                ];
+
+                const hasServices = allServices.length > 0;
+                const hasHighlights = allHighlights.length > 0;
+                const hasStaff = staff.length > 0;
+                const hasValue = value.length > 0;
+                const hasHygiene = hygiene.length > 0;
+                const hasOverall = overall.length > 0;
+
+                if (lang === 'HINGLISH') {
+                    return this.synthesizeHinglish({
+                        services: allServices,
+                        highlights: allHighlights,
+                        staff, value, hygiene, overall,
+                        hasServices, hasHighlights, hasStaff, hasValue, hasHygiene, hasOverall
+                    });
+                } else {
+                    return this.synthesizeEnglish({
+                        services: allServices,
+                        highlights: allHighlights,
+                        staff, value, hygiene, overall,
+                        hasServices, hasHighlights, hasStaff, hasValue, hasHygiene, hasOverall
+                    });
+                }
+            },
+
+            synthesizeEnglish({ services, highlights, staff, value, hygiene, overall, hasServices, hasHighlights, hasStaff, hasValue, hasHygiene, hasOverall }) {
+                const parts = [];
+
+                if (hasServices) {
+                    const sList = this.joinItems(services);
+                    const openings = [
+                        `Had a fantastic experience getting ${sList} done at THE UNISEX SALON in Clement Town.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${sList}, and the results were incredible!`,
+                        `Really happy with the ${sList} service at THE UNISEX SALON.`
+                    ];
+                    parts.push(this.randomPick(openings));
+                } else {
+                    const openings = [
+                        `Had a wonderful experience at THE UNISEX SALON in Clement Town!`,
+                        `One of the finest unisex salons near Char Khamba, Clement Town. Truly satisfied with my visit.`,
+                        `Loved my overall visit to THE UNISEX SALON! Professional service from start to finish.`
+                    ];
+                    parts.push(this.randomPick(openings));
+                }
+
+                if (hasHighlights) {
+                    const hList = this.joinItems(highlights.map(h => h.toLowerCase()));
+                    parts.push(`The stylist paid great attention to detail — ${hList}.`);
+                }
+
+                const praises = [];
+                if (hasStaff) praises.push("the staff is very polite and attentive");
+                if (hasHygiene) praises.push("the salon is spotless and tools are properly sanitised");
+                if (hasValue) praises.push("the pricing is very fair and transparent");
+
+                if (praises.length > 0) {
+                    parts.push(`Also appreciated that ${this.joinItems(praises)}.`);
+                }
+
+                const closings = [
+                    "Definitely my go-to salon in Dehradun now. Highly recommend!",
+                    "Looking forward to visiting again. 5/5 stars!",
+                    "Great ambience and warm hospitality. Will definitely recommend to friends and family!"
+                ];
+                parts.push(this.randomPick(closings));
+
+                return parts.join(' ');
+            },
+
+            synthesizeHinglish({ services, highlights, staff, value, hygiene, overall, hasServices, hasHighlights, hasStaff, hasValue, hasHygiene, hasOverall }) {
+                const parts = [];
+
+                if (hasServices) {
+                    const sList = this.joinItems(services);
+                    const openings = [
+                        `THE UNISEX SALON Clement Town mein ${sList} karwaya aur experience bohot hi shaandar raha!`,
+                        `Post Office Road Char Khamba ke paas THE UNISEX SALON se ${sList} liya, final result ekdum perfect mila.`,
+                        `Aaj THE UNISEX SALON visit kiya for ${sList}, bohot acchi service mili.`
+                    ];
+                    parts.push(this.randomPick(openings));
+                } else {
+                    const openings = [
+                        `THE UNISEX SALON Clement Town mein experience bohot hi accha raha!`,
+                        `Clement Town ka best unisex salon hai yeh. Professional aur relaxing visit.`,
+                        `Loved the vibe at THE UNISEX SALON! Har cheez perfectly managed thi.`
+                    ];
+                    parts.push(this.randomPick(openings));
+                }
+
+                if (hasHighlights) {
+                    const hList = this.joinItems(highlights);
+                    parts.push(`Stylist ne bilkul preference samjhi aur ${hList.toLowerCase()} — fully satisfied!`);
+                }
+
+                const praises = [];
+                if (hasStaff) praises.push("staff bohot polite aur welcoming tha");
+                if (hasHygiene) praises.push("salon ekdum clean aur tools sanitised the");
+                if (hasValue) praises.push("rates bilkul genuine aur fair hain");
+
+                if (praises.length > 0) {
+                    parts.push(`Sabse acchi baat yeh hai ki ${this.joinItems(praises)}.`);
+                }
+
+                const closings = [
+                    "Dehradun mein hair aur skin care ke liye definitely recommended!",
+                    "Agli baar bhi yahin aayenge. 5/5 stars rating well deserved!",
+                    "Must visit salon for both men and women!"
+                ];
+                parts.push(this.randomPick(closings));
+
+                return parts.join(' ');
+            },
+
+            joinItems(arr) {
+                if (!arr || arr.length === 0) return '';
+                if (arr.length === 1) return arr[0];
+                if (arr.length === 2) return `${arr[0]} and ${arr[1]}`;
+                return `${arr.slice(0, -1).join(', ')} and ${arr[arr.length - 1]}`;
+            },
+
+            randomPick(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+        };
+
+        function regenerateReview(animate = true) {
+            const text = REVIEW_AI_ENGINE.generate(currentLang);
+            currentFullReviewText = text;
+
+            const ta = document.getElementById('aiReviewOutput');
+            const display = document.getElementById('aiReviewDisplay');
+            const guideModalReview = document.getElementById('googleGuideModalReviewText');
+            if (guideModalReview) guideModalReview.textContent = text;
+
+            if (animate) {
+                typeReviewText(text);
+            } else {
+                if (ta) ta.value = text;
+                if (display) display.textContent = text;
+            }
+
+            // Update basis text
+            const basis = document.getElementById('reviewBasisText');
+            if (basis) {
+                const total = Object.values(selectedCategoryData).reduce((acc, c) => acc + (c.services.length || 0) + (c.highlights.length || 0), 0);
+                basis.textContent = total > 0 ? `Built from ${total} selected items` : "Based on overall visit";
+            }
+        }
+
+        function typeReviewText(text) {
+            currentFullReviewText = text;
+            const display = document.getElementById('aiReviewDisplay');
+            const ta = document.getElementById('aiReviewOutput');
+            const editBtnText = document.getElementById('editReviewBtnText');
+            if (!display && !ta) return;
+
+            if (typingTimer) {
+                clearTimeout(typingTimer);
+                typingTimer = null;
+            }
+
+            if (ta) {
+                ta.classList.add('hidden');
+                ta.value = text;
+            }
+            if (display) {
+                display.classList.remove('hidden');
+            }
+            if (editBtnText) {
+                editBtnText.textContent = 'Edit Review';
+            }
+
+            let i = 0;
+            function typeNext() {
+                if (i < text.length) {
+                    const step = (text[i] === ' ' || text[i] === '.' || text[i] === '!' || text[i] === ',') ? 1 : 2;
+                    i = Math.min(i + step, text.length);
+                    const partial = text.slice(0, i);
+                    if (display) {
+                        display.innerHTML = partial + '<span class="inline-block w-1.5 h-3.5 ml-1 bg-gold animate-ping align-middle"></span>';
+                    }
+                    if (ta) ta.value = partial;
+
+                    let delay = 12;
+                    const char = text[i - 1];
+                    if (char === '.' || char === '!') delay = 35;
+                    else if (char === ',') delay = 20;
+
+                    typingTimer = setTimeout(typeNext, delay);
+                } else {
+                    typingTimer = null;
+                    if (display) display.textContent = text;
+                    if (ta) ta.value = text;
+                }
+            }
+            typeNext();
+        }
+
+        function toggleEditReview() {
+            const display = document.getElementById('aiReviewDisplay');
+            const ta = document.getElementById('aiReviewOutput');
+            const btnText = document.getElementById('editReviewBtnText');
+            if (!display || !ta) return;
+
+            const isEditing = !ta.classList.contains('hidden');
+            if (isEditing) {
+                currentFullReviewText = ta.value.trim() || currentFullReviewText;
+                display.textContent = currentFullReviewText;
+                ta.classList.add('hidden');
+                display.classList.remove('hidden');
+                if (btnText) btnText.textContent = 'Edit Review';
+                const guideModalReview = document.getElementById('googleGuideModalReviewText');
+                if (guideModalReview) guideModalReview.textContent = currentFullReviewText;
+                showToast('Review draft saved! ✨', '📝');
+            } else {
+                ta.value = currentFullReviewText || display.textContent;
+                display.classList.add('hidden');
+                ta.classList.remove('hidden');
+                ta.focus();
+                if (btnText) btnText.textContent = 'Done Editing';
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                if (b.getAttribute('data-lang') === lang) {
+                    b.className = 'lang-btn px-3 py-1 rounded-full transition-all bg-charcoal text-ivory font-black shadow-sm cursor-pointer';
+                } else {
+                    b.className = 'lang-btn px-3 py-1 rounded-full transition-all text-charcoal-soft hover:text-charcoal font-bold cursor-pointer';
+                }
+            });
+            regenerateReview(true);
+            showToast(`Switched to ${lang === 'HINGLISH' ? 'Hinglish' : 'English'}! ✨`, '🌐');
+        }
+
+        function copyAndRedirectReview() {
+            if (typingTimer) {
+                clearTimeout(typingTimer);
+                typingTimer = null;
+            }
+            const ta = document.getElementById('aiReviewOutput');
+            const display = document.getElementById('aiReviewDisplay');
+            const isEditing = ta && !ta.classList.contains('hidden');
+            const textToCopy = (isEditing && ta && ta.value) ? ta.value : (currentFullReviewText || (display ? display.textContent : ''));
+
+            closeAllTourPopups();
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('Review copied to clipboard! 🎉', '📋');
+                setTimeout(() => openGoogleGuideModal(), 300);
+            }).catch(() => {
+                openGoogleGuideModal();
+            });
+        }
+
+        function confirmOpenGoogleMaps() {
+            closeGoogleGuideModal();
+            const rUrl = STORE_CONFIG.links.googleReviewUrl || STORE_CONFIG.links.googleMapsUrl;
+            window.open(rUrl, '_blank');
+        }
+
+        function openGoogleGuideModal() {
+            const modal = document.getElementById('googleGuideModal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeGoogleGuideModal() {
+            const modal = document.getElementById('googleGuideModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        /* ========================================================
+           HELPERS & INTERACTIONS
+           ======================================================== */
+        function showToast(msg, icon = '✨') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            document.getElementById('toastIcon').textContent = icon;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2600);
+        }
+
+        function focusReviewGenerator() {
+            const el = document.getElementById('aiSection');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleFaq(btn) {
+            const ans = btn.nextElementSibling;
+            const icon = btn.querySelector('.faq-icon');
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.textContent = '✕';
+                icon.classList.add('rotate-90');
+            } else {
+                ans.classList.add('hidden');
+                icon.textContent = '＋';
+                icon.classList.remove('rotate-90');
+            }
+        }
+
+        function sendWhatsAppInquiry(topic) {
+            const msg = encodeURIComponent(`Hi THE UNISEX SALON, I'd like to book an appointment / ask about: ${topic}`);
+            window.open(`https://wa.me/${STORE_CONFIG.contact.whatsapp}?text=${msg}`, '_blank');
+        }
+
+        function handleGenerateReviewClick() {
+            regenerateReview(true);
+            goToReviewTourStep();
+        }
+
+        /* ========================================================
+           WELCOME MODAL
+           ======================================================== */
+        function openWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function toggleWelcomeItem(btn, catKey, serviceName) {
+            btn.classList.toggle('is-selected');
+            const anySelected = document.querySelectorAll('.modal-service-item.is-selected').length > 0;
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            if (anySelected) {
+                confirmBtn.removeAttribute('disabled');
+                confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                confirmBtn.setAttribute('disabled', 'true');
+                confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function confirmWelcomeModal() {
+            const selectedEls = document.querySelectorAll('.modal-service-item.is-selected');
+            selectedEls.forEach(el => {
+                const service = el.querySelector('span')?.textContent?.trim();
+                if (service) {
+                    if (service === 'Hair Spa' || service === 'Hair Styling' || service === 'Haircut') {
+                        if (!selectedCategoryData.HAIR.services.includes(service)) selectedCategoryData.HAIR.services.push(service);
+                    } else if (service === 'Facial') {
+                        if (!selectedCategoryData.SKIN.services.includes('Classic Facial')) selectedCategoryData.SKIN.services.push('Classic Facial');
+                    } else if (service === 'Waxing' || service === 'Threading') {
+                        if (!selectedCategoryData.BEAUTY.services.includes(service)) selectedCategoryData.BEAUTY.services.push(service);
+                    } else if (service === 'Nail Art') {
+                        if (!selectedCategoryData.NAILS.services.includes('Nail Art')) selectedCategoryData.NAILS.services.push('Nail Art');
+                    }
+                }
+            });
+
+            closeWelcomeModal();
+            renderCategoryChips();
+            updateSelectionSummary();
+            regenerateReview(true);
+            setTimeout(() => goToReviewTourStep(), 250);
+        }
+
+        /* ========================================================
+           GALLERY & LIGHTBOX
+           ======================================================== */
+        function renderStoreGallery() {
+            const track = document.getElementById('galleryCarouselTrack');
+            const dots = document.getElementById('galleryDots');
+            const countBadge = document.getElementById('galleryCountBadge');
+            const viewAllBtnText = document.getElementById('galleryViewAllBtnText');
+
+            if (countBadge) countBadge.textContent = `${STORE_GALLERY.length} Photos`;
+            if (viewAllBtnText) viewAllBtnText.textContent = `View All ${STORE_GALLERY.length} Photos`;
+
+            if (track) {
+                track.innerHTML = STORE_GALLERY.map((item, idx) => `
+                    <div onclick="openPhotoLightbox(${idx})" class="gallery-card w-[140px] sm:w-[155px] flex-shrink-0 aspect-[4/5] rounded-2xl overflow-hidden relative shadow-sm border ${idx === 0 ? 'border-2 border-gold ring-2 ring-gold/20 shadow-md' : 'border border-champagne'} snap-start cursor-pointer group bg-charcoal transition-all hover:scale-[1.02]">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-charcoal-deep/90 via-charcoal-deep/40 to-transparent p-2.5 sm:p-3 flex flex-col justify-end">
+                            <span class="text-[8.5px] sm:text-[9px] font-black uppercase tracking-wider text-gold bg-black/75 px-2 py-0.5 rounded-md border border-gold/60 w-fit mb-1 shadow-sm">
+                                ${item.tag}
+                            </span>
+                            <h4 class="text-xs sm:text-[13px] font-bold text-ivory leading-tight drop-shadow-sm line-clamp-1">
+                                ${item.title}
+                            </h4>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if (dots) {
+                dots.innerHTML = STORE_GALLERY.map((_, idx) => `
+                    <button type="button" onclick="scrollGalleryToIndex(${idx})" class="gallery-dot transition-all duration-300 ${idx === 0 ? 'w-5 h-1.5 rounded-full bg-gold' : 'w-1.5 h-1.5 rounded-full bg-champagne hover:bg-gold/60'}" aria-label="Go to slide ${idx + 1}"></button>
+                `).join('');
+            }
+
+            renderFullGalleryModal();
+        }
+
+        function renderFullGalleryModal() {
+            const grid = document.getElementById('fullGalleryGrid');
+            const subtitle = document.getElementById('fullGallerySubtitle');
+            if (subtitle) subtitle.textContent = `${STORE_GALLERY.length} Photos • THE UNISEX SALON`;
+
+            if (grid) {
+                grid.innerHTML = STORE_GALLERY.map((item, idx) => `
+                    <div onclick="openPhotoLightbox(${idx})" class="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-charcoal border border-charcoal-soft shadow-md cursor-pointer hover:border-gold transition-all">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent p-3 flex items-end justify-between pointer-events-none">
+                            <h4 class="text-xs sm:text-[13px] font-bold text-ivory drop-shadow-md leading-tight line-clamp-1">${item.title}</h4>
+                            <span class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-[10px] font-black text-ivory shadow-sm flex-shrink-0">${idx + 1}/${STORE_GALLERY.length}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function scrollGalleryTrack(direction) {
+            const track = document.getElementById('galleryCarouselTrack');
+            if (track) track.scrollBy({ left: direction * 160, behavior: 'smooth' });
+        }
+
+        function scrollGalleryToIndex(index) {
+            const track = document.getElementById('galleryCarouselTrack');
+            if (!track) return;
+            const cards = track.querySelectorAll('.gallery-card');
+            if (cards[index]) {
+                cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }
+            updateActiveGalleryDot(index);
+        }
+
+        function updateActiveGalleryDot(activeIdx) {
+            const dots = document.querySelectorAll('.gallery-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === activeIdx) {
+                    dot.className = 'gallery-dot transition-all duration-300 w-5 h-1.5 rounded-full bg-gold';
+                } else {
+                    dot.className = 'gallery-dot transition-all duration-300 w-1.5 h-1.5 rounded-full bg-champagne hover:bg-gold/60';
+                }
+            });
+        }
+
+        function openFullGalleryModal() {
+            const modal = document.getElementById('fullGalleryModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeFullGalleryModal() {
+            const modal = document.getElementById('fullGalleryModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function openPhotoLightbox(index) {
+            currentLightboxIndex = index;
+            const item = STORE_GALLERY[index];
+            if (!item) return;
+
+            document.getElementById('galleryModalImg').src = item.image;
+            document.getElementById('galleryModalTitle').textContent = item.title;
+            document.getElementById('galleryModalBadge').textContent = item.tag;
+            document.getElementById('galleryModalDesc').textContent = item.desc;
+            const counter = document.getElementById('galleryModalCounter');
+            if (counter) counter.textContent = `${index + 1} of ${STORE_GALLERY.length}`;
+
+            const modal = document.getElementById('galleryModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeGalleryModal() {
+            const modal = document.getElementById('galleryModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function prevLightboxPhoto() {
+            if (currentLightboxIndex > 0) openPhotoLightbox(currentLightboxIndex - 1);
+            else openPhotoLightbox(STORE_GALLERY.length - 1);
+        }
+
+        function nextLightboxPhoto() {
+            if (currentLightboxIndex < STORE_GALLERY.length - 1) openPhotoLightbox(currentLightboxIndex + 1);
+            else openPhotoLightbox(0);
+        }
+
+        /* ========================================================
+           GUIDED WALKTHROUGH FLOW (WhatsApp -> Share Review -> Copy)
+           ======================================================== */
+        function checkWhatsAppScrollTrigger() {
+            if (hasTriggeredWhatsAppScrollGuide || isHeroReviewBtnTapped) return;
+            const waBox = document.getElementById('whatsAppInquiryBox');
+            if (!waBox) return;
+
+            const selPopup = document.getElementById('reviewSelectGuidePopup');
+            const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+            const waPopup = document.getElementById('whatsappTourPopup');
+            if ((selPopup && !selPopup.classList.contains('hidden')) ||
+                (submitPopup && !submitPopup.classList.contains('hidden')) ||
+                (waPopup && !waPopup.classList.contains('hidden'))) {
+                return;
+            }
+
+            const rect = waBox.getBoundingClientRect();
+            if (rect.top <= 20 && rect.bottom < window.innerHeight * 0.5) {
+                hasTriggeredWhatsAppScrollGuide = true;
+                startFullWalkthrough();
+            }
+        }
+
+        function updateBackdropHole(targetEl) {
+            const backdrop = document.getElementById('tourBackdrop');
+            if (!backdrop) return;
+            if (!targetEl) {
+                backdrop.style.clipPath = 'none';
+                currentHighlightedEl = null;
+                return;
+            }
+            currentHighlightedEl = targetEl;
+            const r = targetEl.getBoundingClientRect();
+            const pad = 6;
+            const top = Math.max(0, Math.floor(r.top - pad));
+            const bottom = Math.min(window.innerHeight, Math.ceil(r.bottom + pad));
+            const left = Math.max(0, Math.floor(r.left - pad));
+            const right = Math.min(window.innerWidth, Math.ceil(r.right + pad));
+
+            backdrop.style.clipPath = `polygon(
+                0px 0px,
+                100vw 0px,
+                100vw 100vh,
+                0px 100vh,
+                0px 0px,
+                ${left}px ${top}px,
+                ${left}px ${bottom}px,
+                ${right}px ${bottom}px,
+                ${right}px ${top}px,
+                ${left}px ${top}px
+            )`;
+        }
+
+        function startFullWalkthrough() {
+            closeAllTourPopups();
+            const backdrop = document.getElementById('tourBackdrop');
+            const waBox = document.getElementById('whatsAppInquiryBox');
+            const waPopup = document.getElementById('whatsappTourPopup');
+            if (!backdrop || !waBox || !waPopup) return;
+
+            backdrop.classList.remove('hidden');
+            waBox.classList.add('tour-highlight-whatsapp', 'tour-pulse-whatsapp');
+
+            const rect = waBox.getBoundingClientRect();
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const targetY = scrollY + rect.top - 44;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+
+            setTimeout(() => {
+                updateBackdropHole(waBox);
+                waPopup.classList.remove('hidden');
+                positionWhatsAppPopup();
+            }, 380);
+        }
+
+        function positionWhatsAppPopup() {
+            const waBox = document.getElementById('whatsAppInquiryBox');
+            const waPopup = document.getElementById('whatsappTourPopup');
+            if (!waBox || !waPopup) return;
+            const rect = waBox.getBoundingClientRect();
+            waPopup.style.top = `${Math.round(rect.bottom + 14)}px`;
+            waPopup.style.bottom = 'auto';
+        }
+
+        function startGuidedReviewFromHero() {
+            isHeroReviewBtnTapped = true;
+            const heroBtn = document.getElementById('heroGoogleReviewBtn');
+            if (heroBtn) {
+                heroBtn.classList.remove('hero-badge-floating');
+                heroBtn.classList.add('hero-badge-dismissed');
+            }
+            goToReviewTourStep();
+        }
+
+        function goToReviewTourStep() {
+            isHeroReviewBtnTapped = true;
+            const heroBtn = document.getElementById('heroGoogleReviewBtn');
+            if (heroBtn) {
+                heroBtn.classList.remove('hero-badge-floating');
+                heroBtn.classList.add('hero-badge-dismissed');
+            }
+
+            const waPopup = document.getElementById('whatsappTourPopup');
+            const waBox = document.getElementById('whatsAppInquiryBox');
+            if (waPopup) waPopup.classList.add('hidden');
+            if (waBox) waBox.classList.remove('tour-highlight-whatsapp', 'tour-pulse-whatsapp');
+
+            const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+            const outputCard = document.getElementById('reviewOutputCard');
+            const copyBtn = document.getElementById('copyGoogleBtn');
+            if (submitPopup) submitPopup.classList.add('hidden');
+            if (outputCard) outputCard.classList.remove('tour-highlight-review', 'tour-pulse-review');
+            if (copyBtn) copyBtn.classList.remove('tour-pulse-button');
+
+            const selSec = document.getElementById('reviewSelectionSection');
+            const selPopup = document.getElementById('reviewSelectGuidePopup');
+            const backdrop = document.getElementById('tourBackdrop');
+            if (!selSec || !backdrop) return;
+
+            backdrop.classList.remove('hidden');
+
+            const rect = selSec.getBoundingClientRect();
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const targetY = scrollY + rect.top - 36;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+
+            setTimeout(() => {
+                selSec.classList.add('tour-highlight-review', 'tour-pulse-review');
+                updateBackdropHole(selSec);
+
+                if (selPopup) {
+                    selPopup.classList.remove('hidden');
+                    positionTourElementPopup(selSec, selPopup);
+                }
+            }, 450);
+        }
+
+        function goToReviewOutputStep() {
+            const selSec = document.getElementById('reviewSelectionSection');
+            const selPopup = document.getElementById('reviewSelectGuidePopup');
+            if (selSec) selSec.classList.remove('tour-highlight-review', 'tour-pulse-review');
+            if (selPopup) selPopup.classList.add('hidden');
+
+            const outputCard = document.getElementById('reviewOutputCard');
+            const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+            const copyBtn = document.getElementById('copyGoogleBtn');
+            const backdrop = document.getElementById('tourBackdrop');
+            if (!outputCard || !backdrop) return;
+
+            backdrop.classList.remove('hidden');
+            regenerateReview(false);
+
+            const rect = outputCard.getBoundingClientRect();
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const targetY = scrollY + rect.top - 24;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+
+            setTimeout(() => {
+                outputCard.classList.add('tour-highlight-review', 'tour-pulse-review');
+                if (copyBtn) copyBtn.classList.add('tour-pulse-button');
+                updateBackdropHole(outputCard);
+
+                if (submitPopup) {
+                    submitPopup.classList.remove('hidden');
+                    positionTourElementPopup(outputCard, submitPopup);
+                }
+            }, 360);
+
+            setTimeout(() => {
+                updateBackdropHole(outputCard);
+                if (submitPopup && !submitPopup.classList.contains('hidden')) {
+                    positionTourElementPopup(outputCard, submitPopup);
+                }
+            }, 720);
+        }
+
+        function positionTourElementPopup(targetEl, popupEl) {
+            if (!targetEl || !popupEl) return;
+            const rect = targetEl.getBoundingClientRect();
+            const popupHeight = popupEl.offsetHeight || 220;
+            const beakDown = popupEl.querySelector('.popup-beak-down');
+            const beakUp = popupEl.querySelector('.popup-beak-up');
+
+            if (popupEl.id === 'reviewSubmitGuidePopup') {
+                popupEl.style.top = `${Math.round(rect.bottom + 14)}px`;
+                popupEl.style.bottom = 'auto';
+                if (beakDown) beakDown.classList.add('hidden');
+                if (beakUp) beakUp.classList.remove('hidden');
+                return;
+            }
+
+            if (rect.top >= popupHeight + 14) {
+                popupEl.style.top = `${Math.max(10, rect.top - popupHeight - 14)}px`;
+                popupEl.style.bottom = 'auto';
+                if (beakDown) beakDown.classList.remove('hidden');
+                if (beakUp) beakUp.classList.add('hidden');
+            } else {
+                popupEl.style.top = `${Math.round(rect.bottom + 14)}px`;
+                popupEl.style.bottom = 'auto';
+                if (beakDown) beakDown.classList.add('hidden');
+                if (beakUp) beakUp.classList.remove('hidden');
+            }
+        }
+
+        function closeAllTourPopups() {
+            currentTourStep = 0;
+            updateBackdropHole(null);
+            const copyBtn = document.getElementById('copyGoogleBtn');
+            if (copyBtn) copyBtn.classList.remove('tour-pulse-button');
+
+            document.querySelectorAll('.tour-highlight, .tour-pulse, .tour-highlight-whatsapp, .tour-pulse-whatsapp, .tour-highlight-review, .tour-pulse-review').forEach(el => {
+                el.classList.remove('tour-highlight', 'tour-pulse', 'tour-highlight-whatsapp', 'tour-pulse-whatsapp', 'tour-highlight-review', 'tour-pulse-review');
+            });
+
+            const ids = ['tourBackdrop', 'whatsappTourPopup', 'reviewSelectGuidePopup', 'reviewSubmitGuidePopup', 'tourCard'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+        }
+
+        function skipReviewTour() {
+            closeAllTourPopups();
+        }
+
+        /* ========================================================
+           INITIALIZATION ON DOM LOAD
+           ======================================================== */
+        window.addEventListener('DOMContentLoaded', () => {
+            // Render components
+            renderCategoryChips();
+            renderCoreOfferings();
+            renderTestimonials();
+            renderFaqs();
+            renderStoreGallery();
+            updateSelectionSummary();
+
+            // Set language buttons initial state
+            setLanguage('ENGLISH');
+
+            // Gallery track scroll listener
+            const galleryTrack = document.getElementById('galleryCarouselTrack');
+            if (galleryTrack) {
+                galleryTrack.addEventListener('scroll', () => {
+                    const scrollLeft = galleryTrack.scrollLeft;
+                    const cardWidth = 155 + 12;
+                    const activeIdx = Math.round(scrollLeft / cardWidth);
+                    updateActiveGalleryDot(Math.min(activeIdx, STORE_GALLERY.length - 1));
+                }, { passive: true });
+            }
+
+            // Sync text area input with preview
+            const ta = document.getElementById('aiReviewOutput');
+            if (ta) {
+                ta.addEventListener('input', () => {
+                    if (typingTimer) {
+                        clearTimeout(typingTimer);
+                        typingTimer = null;
+                    }
+                    currentFullReviewText = ta.value;
+                });
+            }
+
+            // Trigger typing review once scrolled into view
+            const aiSec = document.getElementById('aiSection');
+            if ('IntersectionObserver' in window && aiSec) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !hasAutoTypedOnScroll) {
+                            hasAutoTypedOnScroll = true;
+                            observer.disconnect();
+                            regenerateReview(true);
+                        }
+                    });
+                }, { threshold: 0.15 });
+                observer.observe(aiSec);
+            } else {
+                hasAutoTypedOnScroll = true;
+                regenerateReview(true);
+            }
+
+            // Scroll listener for guided walkthrough triggers
+            window.addEventListener('scroll', () => {
+                checkWhatsAppScrollTrigger();
+
+                if (currentHighlightedEl) {
+                    updateBackdropHole(currentHighlightedEl);
+                    const selPopup = document.getElementById('reviewSelectGuidePopup');
+                    const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+                    const waPopup = document.getElementById('whatsappTourPopup');
+                    if (selPopup && !selPopup.classList.contains('hidden')) {
+                        positionTourElementPopup(currentHighlightedEl, selPopup);
+                    }
+                    if (submitPopup && !submitPopup.classList.contains('hidden')) {
+                        positionTourElementPopup(currentHighlightedEl, submitPopup);
+                    }
+                    if (waPopup && !waPopup.classList.contains('hidden')) {
+                        positionWhatsAppPopup();
+                    }
+                }
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                if (currentHighlightedEl) {
+                    updateBackdropHole(currentHighlightedEl);
+                    const selPopup = document.getElementById('reviewSelectGuidePopup');
+                    const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+                    const waPopup = document.getElementById('whatsappTourPopup');
+                    if (selPopup && !selPopup.classList.contains('hidden')) {
+                        positionTourElementPopup(currentHighlightedEl, selPopup);
+                    }
+                    if (submitPopup && !submitPopup.classList.contains('hidden')) {
+                        positionTourElementPopup(currentHighlightedEl, submitPopup);
+                    }
+                    if (waPopup && !waPopup.classList.contains('hidden')) {
+                        positionWhatsAppPopup();
+                    }
+                }
+            });
+
+            // Keep output popup locked without overlap on resize
+            const outputCardEl = document.getElementById('reviewOutputCard');
+            if (window.ResizeObserver && outputCardEl) {
+                new ResizeObserver(() => {
+                    if (currentHighlightedEl === outputCardEl) {
+                        updateBackdropHole(outputCardEl);
+                        const submitPopup = document.getElementById('reviewSubmitGuidePopup');
+                        if (submitPopup && !submitPopup.classList.contains('hidden')) {
+                            positionTourElementPopup(outputCardEl, submitPopup);
+                        }
+                    }
+                }).observe(outputCardEl);
+            }
+
+            // Pop up the golden Google Review button with spring bounce animation after 1.2s
+            setTimeout(() => {
+                const heroBtn = document.getElementById('heroGoogleReviewBtn');
+                if (heroBtn && !isHeroReviewBtnTapped) {
+                    heroBtn.classList.remove('hero-badge-hidden');
+                    heroBtn.classList.add('hero-badge-animate');
+                    setTimeout(() => {
+                        heroBtn.classList.add('hero-badge-idle-glow');
+                    }, 850);
+                }
+            }, 1200);
+        });
+    </script>
+</body>
+
+</html>
