@@ -741,42 +741,81 @@
                                     How was your experience? ✨
                                 </h2>
                                 <p class="text-xs sm:text-[13px] font-semibold text-greyx mt-1">
-                                    Tap what made your visit memorable — zero typing needed!
+                                    Select highlights below or write your thoughts — zero friction!
                                 </p>
                             </div>
                         </div>
                         <span class="text-gold text-base select-none">✨</span>
                     </div>
 
-                    <!-- Category Quick Filter Bar -->
-                    <div class="mb-3">
+                    <!-- STEP 2: CONFIRMED SERVICES BAR (Never asks for services again, with quick Edit action) -->
+                    <div id="confirmedServicesBar"
+                        class="mb-3.5 p-3 rounded-2xl bg-gradient-to-r from-gold-pale/90 via-white to-gold-light/40 border border-gold/70 text-charcoal flex items-center justify-between gap-2 shadow-xs transition-all">
+                        <div class="flex-1 overflow-hidden">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold-deep flex items-center gap-1">
+                                    <span>✦</span>
+                                    <span>YOUR CONFIRMED SERVICES</span>
+                                </span>
+                                <span id="confirmedServicesCountBadge"
+                                    class="text-[9.5px] font-black px-2 py-0.2 rounded-full bg-gold/25 text-charcoal border border-gold/50">
+                                    0 services
+                                </span>
+                            </div>
+                            <div id="confirmedServicesPills" class="flex flex-wrap gap-1.5">
+                                <!-- Populated dynamically e.g. <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-white text-charcoal border border-gold/60 shadow-xs">✓ Facial</span> -->
+                            </div>
+                        </div>
+                        <button type="button" onclick="editConfirmedServices()"
+                            class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-gold-light border border-gold/70 text-charcoal font-black text-xs shadow-xs hover:shadow transition-all cursor-pointer active:scale-95"
+                            title="Modify selected services">
+                            <span>✏️</span>
+                            <span>Edit</span>
+                        </button>
+                    </div>
+
+                    <!-- STEP 6: WRITING-FIRST OPTIONAL TEXTAREA (Preserves customer's words) -->
+                    <div class="mb-4">
                         <div class="flex items-center justify-between mb-1.5 px-0.5">
-                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-greyx">
-                                Curated Options:
+                            <label for="reviewCustomerNotes" class="text-xs font-bold text-charcoal flex items-center gap-1.5">
+                                <span>✍️</span>
+                                <span>Describe your experience <span class="text-greyx font-normal">(optional)</span>:</span>
+                            </label>
+                            <span id="reviewWordCount" class="text-[10px] font-semibold text-greyx">0 words</span>
+                        </div>
+                        <textarea id="reviewCustomerNotes" rows="2"
+                            oninput="handleCustomerNotesInput(this.value)"
+                            class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner resize-none"
+                            placeholder="Loved your visit? Add personal details, or simply tap highlights below..."></textarea>
+                    </div>
+
+                    <!-- STEP 3, 4, 5: DYNAMIC GROUPED EXPERIENCE HIGHLIGHTS (Per selected service + universal visit) -->
+                    <div class="mb-3">
+                        <div class="flex items-center justify-between mb-2 px-0.5">
+                            <span class="text-xs font-black uppercase tracking-wider text-charcoal flex items-center gap-1.5">
+                                <span>✨</span>
+                                <span>Tap what made your visit memorable:</span>
                             </span>
-                            <span id="reviewSelectedBadge"
+                            <span id="totalHighlightsBadge"
                                 class="text-[10.5px] font-bold text-gold-deep bg-gold-pale px-2.5 py-0.5 rounded-full border border-gold/40">
-                                1 selected
+                                0 selected
                             </span>
                         </div>
-                        <div id="reviewCategoryPillBar" class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar pb-1">
-                            <!-- Populated dynamically via renderReviewCategoryPills() -->
+
+                        <!-- Dynamic grouped container -->
+                        <div id="dynamicGroupedHighlightsContainer" class="space-y-3.5">
+                            <!-- Populated dynamically via renderDynamicGroupedHighlights() -->
                         </div>
                     </div>
 
-                    <!-- Direct Curated 1-Tap Chips Grid (Replaces 8 static categories) -->
-                    <div id="curatedReviewChipsGrid" class="flex flex-wrap gap-2 mb-3">
-                        <!-- Populated dynamically via renderCuratedReviewChips() -->
-                    </div>
-
-                    <!-- Selected Inspiration Summary -->
-                    <div id="selectedMenuSummary"
-                        class="hidden text-xs font-bold text-gold-deep bg-gold-pale border border-gold/60 rounded-xl p-2.5 mb-3">
+                    <!-- SELECTED HIGHLIGHTS SUMMARY TRAY -->
+                    <div id="selectedHighlightsSummaryBox"
+                        class="hidden text-xs font-bold text-gold-deep bg-gold-pale border border-gold/60 rounded-xl p-2.5 mb-3 shadow-xs">
                         <div class="flex items-start justify-between gap-2">
-                            <span class="leading-snug">Selected Highlights: <span id="selectedMenuSummaryText"
+                            <span class="leading-snug">Selected Highlights: <span id="selectedHighlightsSummaryText"
                                     class="font-extrabold text-charcoal"></span></span>
-                            <button type="button" onclick="clearAllSelections()"
-                                class="flex-shrink-0 text-[11px] text-gold-deep underline hover:text-charcoal cursor-pointer">Clear</button>
+                            <button type="button" onclick="clearAllExperienceHighlights()"
+                                class="flex-shrink-0 text-[11px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer">Clear</button>
                         </div>
                     </div>
 
@@ -2236,33 +2275,294 @@
         /* Plenty Curated Services List for Scrollable Modal Selection */
         const PLENTY_SERVICES_LIST = [
             { catKey: 'HAIR', name: 'Haircut', icon: '✂️' },
-            { catKey: 'HAIR', name: 'Hair Spa', icon: '💇' },
+            { catKey: 'HAIR', name: 'Hair Spa', icon: '💆' },
             { catKey: 'HAIR', name: 'Hair Colour', icon: '🎨' },
             { catKey: 'HAIR', name: 'Keratin / Smoothening', icon: '✨' },
-            { catKey: 'HAIR', name: 'Hair Styling', icon: '💆' },
-            { catKey: 'HAIR', name: 'Blow Dry', icon: '💨' },
+            { catKey: 'HAIR', name: 'Blow Dry / Hair Styling', icon: '💨' },
+            { catKey: 'HAIR', name: 'Beard Grooming & Trim', icon: '🧔' },
             { catKey: 'BEAUTY', name: 'Waxing', icon: '🌿' },
             { catKey: 'BEAUTY', name: 'Threading', icon: '🧵' },
-            { catKey: 'BEAUTY', name: 'Bridal Makeup', icon: '💄' },
-            { catKey: 'BEAUTY', name: 'Party Makeup', icon: '✨' },
+            { catKey: 'BEAUTY', name: 'Bridal Makeup', icon: '👰' },
+            { catKey: 'BEAUTY', name: 'Party Makeup', icon: '💄' },
             { catKey: 'BEAUTY', name: 'Eyebrow Shaping', icon: '👁️' },
-            { catKey: 'SKIN', name: 'Hydrating Facial', icon: '✨' },
-            { catKey: 'SKIN', name: 'Detan Treatment', icon: '🌿' },
+            { catKey: 'SKIN', name: 'Facial', icon: '🌸' },
+            { catKey: 'SKIN', name: 'Detan / Brightening', icon: '🧼' },
             { catKey: 'SKIN', name: 'Gold / Diamond Facial', icon: '💎' },
-            { catKey: 'SKIN', name: 'Face Massage', icon: '💆' },
-            { catKey: 'SKIN', name: 'Clean-up', icon: '✨' },
+            { catKey: 'SKIN', name: 'Face Massage', icon: '🧖' },
+            { catKey: 'SKIN', name: 'Cleanup', icon: '✨' },
             { catKey: 'NAILS', name: 'Nail Art', icon: '💅' },
-            { catKey: 'NAILS', name: 'Gel Extensions', icon: '✨' },
-            { catKey: 'NAILS', name: 'Spa Pedicure', icon: '🦶' },
-            { catKey: 'NAILS', name: 'Classic Manicure', icon: '🌸' },
-            { catKey: 'ALL', name: 'Overall Experience', icon: '⭐' }
+            { catKey: 'NAILS', name: 'Nail Extensions', icon: '💎' },
+            { catKey: 'NAILS', name: 'Manicure / Pedicure', icon: '🦶' },
+            { catKey: 'NAILS', name: 'Classic Pedicure', icon: '🌸' }
         ];
+
+        /* ========================================================
+           STEP 4: SERVICE-SPECIFIC HIGHLIGHT LIBRARY (COMPREHENSIVE)
+           ======================================================== */
+        const SERVICE_HIGHLIGHT_LIBRARY = {
+            "Haircut": {
+                category: "HAIR",
+                icon: "✂️",
+                title: "Haircut Experience",
+                highlights: [
+                    "Loved the Final Look",
+                    "Stylist Understood My Preference",
+                    "Precise Cutting",
+                    "Great Styling",
+                    "Attention to Detail",
+                    "Fresh New Look",
+                    "Professional Stylist"
+                ]
+            },
+            "Hair Colouring": {
+                category: "HAIR",
+                icon: "🎨",
+                title: "Hair Colouring Experience",
+                aliases: ["Hair Colour", "Highlights / Balayage", "Balayage", "Highlights", "Hair Colouring / Highlights / Balayage"],
+                highlights: [
+                    "Loved the Colour",
+                    "Beautiful Colour Blend",
+                    "Natural-Looking Results",
+                    "Even Colour Application",
+                    "Great Shade Recommendation",
+                    "Attention to Detail",
+                    "Happy with Final Results"
+                ]
+            },
+            "Hair Spa": {
+                category: "HAIR",
+                icon: "💆",
+                title: "Hair Spa Experience",
+                aliases: ["Hair Spa Treatment"],
+                highlights: [
+                    "Relaxing Treatment",
+                    "Hair Felt Softer",
+                    "Nourishing Treatment",
+                    "Great Scalp Massage",
+                    "Hair Felt Refreshed",
+                    "Comfortable Experience",
+                    "Loved the Results"
+                ]
+            },
+            "Keratin / Smoothening": {
+                category: "HAIR",
+                icon: "✨",
+                title: "Keratin & Smoothening Experience",
+                aliases: ["Keratin Treatment", "Hair Smoothening", "Hair Straightening", "Keratin", "Smoothening", "Straightening", "Keratin / Smoothening / Straightening"],
+                highlights: [
+                    "Smooth Finish",
+                    "Reduced Frizz",
+                    "Hair Felt Softer",
+                    "Professional Application",
+                    "Careful Treatment",
+                    "Great Finishing",
+                    "Loved the Results"
+                ]
+            },
+            "Blow Dry / Hair Styling": {
+                category: "HAIR",
+                icon: "💨",
+                title: "Hair Styling & Blow Dry",
+                aliases: ["Hair Styling", "Blow Dry", "Hair Wash & Blow Dry"],
+                highlights: [
+                    "Beautiful Styling",
+                    "Great Volume",
+                    "Neat Finishing",
+                    "Matched My Preference",
+                    "Professional Technique",
+                    "Loved the Final Look"
+                ]
+            },
+            "Bridal Makeup": {
+                category: "BEAUTY",
+                icon: "👰",
+                title: "Bridal Makeup Experience",
+                aliases: ["Bridal / Engagement / Reception Makeup", "Engagement Makeup", "Reception Makeup", "Pre-Bridal Package"],
+                highlights: [
+                    "Flawless Finish",
+                    "Matched My Desired Look",
+                    "Beautiful Bridal Look",
+                    "Attention to Detail",
+                    "Comfortable Application",
+                    "Long-Lasting Makeup",
+                    "Great Product Quality",
+                    "Loved the Final Look"
+                ]
+            },
+            "Party Makeup": {
+                category: "BEAUTY",
+                icon: "💄",
+                title: "Party & HD Makeup Experience",
+                aliases: ["Party / HD / Airbrush Makeup", "HD / Airbrush Makeup", "Natural / Soft Glam", "Airbrush Makeup"],
+                highlights: [
+                    "Flawless Finish",
+                    "Natural-Looking Makeup",
+                    "Great Colour Matching",
+                    "Beautiful Eye Makeup",
+                    "Smooth Application",
+                    "Long-Lasting Results",
+                    "Professional Makeup Artist"
+                ]
+            },
+            "Waxing": {
+                category: "BEAUTY",
+                icon: "🌿",
+                title: "Waxing Experience",
+                aliases: ["Full Body Waxing", "Rica Waxing", "Rica & Organic Wax"],
+                highlights: [
+                    "Gentle Waxing",
+                    "Smooth Finish",
+                    "Minimal Discomfort",
+                    "Careful Technique",
+                    "Quick & Efficient",
+                    "Good Aftercare",
+                    "Clean Equipment"
+                ]
+            },
+            "Threading": {
+                category: "BEAUTY",
+                icon: "🧵",
+                title: "Threading & Shaping Experience",
+                aliases: ["Eyebrow Threading", "Threading / Eyebrow Shaping", "Eyebrow Shaping"],
+                highlights: [
+                    "Perfect Eyebrow Shape",
+                    "Precise Threading",
+                    "Gentle Technique",
+                    "Neat Finish",
+                    "Quick Service",
+                    "Attention to Detail"
+                ]
+            },
+            "Facial": {
+                category: "SKIN",
+                icon: "🌸",
+                title: "Facial Experience",
+                aliases: ["Hydrating Facial", "Classic Facial", "Fruit Facial", "Gold / Diamond Facial", "Hydra Facial", "Gold Radiance Facial"],
+                highlights: [
+                    "Relaxing Treatment",
+                    "Skin Felt Refreshed",
+                    "Skin Felt Hydrated",
+                    "Gentle on Skin",
+                    "Visible Glow",
+                    "Thorough Treatment",
+                    "Comfortable Face Massage",
+                    "Professional Technique",
+                    "Great Product Quality"
+                ]
+            },
+            "Cleanup": {
+                category: "SKIN",
+                icon: "🧼",
+                title: "Clean-up Experience",
+                aliases: ["Clean-up", "Deep Cleanup", "Face Cleanup"],
+                highlights: [
+                    "Fresh & Clean Feeling",
+                    "Gentle Treatment",
+                    "Thorough Cleansing",
+                    "Relaxing Experience",
+                    "Skin Felt Refreshed",
+                    "Professional Care"
+                ]
+            },
+            "Detan / Brightening": {
+                category: "SKIN",
+                icon: "✨",
+                title: "Detan & Brightening Experience",
+                aliases: ["Detan Treatment", "Detan / Brightening Treatment", "D-Tan & Clean-up", "Skin Brightening", "Skin Brightening Treatment"],
+                highlights: [
+                    "Even-Looking Finish",
+                    "Skin Felt Refreshed",
+                    "Gentle Treatment",
+                    "Comfortable Experience",
+                    "Thorough Application",
+                    "Happy with Results"
+                ]
+            },
+            "Nail Art": {
+                category: "NAILS",
+                icon: "🎨",
+                title: "Nail Art Experience",
+                aliases: ["Gel Nail Art", "French Tips & Chrome"],
+                highlights: [
+                    "Beautiful Nail Design",
+                    "Creative Nail Art",
+                    "Attention to Detail",
+                    "Neat Finishing",
+                    "Loved the Colours",
+                    "Precise Work",
+                    "Matched My Reference Design"
+                ]
+            },
+            "Nail Extensions": {
+                category: "NAILS",
+                icon: "💎",
+                title: "Nail Extensions Experience",
+                aliases: ["Nail Extensions / Acrylic / Gel Extensions", "Acrylic Nails", "Gel Extensions", "Acrylic Nail Extensions"],
+                highlights: [
+                    "Beautiful Extensions",
+                    "Natural-Looking Finish",
+                    "Perfect Shape",
+                    "Comfortable Application",
+                    "Neat Finishing",
+                    "Great Attention to Detail",
+                    "Loved the Results"
+                ]
+            },
+            "Manicure / Pedicure": {
+                category: "NAILS",
+                icon: "🦶",
+                title: "Manicure & Pedicure Experience",
+                aliases: ["Classic Manicure", "Classic Pedicure", "Spa Pedicure", "Pampering Manicure", "Pedicure", "Manicure"],
+                highlights: [
+                    "Relaxing Treatment",
+                    "Neat Nail Care",
+                    "Soft & Smooth Feeling",
+                    "Gentle Service",
+                    "Clean Equipment",
+                    "Beautiful Finishing",
+                    "Comfortable Experience"
+                ]
+            }
+        };
+
+        const UNIVERSAL_HIGHLIGHTS = [
+            { name: "Friendly Staff", icon: "🤝" },
+            { name: "Clean & Hygienic", icon: "🫧" },
+            { name: "Comfortable Atmosphere", icon: "✨" },
+            { name: "Good Value", icon: "💰" },
+            { name: "Professional Service", icon: "⭐" },
+            { name: "Timely Service", icon: "⏱️" },
+            { name: "Personal Attention", icon: "👁️" },
+            { name: "Loved the Results", icon: "🌟" },
+            { name: "Would Visit Again", icon: "🔄" },
+            { name: "Would Recommend", icon: "💖" }
+        ];
+
+        /* ========================================================
+           STATE MANAGEMENT (MULTI-SERVICE + GROUPED HIGHLIGHTS)
+           ======================================================== */
+        let confirmedServicesList = []; // e.g. ["Facial", "Waxing"]
+        let customerWrittenReviewNotes = ""; // Customer's optional text
+        let selectedHighlightsMap = {}; // { [groupKey]: string[] }
+        let expandedServiceSections = {}; // { [groupKey]: boolean }
+
+        userInitialIntent = 'REVIEW';
+        activeModalFilter = 'ALL';
+        currentLang = 'ENGLISH';
+        currentReviewLength = 'BALANCED';
+        typingTimer = null;
+        let typewriterTimeout = null;
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+// Using preceding SHORT_PHRASES_BANK definition
 
         /* ========================================================
            STEP 1: INITIAL 3-OPTION FOCUS POP-UP
            ======================================================== */
         function openEntryIntentModal() { openEntryFocusModal(); }
-    function openEntryFocusModal() {
+        function openEntryFocusModal() {
             const m1 = document.getElementById('entryFocusModal');
             const m2 = document.getElementById('entryServiceModal');
             if (m2) m2.classList.add('hidden');
@@ -2293,7 +2593,7 @@
         }
 
         /* ========================================================
-           STEP 2: SERVICE INPUT & PLENTY SUGGESTIONS MODAL
+           STEP 1 (UPDATED): MULTI-SELECT SERVICE SELECTOR MODAL
            ======================================================== */
         function openEntryServiceModal() {
             const m1 = document.getElementById('entryFocusModal');
@@ -2301,39 +2601,36 @@
             if (m1) m1.classList.add('hidden');
             if (!m2) return;
 
-            // Configure modal header & badge based on intent
             const badge = document.getElementById('serviceModalBadge');
             const title = document.getElementById('serviceModalTitle');
             const sub = document.getElementById('serviceModalSubtitle');
 
             if (userInitialIntent === 'REVIEW') {
                 if (badge) badge.textContent = "Review Mode";
-                if (title) title.textContent = "What service did you get? ✂️";
-                if (sub) sub.textContent = "Type below or tap from our popular services";
+                if (title) title.textContent = "What services did you get? ✂️";
+                if (sub) sub.textContent = "Select one or more services, or type to add:";
             } else {
                 if (badge) badge.textContent = "Booking Mode";
-                if (title) title.textContent = "What are you looking to book? ✂️";
-                if (sub) sub.textContent = "Type below or tap to customize your appointment";
+                if (title) title.textContent = "What services are you booking? ✂️";
+                if (sub) sub.textContent = "Select services or customize your appointment:";
             }
 
             m2.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
 
-            // Start short phrase typewriter and render plenty service chips
             initShortPhraseTypewriter();
+            renderModalSelectedTray();
             renderModalPlentyChips();
-
-            const btnText = document.getElementById('continueServiceBtnText');
-            if (btnText) {
-                btnText.textContent = activeSelectedService ? `Continue with ${activeSelectedService} ➔` : "Continue to Salon ➔";
-            }
+            updateModalContinueBtn();
         }
 
         function closeEntryServiceModal() {
             const m2 = document.getElementById('entryServiceModal');
-            if (m2) {
-                m2.classList.add('hidden');
-                document.body.style.overflow = '';
+            if (m2) m2.classList.add('hidden');
+            document.body.style.overflow = '';
+            if (typewriterTimeout) {
+                clearTimeout(typewriterTimeout);
+                typewriterTimeout = null;
             }
         }
 
@@ -2342,132 +2639,93 @@
             openEntryFocusModal();
         }
 
-        /* Short Phrase Typewriter (Fast, Snappy, 1-3 Words) */
         function initShortPhraseTypewriter() {
             const input = document.getElementById('serviceSearchInput');
             if (!input) return;
 
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (prefersReducedMotion) {
-                input.placeholder = "Search haircut, facial, waxing...";
+                input.placeholder = "Haircut, Facial, Waxing...";
                 return;
             }
 
-            let phraseIdx = 0;
-            let charIdx = 0;
-            let isDeleting = false;
-            let currentText = SHORT_PHRASES_BANK[0];
+            if (typewriterTimeout) {
+                clearTimeout(typewriterTimeout);
+                typewriterTimeout = null;
+            }
 
             function step() {
-                if (!isShortPhraseTypingActive) return;
-                if (document.activeElement === input || input.value.length > 0) return;
+                if (document.activeElement === input || (input.value && input.value.trim().length > 0)) {
+                    return;
+                }
+
+                const currentPhrase = SHORT_PHRASES_BANK[phraseIndex % SHORT_PHRASES_BANK.length];
 
                 if (isDeleting) {
-                    charIdx--;
-                    input.placeholder = currentText.substring(0, charIdx);
-                    if (charIdx <= 0) {
+                    charIndex--;
+                    input.placeholder = currentPhrase.substring(0, charIndex);
+                    if (charIndex <= 0) {
                         isDeleting = false;
-                        phraseIdx = (phraseIdx + 1) % SHORT_PHRASES_BANK.length;
-                        currentText = SHORT_PHRASES_BANK[phraseIdx];
-                        shortPhraseInterval = setTimeout(step, 300);
+                        phraseIndex++;
+                        typewriterTimeout = setTimeout(step, 450);
                         return;
                     }
-                    shortPhraseInterval = setTimeout(step, 20);
+                    typewriterTimeout = setTimeout(step, 40);
                 } else {
-                    charIdx++;
-                    input.placeholder = currentText.substring(0, charIdx);
-                    if (charIdx >= currentText.length) {
+                    charIndex++;
+                    input.placeholder = currentPhrase.substring(0, charIndex);
+                    if (charIndex >= currentPhrase.length) {
                         isDeleting = true;
-                        shortPhraseInterval = setTimeout(step, 1400);
+                        typewriterTimeout = setTimeout(step, 1800);
                         return;
                     }
-                    shortPhraseInterval = setTimeout(step, 45);
+                    typewriterTimeout = setTimeout(step, 75);
                 }
             }
 
+            step();
+
             input.addEventListener('focus', () => {
-                isShortPhraseTypingActive = false;
-                clearTimeout(shortPhraseInterval);
+                if (typewriterTimeout) clearTimeout(typewriterTimeout);
+                input.placeholder = "Type a service name...";
             });
 
             input.addEventListener('blur', () => {
-                if (input.value.trim().length === 0) {
-                    isShortPhraseTypingActive = true;
-                    charIdx = 0;
+                if (!input.value.trim()) {
                     isDeleting = false;
+                    charIndex = 0;
                     step();
                 }
             });
-
-            step();
         }
 
-        /* Keyword Intent Detection on User Typing */
         function handleServiceSearchInput() {
             const input = document.getElementById('serviceSearchInput');
             if (!input) return;
 
             const val = input.value.trim();
             const btnText = document.getElementById('continueServiceBtnText');
+
             if (btnText && val) {
-                btnText.textContent = `Continue with ${val} ➔`;
+                btnText.textContent = `Add "${val}" & Continue ➔`;
+            } else {
+                updateModalContinueBtn();
             }
 
             clearTimeout(searchDebounceTimer);
             searchDebounceTimer = setTimeout(() => {
+                const banner = document.getElementById('serviceDetectedBanner');
+                const bannerText = document.getElementById('serviceDetectedText');
                 if (!val) {
-                    clearServiceInput();
+                    if (banner) banner.classList.add('hidden');
                     return;
                 }
 
-                // Recognize keyword and category
-                const text = val.toLowerCase();
-                let matchedCat = 'HAIR';
-                let matchedService = val;
-
-                if (text.includes('wax') || text.includes('threading') || text.includes('makeup') || text.includes('bridal') || text.includes('bleach') || text.includes('saree')) {
-                    matchedCat = 'BEAUTY';
-                    if (text.includes('wax')) matchedService = 'Waxing';
-                    else if (text.includes('threading')) matchedService = 'Threading';
-                    else if (text.includes('bridal')) matchedService = 'Bridal Makeup';
-                    else matchedService = 'Party Makeup';
-                } else if (text.includes('facial') || text.includes('clean') || text.includes('detan') || text.includes('d-tan') || text.includes('skin') || text.includes('glow')) {
-                    matchedCat = 'SKIN';
-                    if (text.includes('clean')) matchedService = 'Clean-up';
-                    else if (text.includes('detan') || text.includes('d-tan')) matchedService = 'Detan Treatment';
-                    else matchedService = 'Hydrating Facial';
-                } else if (text.includes('nail') || text.includes('pedicure') || text.includes('manicure') || text.includes('extension')) {
-                    matchedCat = 'NAILS';
-                    if (text.includes('pedicure')) matchedService = 'Spa Pedicure';
-                    else if (text.includes('manicure')) matchedService = 'Classic Manicure';
-                    else if (text.includes('extension')) matchedService = 'Gel Extensions';
-                    else matchedService = 'Nail Art';
-                } else {
-                    matchedCat = 'HAIR';
-                    if (text.includes('spa')) matchedService = 'Hair Spa';
-                    else if (text.includes('colour') || text.includes('color') || text.includes('highlight')) matchedService = 'Hair Colour';
-                    else if (text.includes('keratin') || text.includes('smooth')) matchedService = 'Keratin / Smoothening';
-                    else matchedService = 'Haircut';
-                }
-
-                activeIntentCategory = matchedCat;
-                activeSelectedService = val.length < 3 ? matchedService : val.charAt(0).toUpperCase() + val.slice(1);
-
-                // Show feedback banner
-                const banner = document.getElementById('serviceDetectedBanner');
-                const bannerText = document.getElementById('serviceDetectedText');
+                const matched = resolveServiceToLibraryKey(val);
                 if (banner && bannerText) {
-                    const catTitle = REVIEW_CATEGORIES[matchedCat]?.title || 'Salon';
-                    bannerText.textContent = `Recognized: ${activeSelectedService} (${catTitle})`;
+                    bannerText.textContent = `Matched: ${val} (${matched.title})`;
                     banner.classList.remove('hidden');
                 }
-
-                if (btnText) {
-                    btnText.textContent = `Continue with ${activeSelectedService} ➔`;
-                }
-
-                // Highlight corresponding chip
-                renderModalPlentyChips();
             }, 180);
         }
 
@@ -2475,56 +2733,105 @@
             const input = document.getElementById('serviceSearchInput');
             if (input && input.value.trim().length > 0) {
                 const val = input.value.trim();
-                activeSelectedService = val.charAt(0).toUpperCase() + val.slice(1);
-
-                const text = val.toLowerCase();
-                if (text.includes('wax') || text.includes('threading') || text.includes('makeup') || text.includes('bridal') || text.includes('bleach') || text.includes('saree')) {
-                    activeIntentCategory = 'BEAUTY';
-                } else if (text.includes('facial') || text.includes('clean') || text.includes('detan') || text.includes('d-tan') || text.includes('skin') || text.includes('glow')) {
-                    activeIntentCategory = 'SKIN';
-                } else if (text.includes('nail') || text.includes('pedicure') || text.includes('manicure') || text.includes('extension')) {
-                    activeIntentCategory = 'NAILS';
-                } else {
-                    activeIntentCategory = 'HAIR';
+                const formatted = val.charAt(0).toUpperCase() + val.slice(1);
+                
+                // Add to multi-select list if not already present
+                if (!confirmedServicesList.some(s => s.toLowerCase() === formatted.toLowerCase())) {
+                    confirmedServicesList.push(formatted);
                 }
+
+                input.value = '';
+                const banner = document.getElementById('serviceDetectedBanner');
+                if (banner) banner.classList.add('hidden');
+
+                renderModalSelectedTray();
+                renderModalPlentyChips();
+                updateModalContinueBtn();
+                showToast(`Added ${formatted}! Select more or continue ➔`, '✓');
+                return;
             }
+
+            // If empty and we have at least 1 service, proceed!
             continueWithCuratedService();
         }
 
         function clearServiceInput() {
             const input = document.getElementById('serviceSearchInput');
             const banner = document.getElementById('serviceDetectedBanner');
-            const btnText = document.getElementById('continueServiceBtnText');
-
             if (input) input.value = '';
             if (banner) banner.classList.add('hidden');
-            if (btnText) {
-                btnText.textContent = activeSelectedService ? `Continue with ${activeSelectedService} ➔` : "Continue to Salon ➔";
-            }
-            renderModalPlentyChips();
+            updateModalContinueBtn();
         }
 
         function selectServiceChip(catKey, serviceName) {
-            activeIntentCategory = (catKey === 'ALL') ? 'HAIR' : catKey;
-            activeSelectedService = serviceName;
-
-            const input = document.getElementById('serviceSearchInput');
-            if (input) input.value = serviceName;
-
-            const banner = document.getElementById('serviceDetectedBanner');
-            const bannerText = document.getElementById('serviceDetectedText');
-            if (banner && bannerText) {
-                const catTitle = REVIEW_CATEGORIES[activeIntentCategory]?.title || 'Salon';
-                bannerText.textContent = `Selected: ${serviceName} (${catTitle})`;
-                banner.classList.remove('hidden');
+            // MULTI-SELECT: Toggle service in confirmedServicesList
+            const existingIdx = confirmedServicesList.findIndex(s => s.toLowerCase() === serviceName.toLowerCase());
+            
+            if (existingIdx !== -1) {
+                // Deselect
+                confirmedServicesList.splice(existingIdx, 1);
+            } else {
+                // Select
+                confirmedServicesList.push(serviceName);
             }
 
-            const btnText = document.getElementById('continueServiceBtnText');
-            if (btnText) {
-                btnText.textContent = `Continue with ${serviceName} ➔`;
-            }
-
+            renderModalSelectedTray();
             renderModalPlentyChips();
+            updateModalContinueBtn();
+        }
+
+        function removeSelectedService(serviceName) {
+            confirmedServicesList = confirmedServicesList.filter(s => s.toLowerCase() !== serviceName.toLowerCase());
+            renderModalSelectedTray();
+            renderModalPlentyChips();
+            updateModalContinueBtn();
+        }
+
+        function clearAllSelectedServices() {
+            confirmedServicesList = [];
+            renderModalSelectedTray();
+            renderModalPlentyChips();
+            updateModalContinueBtn();
+        }
+
+        function updateModalContinueBtn() {
+            const btnText = document.getElementById('continueServiceBtnText');
+            if (!btnText) return;
+
+            const count = confirmedServicesList.length;
+            if (count === 0) {
+                btnText.textContent = "Continue to Salon ➔";
+            } else if (count === 1) {
+                btnText.textContent = `Continue with ${confirmedServicesList[0]} ➔`;
+            } else {
+                btnText.textContent = `Continue with ${count} Services ➔`;
+            }
+        }
+
+        function renderModalSelectedTray() {
+            const tray = document.getElementById('modalSelectedTray');
+            const countEl = document.getElementById('modalSelectedCount');
+            const listEl = document.getElementById('modalSelectedPillsList');
+            if (!tray || !listEl) return;
+
+            const count = confirmedServicesList.length;
+            if (count === 0) {
+                tray.classList.add('hidden');
+                return;
+            }
+
+            tray.classList.remove('hidden');
+            if (countEl) countEl.textContent = count;
+
+            listEl.innerHTML = confirmedServicesList.map(name => `
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-white text-charcoal border border-gold shadow-xs animate-fade-in">
+                    <span class="text-gold-deep text-[11px]">✓</span>
+                    <span>${name}</span>
+                    <button type="button" onclick="removeSelectedService('${name.replace(/'/g, "\\'")}')"
+                        class="ml-0.5 w-4 h-4 rounded-full bg-gold-pale hover:bg-gold-light text-charcoal flex items-center justify-center text-[10px] font-black cursor-pointer transition-colors"
+                        title="Remove service">✕</button>
+                </span>
+            `).join('');
         }
 
         function filterModalServices(filterKey) {
@@ -2551,9 +2858,9 @@
             }
 
             grid.innerHTML = list.map(item => {
-                const isSelected = activeSelectedService && (activeSelectedService.toLowerCase() === item.name.toLowerCase());
+                const isSelected = confirmedServicesList.some(s => s.toLowerCase() === item.name.toLowerCase());
                 return `
-                    <button type="button" onclick="selectServiceChip('${item.catKey}', '${item.name}')"
+                    <button type="button" onclick="selectServiceChip('${item.catKey}', '${item.name.replace(/'/g, "\\'")}')"
                         class="modal-service-chip py-2 px-3 sm:px-3.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${isSelected ? 'is-active-service' : 'bg-white text-charcoal border-champagne hover:border-gold hover:shadow-sm'}">
                         <span>${item.icon}</span>
                         <span>${item.name}</span>
@@ -2566,16 +2873,14 @@
         }
 
         /* ========================================================
-           STEP 3 & 4: SCISSORS & COMB CURATION LOADER & FOCUSED LANDING
+           STEP 3: SCISSORS & COMB CURATION LOADER & ROUTING
            ======================================================== */
         function continueWithCuratedService() {
             closeEntryServiceModal();
 
-            // Set chosen service in selectedCategoryData
-            if (activeSelectedService && activeIntentCategory && selectedCategoryData[activeIntentCategory]) {
-                if (!selectedCategoryData[activeIntentCategory].services.includes(activeSelectedService)) {
-                    selectedCategoryData[activeIntentCategory].services = [activeSelectedService];
-                }
+            // Default to Hair Spa if none chosen
+            if (confirmedServicesList.length === 0) {
+                confirmedServicesList = ["Hair Spa"];
             }
 
             const loader = document.getElementById('salonCuratingLoader');
@@ -2583,20 +2888,16 @@
             const loaderSubtitle = document.getElementById('loaderSubtitle');
 
             if (loader) {
-                const serviceLabel = activeSelectedService || 'personalized options';
+                const sLabel = formatServicesListText(confirmedServicesList);
                 if (loaderTitle) loaderTitle.textContent = "Personalizing your salon visit... ✨";
-                if (loaderSubtitle) loaderSubtitle.textContent = `Curating ${serviceLabel} for you...`;
+                if (loaderSubtitle) loaderSubtitle.textContent = `Curating ${sLabel} highlights for you...`;
 
                 loader.classList.remove('hidden');
                 loader.classList.remove('opacity-0', 'pointer-events-none');
             }
 
-            // Apply curations across whole page
-            renderAdaptiveWaButtons(activeIntentCategory, activeSelectedService ? [activeSelectedService] : []);
-            renderCoreOfferings();
-            renderReviewCategoryPills();
-            renderCuratedReviewChips(activeIntentCategory);
-            updateSelectionSummary();
+            // Apply multi-service curations across the page
+            applyConfirmedServicesCurations();
 
             // Smooth 850ms transition with scissors & comb + skeleton breathing effect
             setTimeout(() => {
@@ -2606,16 +2907,16 @@
                 }
                 regenerateReview(true);
 
-                // Focused routing based on customer's initial intent
                 if (userInitialIntent === 'REVIEW') {
                     focusReviewGenerator();
-                    showToast(`Ready to review ${activeSelectedService}! Tap highlights ✨`, '✍️');
+                    const sLabel = formatServicesListText(confirmedServicesList);
+                    showToast(`Ready to review ${sLabel}! Tap highlights ✨`, '✍️');
                 } else if (userInitialIntent === 'BOOK' || userInitialIntent === 'BOOKING') {
                     const waBox = document.getElementById('whatsAppInquiryBox');
                     if (waBox) waBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    showToast(`Ready to book ${activeSelectedService} on WhatsApp! 💬`, '💬');
+                    showToast(`Ready to book on WhatsApp! 💬`, '💬');
                 } else {
-                    showToast(`Welcome! Curated for ${activeSelectedService || 'you'} ✨`, '✨');
+                    showToast(`Welcome to THE UNISEX SALON! ✨`, '✨');
                 }
             }, 850);
         }
@@ -2623,464 +2924,348 @@
         function skipToSalonDirect() {
             closeEntryFocusModal();
             closeEntryServiceModal();
-            renderAdaptiveWaButtons(activeIntentCategory);
-            renderCoreOfferings();
-            renderReviewCategoryPills();
-            renderCuratedReviewChips(activeIntentCategory);
-            updateSelectionSummary();
-            regenerateReview(true);
             showToast('Welcome to THE UNISEX SALON! ✨', '✨');
         }
 
         /* ========================================================
-           CURATED "HOW WAS YOUR EXPERIENCE?" 1-TAP CHIPS ENGINE
-           (Zero Typing Required, Completely Eliminates Customer Laziness)
+           STEP 2 & 5: DYNAMIC GROUPED EXPERIENCE HIGHLIGHTS
            ======================================================== */
-        function renderReviewCategoryPills() {
-            const container = document.getElementById('reviewCategoryPillBar');
+        function applyConfirmedServicesCurations() {
+            renderConfirmedServicesPills();
+            renderDynamicGroupedHighlights();
+
+            // Update WhatsApp pre-filled inquiry text
+            const sLabel = formatServicesListText(confirmedServicesList);
+            const waBoxTitle = document.getElementById('waBoxTitle');
+            if (waBoxTitle) {
+                waBoxTitle.textContent = `Book for ${sLabel}`;
+            }
+
+            // Adaptive WhatsApp Quick Buttons
+            const firstService = confirmedServicesList[0] || 'Hair Spa';
+            const matchedKey = resolveServiceToLibraryKey(firstService).category;
+            renderAdaptiveWaButtons(matchedKey, confirmedServicesList);
+        }
+
+        function editConfirmedServices() {
+            userInitialIntent = 'REVIEW';
+            openEntryServiceModal();
+        }
+
+        function renderConfirmedServicesPills() {
+            const container = document.getElementById('confirmedServicesPills');
+            const badge = document.getElementById('confirmedServicesCountBadge');
             if (!container) return;
 
-            const categories = [
-                { key: 'HAIR', label: 'Hair & Styling', icon: '✂️' },
-                { key: 'BEAUTY', label: 'Makeup & Beauty', icon: '💄' },
-                { key: 'SKIN', label: 'Skincare', icon: '✨' },
-                { key: 'NAILS', label: 'Nails & Manicure', icon: '💅' },
-                { key: 'ALL', label: 'All Services', icon: '⭐' }
-            ];
+            const count = confirmedServicesList.length;
+            if (badge) badge.textContent = `${count} service${count === 1 ? '' : 's'}`;
 
-            const current = activeIntentCategory || 'ALL';
+            if (count === 0) {
+                container.innerHTML = `<span class="text-xs text-greyx italic">No services specified yet. Tap Edit to select.</span>`;
+                return;
+            }
 
-            container.innerHTML = categories.map(cat => {
-                const isActive = (cat.key === current) || (cat.key === 'ALL' && !activeIntentCategory);
+            container.innerHTML = confirmedServicesList.map(name => `
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-white text-charcoal border border-gold/70 shadow-xs">
+                    <span class="text-gold-deep text-[11px]">✓</span>
+                    <span>${name}</span>
+                </span>
+            `).join('');
+        }
+
+        function resolveServiceToLibraryKey(serviceName) {
+            const raw = serviceName.trim();
+            const lower = raw.toLowerCase();
+
+            // Check exact key match
+            for (const [key, data] of Object.entries(SERVICE_HIGHLIGHT_LIBRARY)) {
+                if (key.toLowerCase() === lower) {
+                    return { key, ...data };
+                }
+            }
+
+            // Check aliases
+            for (const [key, data] of Object.entries(SERVICE_HIGHLIGHT_LIBRARY)) {
+                if (data.aliases && data.aliases.some(a => a.toLowerCase() === lower)) {
+                    return { key, ...data };
+                }
+            }
+
+            // Keyword heuristic matching
+            if (lower.includes('cut') || lower.includes('trim') || lower.includes('haircut')) {
+                return { key: 'Haircut', ...SERVICE_HIGHLIGHT_LIBRARY['Haircut'] };
+            }
+            if (lower.includes('colour') || lower.includes('color') || lower.includes('highlight') || lower.includes('balayage')) {
+                return { key: 'Hair Colouring', ...SERVICE_HIGHLIGHT_LIBRARY['Hair Colouring'] };
+            }
+            if (lower.includes('spa')) {
+                return { key: 'Hair Spa', ...SERVICE_HIGHLIGHT_LIBRARY['Hair Spa'] };
+            }
+            if (lower.includes('keratin') || lower.includes('smoothen') || lower.includes('straight')) {
+                return { key: 'Keratin / Smoothening', ...SERVICE_HIGHLIGHT_LIBRARY['Keratin / Smoothening'] };
+            }
+            if (lower.includes('blow') || lower.includes('style') || lower.includes('styling') || lower.includes('wash')) {
+                return { key: 'Blow Dry / Hair Styling', ...SERVICE_HIGHLIGHT_LIBRARY['Blow Dry / Hair Styling'] };
+            }
+            if (lower.includes('bridal') || lower.includes('reception') || lower.includes('engagement') || lower.includes('wedding')) {
+                return { key: 'Bridal Makeup', ...SERVICE_HIGHLIGHT_LIBRARY['Bridal Makeup'] };
+            }
+            if (lower.includes('party') || lower.includes('hd') || lower.includes('airbrush') || lower.includes('makeup')) {
+                return { key: 'Party Makeup', ...SERVICE_HIGHLIGHT_LIBRARY['Party Makeup'] };
+            }
+            if (lower.includes('wax') || lower.includes('rica')) {
+                return { key: 'Waxing', ...SERVICE_HIGHLIGHT_LIBRARY['Waxing'] };
+            }
+            if (lower.includes('thread') || lower.includes('eyebrow')) {
+                return { key: 'Threading', ...SERVICE_HIGHLIGHT_LIBRARY['Threading'] };
+            }
+            if (lower.includes('facial') || lower.includes('gold') || lower.includes('hydra') || lower.includes('glow')) {
+                return { key: 'Facial', ...SERVICE_HIGHLIGHT_LIBRARY['Facial'] };
+            }
+            if (lower.includes('clean')) {
+                return { key: 'Cleanup', ...SERVICE_HIGHLIGHT_LIBRARY['Cleanup'] };
+            }
+            if (lower.includes('detan') || lower.includes('d-tan') || lower.includes('bright')) {
+                return { key: 'Detan / Brightening', ...SERVICE_HIGHLIGHT_LIBRARY['Detan / Brightening'] };
+            }
+            if (lower.includes('nail art') || lower.includes('gel nail')) {
+                return { key: 'Nail Art', ...SERVICE_HIGHLIGHT_LIBRARY['Nail Art'] };
+            }
+            if (lower.includes('extension') || lower.includes('acrylic')) {
+                return { key: 'Nail Extensions', ...SERVICE_HIGHLIGHT_LIBRARY['Nail Extensions'] };
+            }
+            if (lower.includes('pedicure') || lower.includes('manicure')) {
+                return { key: 'Manicure / Pedicure', ...SERVICE_HIGHLIGHT_LIBRARY['Manicure / Pedicure'] };
+            }
+
+            // Fallback generic salon experience
+            return {
+                key: raw,
+                category: "SALON",
+                icon: "✨",
+                title: `${raw} Experience`,
+                highlights: [
+                    "Loved the Final Look",
+                    "Professional Technique",
+                    "Careful Service",
+                    "Attention to Detail",
+                    "Great Product Quality",
+                    "Comfortable Experience"
+                ]
+            };
+        }
+
+        function renderDynamicGroupedHighlights() {
+            const container = document.getElementById('dynamicGroupedHighlightsContainer');
+            if (!container) return;
+
+            // Deduplicate library groups for confirmed services
+            const groupMap = new Map();
+            confirmedServicesList.forEach(serviceName => {
+                const groupData = resolveServiceToLibraryKey(serviceName);
+                if (!groupMap.has(groupData.key)) {
+                    groupMap.set(groupData.key, {
+                        ...groupData,
+                        associatedServices: [serviceName]
+                    });
+                } else {
+                    groupMap.get(groupData.key).associatedServices.push(serviceName);
+                }
+            });
+
+            let htmlOutput = '';
+
+            // 1. Render Group per Confirmed Service
+            groupMap.forEach((group, groupKey) => {
+                const isExpanded = !!expandedServiceSections[groupKey];
+                const selectedSet = new Set(selectedHighlightsMap[groupKey] || []);
+                const allHighlights = group.highlights;
+                const totalCount = allHighlights.length;
+
+                // Priority: Always show selected highlights, or first 6 if unselected
+                const chipsHtml = allHighlights.map((hName, idx) => {
+                    const isSelected = selectedSet.has(hName);
+                    const isVisible = isExpanded || isSelected || idx < 6;
+                    if (!isVisible) return '';
+
+                    return `
+                        <button type="button" onclick="toggleExperienceHighlight('${groupKey.replace(/'/g, "\\'")}', '${hName.replace(/'/g, "\\'")}')"
+                            class="py-1.5 px-3 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${isSelected ? 'border-2 border-gold bg-gradient-to-r from-gold-pale via-white to-gold-light/60 text-charcoal font-black shadow-xs' : 'bg-white text-charcoal hover:bg-champagne-light border border-champagne hover:border-gold/70'}">
+                            <span>${group.icon}</span>
+                            <span>${hName}</span>
+                            <span class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full text-[9px] font-black ${isSelected ? 'bg-gold text-charcoal' : 'text-greyx'}">
+                                ${isSelected ? '✓' : '+'}
+                            </span>
+                        </button>
+                    `;
+                }).join('');
+
+                const hasMore = totalCount > 6;
+                const expandBtnHtml = hasMore ? `
+                    <button type="button" onclick="toggleExpandGroup('${groupKey.replace(/'/g, "\\'")}')"
+                        class="text-[11px] font-black text-gold-deep hover:text-charcoal inline-flex items-center gap-1 py-1 px-2.5 rounded-xl bg-gold-pale/50 hover:bg-gold-pale border border-gold/40 transition-colors cursor-pointer self-start">
+                        <span>${isExpanded ? '− Show less' : `+ Show ${totalCount - 6} more`}</span>
+                    </button>
+                ` : '';
+
+                htmlOutput += `
+                    <div class="p-3.5 rounded-2xl bg-ivory/60 border border-champagne/80 shadow-xs">
+                        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-champagne/40">
+                            <h4 class="text-xs sm:text-[13px] font-black text-charcoal uppercase tracking-wider flex items-center gap-1.5">
+                                <span>${group.icon}</span>
+                                <span>${group.title}</span>
+                            </h4>
+                            <span class="text-[10px] font-bold text-greyx">${group.associatedServices.join(', ')}</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-1.5">
+                            ${chipsHtml}
+                        </div>
+                        ${expandBtnHtml}
+                    </div>
+                `;
+            });
+
+            // 2. Render Universal Overall Visit Section (Always present)
+            const overallKey = 'overall';
+            const selectedOverallSet = new Set(selectedHighlightsMap[overallKey] || []);
+            const isOverallExpanded = !!expandedServiceSections[overallKey];
+
+            const overallChipsHtml = UNIVERSAL_HIGHLIGHTS.map((item, idx) => {
+                const isSelected = selectedOverallSet.has(item.name);
+                const isVisible = isOverallExpanded || isSelected || idx < 6;
+                if (!isVisible) return '';
+
                 return `
-                    <button type="button" onclick="setReviewCategoryFilter('${cat.key}')"
-                        class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${isActive ? 'bg-charcoal text-ivory font-black shadow-sm border border-charcoal' : 'bg-ivory text-charcoal hover:bg-champagne border border-champagne'}">
-                        <span>${cat.icon}</span>
-                        <span class="ml-1">${cat.label}</span>
+                    <button type="button" onclick="toggleExperienceHighlight('overall', '${item.name.replace(/'/g, "\\'")}')"
+                        class="py-1.5 px-3 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${isSelected ? 'border-2 border-gold bg-gradient-to-r from-gold-pale via-white to-gold-light/60 text-charcoal font-black shadow-xs' : 'bg-white text-charcoal hover:bg-champagne-light border border-champagne hover:border-gold/70'}">
+                        <span>${item.icon}</span>
+                        <span>${item.name}</span>
+                        <span class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full text-[9px] font-black ${isSelected ? 'bg-gold text-charcoal' : 'text-greyx'}">
+                            ${isSelected ? '✓' : '+'}
+                        </span>
                     </button>
                 `;
             }).join('');
-        }
 
-        function setReviewCategoryFilter(catKey) {
-            activeIntentCategory = (catKey === 'ALL') ? null : catKey;
-            renderReviewCategoryPills();
-            renderCuratedReviewChips(activeIntentCategory);
-            renderAdaptiveWaButtons(activeIntentCategory);
-            renderCoreOfferings();
-            regenerateReview(true);
-
-            const catLabel = activeIntentCategory ? REVIEW_CATEGORIES[activeIntentCategory]?.title : 'All Services';
-            showToast(`Showing ${catLabel} options ✨`, '✨');
-        }
-
-        function renderCuratedReviewChips(categoryKey = null) {
-            const grid = document.getElementById('curatedReviewChipsGrid');
-            const badge = document.getElementById('reviewSelectedBadge');
-            if (!grid) return;
-
-            const cat = categoryKey && REVIEW_CATEGORIES[categoryKey] ? REVIEW_CATEGORIES[categoryKey] : null;
-
-            let items = [];
-
-            if (cat) {
-                // Category Specific Services
-                cat.services.slice(0, 5).forEach(s => {
-                    const isSelected = selectedCategoryData[categoryKey]?.services?.includes(s);
-                    items.push({
-                        type: 'service',
-                        catKey: categoryKey,
-                        name: s,
-                        icon: cat.icon,
-                        isSelected
-                    });
-                });
-
-                // Category Specific Highlights
-                if (cat.highlights) {
-                    cat.highlights.slice(0, 3).forEach(h => {
-                        const isSelected = selectedCategoryData[categoryKey]?.highlights?.includes(h);
-                        items.push({
-                            type: 'highlight',
-                            catKey: categoryKey,
-                            name: h,
-                            icon: '✨',
-                            isSelected
-                        });
-                    });
-                }
-            } else {
-                // ALL / Popular Services
-                const popular = [
-                    { catKey: 'HAIR', service: 'Hair Spa', icon: '✂️' },
-                    { catKey: 'HAIR', service: 'Haircut', icon: '💇' },
-                    { catKey: 'SKIN', service: 'Hydrating Facial', icon: '✨' },
-                    { catKey: 'NAILS', service: 'Nail Art', icon: '💅' },
-                    { catKey: 'BEAUTY', service: 'Party Makeup', icon: '💄' },
-                    { catKey: 'BEAUTY', service: 'Waxing', icon: '🌿' }
-                ];
-                popular.forEach(p => {
-                    const isSelected = selectedCategoryData[p.catKey]?.services?.includes(p.service);
-                    items.push({
-                        type: 'service',
-                        catKey: p.catKey,
-                        name: p.service,
-                        icon: p.icon,
-                        isSelected
-                    });
-                });
-            }
-
-            // Always present: Salon Qualities ("except overall experience")
-            const qualities = [
-                { catKey: 'STAFF', name: 'Friendly Staff', icon: '🤝' },
-                { catKey: 'VALUE', name: 'Value for Money', icon: '💰' },
-                { catKey: 'HYGIENE', name: 'Clean & Hygienic', icon: '🫧' },
-                { catKey: 'ALL', name: 'Loved the Results', icon: '⭐' }
-            ];
-
-            qualities.forEach(q => {
-                const isSelected = selectedCategoryData[q.catKey]?.services?.includes(q.name);
-                items.push({
-                    type: 'service',
-                    catKey: q.catKey,
-                    name: q.name,
-                    icon: q.icon,
-                    isSelected
-                });
-            });
-
-            // Count total selected items
-            let totalSelected = 0;
-            Object.keys(selectedCategoryData).forEach(k => {
-                totalSelected += (selectedCategoryData[k].services?.length || 0) + (selectedCategoryData[k].highlights?.length || 0);
-            });
-
-            if (badge) {
-                badge.textContent = `${totalSelected} selected`;
-            }
-
-            grid.innerHTML = items.map(item => `
-                <button type="button" onclick="toggleCuratedChip('${item.type}', '${item.catKey}', '${item.name}')"
-                    class="curated-chip py-2 px-3 sm:px-3.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${item.isSelected ? 'is-curated-active' : 'bg-white text-charcoal border-champagne hover:border-gold hover:shadow-sm'}">
-                    <span>${item.icon}</span>
-                    <span>${item.name}</span>
-                    <span class="curated-chip-check inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-black ${item.isSelected ? 'bg-gold text-charcoal' : 'text-greyx'}">
-                        ${item.isSelected ? '✓' : '+'}
-                    </span>
+            const overallHasMore = UNIVERSAL_HIGHLIGHTS.length > 6;
+            const overallExpandBtnHtml = overallHasMore ? `
+                <button type="button" onclick="toggleExpandGroup('overall')"
+                    class="text-[11px] font-black text-gold-deep hover:text-charcoal inline-flex items-center gap-1 py-1 px-2.5 rounded-xl bg-gold-pale/50 hover:bg-gold-pale border border-gold/40 transition-colors cursor-pointer self-start">
+                    <span>${isOverallExpanded ? '− Show less' : `+ Show ${UNIVERSAL_HIGHLIGHTS.length - 6} more`}</span>
                 </button>
-            `).join('');
+            ` : '';
 
-            updateSelectionSummary();
-        }
-
-        function toggleCuratedChip(type, catKey, itemName) {
-            if (!selectedCategoryData[catKey]) {
-                selectedCategoryData[catKey] = { services: [], highlights: [] };
-            }
-
-            const arr = type === 'highlight' ? selectedCategoryData[catKey].highlights : selectedCategoryData[catKey].services;
-            const idx = arr.indexOf(itemName);
-
-            if (idx > -1) {
-                arr.splice(idx, 1);
-            } else {
-                arr.push(itemName);
-            }
-
-            renderCuratedReviewChips(activeIntentCategory);
-            regenerateReview(true);
-        }
-
-        function clearAllSelections() {
-            Object.keys(selectedCategoryData).forEach(k => {
-                selectedCategoryData[k] = { services: [], highlights: [] };
-            });
-            renderCuratedReviewChips(activeIntentCategory);
-            updateSelectionSummary();
-            regenerateReview(true);
-            showToast('Selections cleared', '🧹');
-        }
-
-        function updateSelectionSummary() {
-            const summary = document.getElementById('selectedMenuSummary');
-            const summaryText = document.getElementById('selectedMenuSummaryText');
-            if (!summary || !summaryText) return;
-
-            const picked = [];
-            Object.keys(selectedCategoryData).forEach(k => {
-                const s = selectedCategoryData[k].services;
-                const h = selectedCategoryData[k].highlights;
-                if (s && s.length) picked.push(...s);
-                if (h && h.length) picked.push(...h);
-            });
-
-            if (picked.length === 0) {
-                summary.classList.add('hidden');
-                summaryText.textContent = '';
-            } else {
-                summary.classList.remove('hidden');
-                summaryText.textContent = picked.join(', ');
-            }
-        }
-
-        /* ========================================================
-           UI RENDERING & ADAPTIVE UPDATES
-           ======================================================== */
-        function renderCoreOfferings() {
-            const grid = document.getElementById('coreOfferingsGrid');
-            if (!grid) return;
-
-            let offerings = [...CORE_OFFERINGS];
-            if (activeIntentCategory) {
-                offerings.sort((a, b) => (a.cat === activeIntentCategory ? -1 : (b.cat === activeIntentCategory ? 1 : 0)));
-            }
-
-            grid.innerHTML = offerings.map(item => `
-                <button type="button" onclick="quickSelectOffering('${item.cat}', '${item.service}')"
-                    class="flex flex-col items-center justify-start px-1 group text-center cursor-pointer active:scale-95 transition-all">
-                    <div class="w-12 h-12 rounded-full overflow-hidden mb-1.5 shadow-sm border border-champagne group-hover:border-gold group-hover:scale-105 transition-all bg-champagne-light">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+            htmlOutput += `
+                <div class="p-3.5 rounded-2xl bg-gradient-to-br from-gold-pale/40 via-white to-champagne/20 border border-gold/50 shadow-xs">
+                    <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-champagne/40">
+                        <h4 class="text-xs sm:text-[13px] font-black text-charcoal uppercase tracking-wider flex items-center gap-1.5">
+                            <span>🤝</span>
+                            <span>Overall Visit Experience</span>
+                        </h4>
+                        <span class="text-[10px] font-bold text-gold-deep">Universal</span>
                     </div>
-                    <span class="text-[11px] font-bold text-charcoal leading-tight">${item.title}</span>
-                </button>
-            `).join('');
-        }
-
-        function renderAdaptiveWaButtons(categoryKey = null, detectedServices = []) {
-            const grid = document.getElementById('waQuickButtonsGrid');
-            const titleEl = document.getElementById('waBoxTitle');
-            const directLink = document.getElementById('waDirectBtn');
-            if (!grid) return;
-
-            let items = [];
-            let catName = "Appointment";
-
-            if (categoryKey === 'HAIR') {
-                catName = "Hair Care & Styling";
-                items = [
-                    { icon: '✂️', label: 'Hair Spa', query: 'Hair Spa Treatment' },
-                    { icon: '💇', label: 'Haircut & Styling', query: 'Haircut and Styling' },
-                    { icon: '🎨', label: 'Hair Colour', query: 'Hair Colour / Highlights' },
-                    { icon: '✨', label: 'Keratin / Smoothening', query: 'Keratin / Smoothening' }
-                ];
-            } else if (categoryKey === 'BEAUTY') {
-                catName = "Makeup & Beauty";
-                items = [
-                    { icon: '💄', label: 'Bridal Makeup', query: 'Bridal Makeup Package' },
-                    { icon: '✨', label: 'Party Makeup', query: 'Party Makeup Appointment' },
-                    { icon: '🌿', label: 'Waxing', query: 'Waxing Services' },
-                    { icon: '🧵', label: 'Threading', query: 'Eyebrow Threading' }
-                ];
-            } else if (categoryKey === 'SKIN') {
-                catName = "Skincare & Facials";
-                items = [
-                    { icon: '✨', label: 'Hydrating Facial', query: 'Hydrating Facial' },
-                    { icon: '🌿', label: 'D-Tan Treatment', query: 'D-Tan / Clean-up' },
-                    { icon: '💎', label: 'Diamond / Gold Facial', query: 'Gold/Diamond Facial' },
-                    { icon: '💆', label: 'Face Massage', query: 'Face Massage' }
-                ];
-            } else if (categoryKey === 'NAILS') {
-                catName = "Nails & Manicure";
-                items = [
-                    { icon: '💅', label: 'Nail Art', query: 'Custom Nail Art' },
-                    { icon: '✨', label: 'Gel Extensions', query: 'Gel Nail Extensions' },
-                    { icon: '🦶', label: 'Spa Pedicure', query: 'Spa Pedicure' },
-                    { icon: '🌸', label: 'Classic Manicure', query: 'Classic Manicure' }
-                ];
-            } else {
-                items = [
-                    { icon: '✂️', label: 'Hair Spa', query: 'Hair Spa' },
-                    { icon: '✨', label: 'Facial', query: 'Facial' },
-                    { icon: '🌿', label: 'Waxing', query: 'Waxing' },
-                    { icon: '🧵', label: 'Threading', query: 'Threading' },
-                    { icon: '💇', label: 'Hair Styling', query: 'Hair Styling' },
-                    { icon: '💅', label: 'Nail Art', query: 'Nail Art' }
-                ];
-            }
-
-            if (titleEl) titleEl.textContent = `Book ${catName}`;
-            if (directLink) {
-                const prefill = detectedServices.length > 0
-                    ? `Hi THE UNISEX SALON, I'd like to book an appointment for: ${detectedServices.join(', ')}`
-                    : `Hi THE UNISEX SALON, I'd like to book an appointment for ${catName}`;
-                directLink.href = `https://wa.me/${STORE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(prefill)}`;
-            }
-
-            grid.innerHTML = items.map(btn => `
-                <button type="button" onclick="sendWhatsAppInquiry('${btn.query}')"
-                    class="py-2.5 px-3 rounded-xl bg-white hover:bg-emerald-50 text-charcoal text-left font-bold flex items-center justify-between border border-emerald-200/80 hover:border-emerald-400 transition-all shadow-sm cursor-pointer active:scale-[0.98]">
-                    <span>${btn.icon} ${btn.label}</span>
-                    <span class="text-emerald-600 text-xs">💬</span>
-                </button>
-            `).join('');
-        }
-
-        function renderTestimonials() {
-            const track = document.getElementById('reviewsMarqueeTrack');
-            if (!track) return;
-
-            const cardHtml = (r) => `
-                <div class="w-[280px] sm:w-[310px] flex-shrink-0 p-4 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-gold-pale border border-gold flex items-center justify-center font-black text-xs text-charcoal">
-                                    ${r.initial}
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-black text-charcoal leading-none">${r.name}</h4>
-                                    <span class="text-[10px] font-bold text-greyx">${r.time}</span>
-                                </div>
-                            </div>
-                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">Verified</span>
-                        </div>
-                        <div class="flex items-center gap-0.5 text-gold text-xs mb-2">
-                            ${'★'.repeat(r.rating)}
-                        </div>
-                        <p class="text-xs font-medium text-charcoal-soft leading-relaxed">
-                            "${r.text}"
-                        </p>
+                    <div class="flex flex-wrap gap-2 mb-1.5">
+                        ${overallChipsHtml}
                     </div>
-                    <div class="mt-3 pt-2.5 border-t border-champagne/60 flex items-center justify-between text-[11px] font-bold text-gold-deep">
-                        <span>${r.service}</span>
-                        <span class="text-greyx text-[10px]">Google Review</span>
-                    </div>
+                    ${overallExpandBtnHtml}
                 </div>
             `;
 
-            track.innerHTML = STORE_REVIEWS.map(cardHtml).join('') + STORE_REVIEWS.map(cardHtml).join('');
+            container.innerHTML = htmlOutput;
+            updateHighlightsSummaryTray();
         }
 
-        function renderFaqs() {
-            const list = document.getElementById('faqList');
-            if (!list) return;
-
-            list.innerHTML = FAQS.map(f => `
-                <div class="border border-champagne rounded-2xl overflow-hidden bg-white shadow-sm hover:border-gold transition-all">
-                    <button type="button" class="w-full p-3.5 text-left font-bold text-xs sm:text-[13px] text-charcoal flex items-center justify-between gap-2 hover:bg-champagne-light transition-colors cursor-pointer"
-                        onclick="toggleFaq(this)">
-                        <span class="leading-tight">${f.q}</span>
-                        <span class="faq-icon text-gold text-sm font-black transition-transform duration-200 flex-shrink-0">+</span>
-                    </button>
-                    <div class="faq-ans hidden px-3.5 pb-3.5 text-xs text-charcoal-soft leading-relaxed border-t border-champagne/40 pt-2.5 bg-ivory">
-                        ${f.a}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function quickSelectOffering(catKey, serviceName) {
-            if (!selectedCategoryData[catKey]) {
-                selectedCategoryData[catKey] = { services: [], highlights: [] };
+        function toggleExperienceHighlight(groupKey, highlightName) {
+            if (!selectedHighlightsMap[groupKey]) {
+                selectedHighlightsMap[groupKey] = [];
             }
-            if (!selectedCategoryData[catKey].services.includes(serviceName)) {
-                selectedCategoryData[catKey].services.push(serviceName);
+
+            const idx = selectedHighlightsMap[groupKey].indexOf(highlightName);
+            if (idx !== -1) {
+                selectedHighlightsMap[groupKey].splice(idx, 1);
+            } else {
+                selectedHighlightsMap[groupKey].push(highlightName);
             }
-            activeIntentCategory = catKey;
-            activeSelectedService = serviceName;
-            renderCuratedReviewChips(activeIntentCategory);
-            renderReviewCategoryPills();
-            renderAdaptiveWaButtons(activeIntentCategory);
-            updateSelectionSummary();
-            regenerateReview(true);
-            focusReviewGenerator();
-            showToast(`Added ${serviceName}! ✨`, '✂️');
-        }
 
-        function restoreOriginalWriting() {
-            regenerateReview(true);
-            showToast('Review refreshed! ↺', '↺');
-        }
-
-        function openSubOptionSheet(catKey) {
-            activeSheetCatKey = catKey;
-            const modal = document.getElementById('subOptionSheetModal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeSubOptionSheet() {
-            const modal = document.getElementById('subOptionSheetModal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function toggleShowMoreSubOptions() {
-            sheetShowAll = !sheetShowAll;
-        }
-
-        function clearCurrentCategorySelections() {
-            if (!activeSheetCatKey) return;
-            selectedCategoryData[activeSheetCatKey] = { services: [], highlights: [] };
-            renderCuratedReviewChips(activeIntentCategory);
-        }
-
-        function confirmSubOptionSheet() {
-            closeSubOptionSheet();
-            renderCuratedReviewChips(activeIntentCategory);
+            renderDynamicGroupedHighlights();
             regenerateReview(true);
         }
 
-        function openWelcomeModal() {
-            openEntryFocusModal();
+        function toggleExpandGroup(groupKey) {
+            expandedServiceSections[groupKey] = !expandedServiceSections[groupKey];
+            renderDynamicGroupedHighlights();
         }
 
-        function closeWelcomeModal() {
-            const modal = document.getElementById('welcomeModal');
-            if (modal) modal.classList.add('hidden');
+        function updateHighlightsSummaryTray() {
+            const summaryBox = document.getElementById('selectedHighlightsSummaryBox');
+            const summaryText = document.getElementById('selectedHighlightsSummaryText');
+            const totalBadge = document.getElementById('totalHighlightsBadge');
+
+            const allSelected = [];
+            for (const list of Object.values(selectedHighlightsMap)) {
+                allSelected.push(...list);
+            }
+
+            const total = allSelected.length;
+            if (totalBadge) {
+                totalBadge.textContent = `${total} highlight${total === 1 ? '' : 's'} selected`;
+            }
+
+            if (!summaryBox || !summaryText) return;
+
+            if (total === 0) {
+                summaryBox.classList.add('hidden');
+            } else {
+                summaryBox.classList.remove('hidden');
+                summaryText.textContent = allSelected.join(', ');
+            }
         }
 
-        function toggleWelcomeItem(btn, catKey, serviceName) {
-            toggleCuratedChip('service', catKey, serviceName);
+        function clearAllExperienceHighlights() {
+            selectedHighlightsMap = {};
+            renderDynamicGroupedHighlights();
+            regenerateReview(true);
+            showToast('All highlights cleared', '🧹');
         }
 
-        function confirmWelcomeModal() {
-            closeWelcomeModal();
-            renderCuratedReviewChips(activeIntentCategory);
+        function handleCustomerNotesInput(text) {
+            customerWrittenReviewNotes = text.trim();
+            const countEl = document.getElementById('reviewWordCount');
+            if (countEl) {
+                const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+                countEl.textContent = `${words} words`;
+            }
             regenerateReview(true);
         }
 
-        function setReviewLength(length) {
-            currentReviewLength = length;
-            ['Short', 'Balanced', 'Detailed'].forEach(l => {
-                const btn = document.getElementById('lenBtn' + l);
-                if (btn) {
-                    if (l.toUpperCase() === length) {
-                        btn.className = 'length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer font-bold';
-                    } else {
-                        btn.className = 'length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer';
-                    }
-                }
-            });
-            regenerateReview(true);
-            showToast(`Length: ${length.toLowerCase()} review`, '📏');
+        function formatServicesListText(services) {
+            if (!services || services.length === 0) return "Salon Services";
+            if (services.length === 1) return services[0];
+            if (services.length === 2) return `${services[0]} and ${services[1]}`;
+            return `${services.slice(0, -1).join(', ')}, and ${services[services.length - 1]}`;
         }
 
         /* ========================================================
-           AI REVIEW SYNTHESIS ENGINE (1-Tap Zero-Typing Synthesis)
+           STEP 7: MULTI-SERVICE AI REVIEW SYNTHESIS ENGINE (POLISHED)
            ======================================================== */
         const REVIEW_AI_ENGINE = {
             generate(lang = 'ENGLISH', length = 'BALANCED') {
-                const hair = selectedCategoryData.HAIR || { services: [], highlights: [] };
-                const beauty = selectedCategoryData.BEAUTY || { services: [], highlights: [] };
-                const skin = selectedCategoryData.SKIN || { services: [], highlights: [] };
-                const nails = selectedCategoryData.NAILS || { services: [], highlights: [] };
-                const staff = selectedCategoryData.STAFF?.services || [];
-                const value = selectedCategoryData.VALUE?.services || [];
-                const hygiene = selectedCategoryData.HYGIENE?.services || [];
-                const overall = selectedCategoryData.ALL?.services || [];
+                const confirmed = confirmedServicesList.length > 0 ? confirmedServicesList : ["Hair Spa"];
+                const customerNotes = customerWrittenReviewNotes;
 
-                const allServices = [...hair.services, ...beauty.services, ...skin.services, ...nails.services];
-                const allHighlights = [...hair.highlights, ...beauty.highlights, ...skin.highlights, ...nails.highlights];
+                // Group highlights for AI synthesis
+                const detailsByGroup = {};
+                for (const [groupKey, list] of Object.entries(selectedHighlightsMap)) {
+                    if (list && list.length > 0) {
+                        detailsByGroup[groupKey] = list;
+                    }
+                }
 
                 const ctx = {
-                    services: allServices,
-                    highlights: allHighlights,
-                    staff, value, hygiene, overall,
-                    hasServices: allServices.length > 0,
-                    hasHighlights: allHighlights.length > 0,
-                    hasStaff: staff.length > 0,
-                    hasValue: value.length > 0,
-                    hasHygiene: hygiene.length > 0,
+                    services: confirmed,
+                    servicesText: formatServicesListText(confirmed),
+                    detailsByGroup,
+                    customerNotes,
                     length,
                     lang
                 };
@@ -3095,50 +3280,57 @@
             synthesizeEnglish(ctx) {
                 const parts = [];
 
-                if (ctx.hasServices) {
-                    const sList = this.joinItems(ctx.services);
-                    const openings = [
-                        `Had a fantastic experience getting ${sList} done at THE UNISEX SALON in Clement Town.`,
-                        `Visited THE UNISEX SALON on Post Office Road for ${sList}, and the results were incredible!`,
-                        `Really happy with the ${sList} service at THE UNISEX SALON.`
-                    ];
-                    parts.push(this.randomPick(openings));
-                } else {
-                    const openings = [
-                        `Had a wonderful experience at THE UNISEX SALON in Clement Town!`,
-                        `One of the finest unisex salons near Char Khamba, Clement Town. Truly satisfied with my visit.`,
-                        `Loved my overall visit to THE UNISEX SALON! Professional service from start to finish.`
-                    ];
-                    parts.push(this.randomPick(openings));
+                // 1. Customer Written Note (if present)
+                if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                    const cleanNotes = ctx.customerNotes.trim();
+                    const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                    parts.push(formatted);
                 }
 
-                if (ctx.hasHighlights) {
-                    const hList = this.joinItems(ctx.highlights.map(h => h.toLowerCase()));
-                    parts.push(`The stylist paid great attention to detail — ${hList}.`);
-                }
-
-                const praises = [];
-                if (ctx.hasStaff) praises.push("the staff is very polite and attentive");
-                if (ctx.hasHygiene) praises.push("the salon is spotless and tools are properly sanitised");
-                if (ctx.hasValue) praises.push("the pricing is very fair and transparent");
-
-                if (praises.length > 0) {
-                    parts.push(`Also appreciated that ${this.joinItems(praises)}.`);
-                }
-
-                if (ctx.length === 'SHORT') {
-                    return parts.slice(0, 2).join(' ') + ' Highly recommended!';
-                }
-
-                const closings = [
-                    "Definitely my go-to salon in Dehradun now. Highly recommend!",
-                    "Looking forward to visiting again. 5/5 stars!",
-                    "Great ambience and warm hospitality. Will definitely recommend to friends and family!"
+                // 2. Opening mentioning all confirmed services
+                const openings = [
+                    `Had a wonderful experience getting ${ctx.servicesText} done at THE UNISEX SALON in Clement Town.`,
+                    `Visited THE UNISEX SALON on Post Office Road for ${ctx.servicesText}, and the results were exceptional!`,
+                    `Really happy with my ${ctx.servicesText} at THE UNISEX SALON.`
                 ];
-                parts.push(this.randomPick(closings));
+                // Only add opening if customer note didn't already fully describe the visit
+                if (!ctx.customerNotes || ctx.customerNotes.length < 50) {
+                    parts.push(openings[Math.floor(Math.random() * openings.length)]);
+                }
 
-                if (ctx.length === 'DETAILED') {
-                    parts.push("Special thanks to the team for taking such good care of everything.");
+                // 3. Service Specific Highlights
+                for (const [groupKey, highlights] of Object.entries(ctx.detailsByGroup)) {
+                    if (groupKey === 'overall') continue;
+                    const hItems = highlights.map(h => h.trim());
+                    if (hItems.length === 1) {
+                        parts.push(`For the ${groupKey.toLowerCase()}, I really appreciated the ${hItems[0].toLowerCase()}.`);
+                    } else if (hItems.length === 2) {
+                        parts.push(`For the ${groupKey.toLowerCase()}, loved the ${hItems[0].toLowerCase()} with a ${hItems[1].toLowerCase()}.`);
+                    } else {
+                        parts.push(`For the ${groupKey.toLowerCase()}, appreciated the ${hItems.slice(0, -1).map(h => h.toLowerCase()).join(', ')}, and ${hItems[hItems.length - 1].toLowerCase()}.`);
+                    }
+                }
+
+                // 4. Overall Highlights
+                const overallList = ctx.detailsByGroup['overall'] || [];
+                if (overallList.length > 0) {
+                    const oText = overallList.map(h => h.toLowerCase());
+                    if (oText.length === 1) {
+                        parts.push(`Also appreciated the ${oText[0]}.`);
+                    } else {
+                        parts.push(`Also appreciated the ${oText.slice(0, -1).join(', ')}, and ${oText[oText.length - 1]}.`);
+                    }
+                } else if (!ctx.customerNotes) {
+                    parts.push("The salon is spotless, well-maintained, and the team is very welcoming.");
+                }
+
+                // 5. Closing based on length
+                if (ctx.length === 'SHORT') {
+                    parts.push("Highly recommended!");
+                } else if (ctx.length === 'DETAILED') {
+                    parts.push("Great ambience, warm hospitality, and fair pricing. 5/5 stars, definitely looking forward to visiting again!");
+                } else {
+                    parts.push("Definitely my go-to salon in Dehradun now. Would highly recommend to everyone!");
                 }
 
                 return parts.join(' ');
@@ -3147,70 +3339,80 @@
             synthesizeHinglish(ctx) {
                 const parts = [];
 
-                if (ctx.hasServices) {
-                    const sList = this.joinItems(ctx.services);
-                    const openings = [
-                        `THE UNISEX SALON (Clement Town) mein ${sList} karwaya, experience bohot hi zabardast raha.`,
-                        `Post Office Road waale THE UNISEX SALON mein ${sList} ke liye visit kiya tha. Results waqai shaandar the!`,
-                        `THE UNISEX SALON ki service genuinely bohot acchi lagi, khas taur pe ${sList}.`
-                    ];
-                    parts.push(this.randomPick(openings));
-                } else {
-                    const openings = [
-                        `THE UNISEX SALON (Clement Town) mein bohot hi accha aur relaxing experience raha!`,
-                        `Char Khamba ke paas yeh unisex salon waqai bohot badhiya hai. Service se poori tarah satisfied hoon.`,
-                        `THE UNISEX SALON mein visit kiya tha, overall atmosphere aur treatment dono top class the.`
-                    ];
-                    parts.push(this.randomPick(openings));
+                // 1. Customer Written Note (if present)
+                if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                    const cleanNotes = ctx.customerNotes.trim();
+                    const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                    parts.push(formatted);
                 }
 
-                if (ctx.hasHighlights) {
-                    const hList = this.joinItems(ctx.highlights.map(h => h.toLowerCase()));
-                    parts.push(`Stylist ne kaafi acche se dhyan diya — ${hList}.`);
-                }
-
-                const praises = [];
-                if (ctx.hasStaff) praises.push("staff kaafi polite aur helpful hai");
-                if (ctx.hasHygiene) praises.push("salon ekdum neat, clean aur sanitised hai");
-                if (ctx.hasValue) praises.push("pricing bilkul reasonable aur value for money hai");
-
-                if (praises.length > 0) {
-                    parts.push(`Sabse acchi baat lagi ki ${this.joinItems(praises)}.`);
-                }
-
-                if (ctx.length === 'SHORT') {
-                    return parts.slice(0, 2).join(' ') + ' Zaroor recommend karunga/karungi!';
-                }
-
-                const closings = [
-                    "Ab se yahi mera go-to salon hai Dehradun mein. 5/5 stars!",
-                    "Aage bhi zaroor visit karunga. Highly recommended!",
-                    "Genuinely bohot badhiya laga. Sabhi ko zaroor try karna chahiye!"
+                // 2. Opening mentioning all confirmed services
+                const openings = [
+                    `THE UNISEX SALON (Clement Town) mein ${ctx.servicesText} karwaya, experience bohot hi badhiya raha!`,
+                    `Post Office Road par THE UNISEX SALON visit kiya for ${ctx.servicesText}, genuinely bohot accha laga.`
                 ];
-                parts.push(this.randomPick(closings));
+                if (!ctx.customerNotes || ctx.customerNotes.length < 50) {
+                    parts.push(openings[Math.floor(Math.random() * openings.length)]);
+                }
 
-                if (ctx.length === 'DETAILED') {
-                    parts.push("Team ka behaviour bohot supportive tha aur poori tasalli se kaam kiya.");
+                // 3. Service Specific Highlights
+                for (const [groupKey, highlights] of Object.entries(ctx.detailsByGroup)) {
+                    if (groupKey === 'overall') continue;
+                    const hItems = highlights.map(h => h.trim());
+                    if (hItems.length === 1) {
+                        parts.push(`${groupKey} ka experience bohot badhiya raha (${hItems[0]}).`);
+                    } else {
+                        parts.push(`${groupKey} bohot neatly hua — ${hItems.slice(0, -1).join(', ')} aur ${hItems[hItems.length - 1]}.`);
+                    }
+                }
+
+                // 4. Overall Highlights
+                const overallList = ctx.detailsByGroup['overall'] || [];
+                if (overallList.length > 0) {
+                    parts.push(`Staff kaafi polite aur supportive hai, aur salon bilkul neat, clean aur hygienic hai.`);
+                }
+
+                // 5. Closing
+                if (ctx.length === 'SHORT') {
+                    parts.push("Highly recommended!");
+                } else if (ctx.length === 'DETAILED') {
+                    parts.push("Ambience bohot relaxing tha aur results 100% satisfying. Aage bhi zaroor visit karunga/karungi!");
+                } else {
+                    parts.push("Sabhi ko zaroor try karna chahiye. 5 stars!");
                 }
 
                 return parts.join(' ');
-            },
-
-            joinItems(items) {
-                if (!items || items.length === 0) return '';
-                if (items.length === 1) return items[0];
-                if (items.length === 2) return `${items[0]} and ${items[1]}`;
-                return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
-            },
-
-            randomPick(arr) {
-                return arr[Math.floor(Math.random() * arr.length)];
             }
         };
 
         /* ========================================================
-           REVIEW DISPLAY & ACTIONS
+           REVIEW CONTROLS & UTILITIES
            ======================================================== */
+        function setReviewLength(length) {
+            currentReviewLength = length;
+            document.querySelectorAll('.length-pill').forEach(btn => {
+                btn.classList.remove('is-active', 'bg-gold-pale', 'border-gold', 'text-charcoal');
+                btn.classList.add('text-charcoal-soft');
+            });
+            const activeBtn = document.getElementById('lenBtn' + length.charAt(0) + length.slice(1).toLowerCase());
+            if (activeBtn) {
+                activeBtn.classList.add('is-active');
+            }
+            regenerateReview(false);
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                if (b.getAttribute('data-lang') === lang) {
+                    b.className = 'lang-btn px-2.5 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer';
+                } else {
+                    b.className = 'lang-btn px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer';
+                }
+            });
+            regenerateReview(false);
+        }
+
         function regenerateReview(isSilent = false) {
             if (typingTimer) {
                 clearTimeout(typingTimer);
@@ -3225,7 +3427,7 @@
 
             typeReviewText(newReview, isSilent);
             if (!isSilent) {
-                showToast('Review refreshed! ✨', '✨');
+                showToast('Review updated! ✨', '✨');
             }
         }
 
@@ -3281,78 +3483,55 @@
             }
         }
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => {
-                if (b.getAttribute('data-lang') === lang) {
-                    b.className = 'lang-btn px-2.5 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer';
-                } else {
-                    b.className = 'lang-btn px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer';
-                }
-            });
-            regenerateReview(true);
-            showToast(`Switched to ${lang === 'HINGLISH' ? 'Hinglish' : 'English'}! ✨`, '🌐');
-        }
-
         function copyAndRedirectReview() {
-            if (typingTimer) {
-                clearTimeout(typingTimer);
-                typingTimer = null;
-            }
             const ta = document.getElementById('aiReviewOutput');
-            const display = document.getElementById('aiReviewDisplay');
-            const isEditing = ta && !ta.classList.contains('hidden');
-            const textToCopy = (isEditing && ta && ta.value) ? ta.value : (currentFullReviewText || (display ? display.textContent : ''));
+            const textToCopy = (ta && !ta.classList.contains('hidden') && ta.value) ? ta.value : (currentFullReviewText || "Had a wonderful experience at THE UNISEX SALON!");
 
-            closeAllTourPopups();
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast('Review copied to clipboard! 🎉', '📋');
-                setTimeout(() => openGoogleGuideModal(), 300);
-            }).catch(() => {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast('Review copied! Opening Google... ⭐', '📋');
+                    setTimeout(() => {
+                        window.open(STORE_CONFIG.reviews.writeReviewUrl, '_blank');
+                    }, 650);
+                }).catch(() => {
+                    openGoogleGuideModal();
+                });
+            } else {
                 openGoogleGuideModal();
-            });
+            }
         }
 
         function confirmOpenGoogleMaps() {
-            closeGoogleGuideModal();
-            const rUrl = STORE_CONFIG.links.googleReviewUrl || STORE_CONFIG.links.googleMapsUrl;
-            window.open(rUrl, '_blank');
+            window.open(STORE_CONFIG.contact.mapsUrl, '_blank');
         }
 
         function openGoogleGuideModal() {
-            const modal = document.getElementById('googleGuideModal');
-            const previewText = document.getElementById('googleGuideModalReviewText');
-            if (previewText) {
-                previewText.textContent = currentFullReviewText || document.getElementById('aiReviewDisplay')?.textContent || '';
-            }
-            if (modal) modal.classList.remove('hidden');
+            const m = document.getElementById('googleGuideModal');
+            if (m) m.classList.remove('hidden');
         }
 
         function closeGoogleGuideModal() {
-            const modal = document.getElementById('googleGuideModal');
-            if (modal) modal.classList.add('hidden');
+            const m = document.getElementById('googleGuideModal');
+            if (m) m.classList.add('hidden');
         }
 
-        /* ========================================================
-           HELPERS & INTERACTIONS
-           ======================================================== */
         function showToast(msg, icon = '✨') {
             const toast = document.getElementById('toast');
-            const toastIcon = document.getElementById('toastIcon');
-            const toastMsg = document.getElementById('toastMessage');
+            const text = document.getElementById('toastMessage');
+            const iconEl = document.getElementById('toastIcon');
+
             if (!toast) return;
 
-            if (toastIcon) toastIcon.textContent = icon;
-            if (toastMsg) toastMsg.textContent = msg;
+            if (text) text.textContent = msg;
+            if (iconEl) iconEl.textContent = icon;
 
-            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
-            toast.classList.add('translate-y-0', 'opacity-100');
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+            toast.classList.add('opacity-100', 'translate-y-0');
 
             setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
-            }, 2400);
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+            }, 2600);
         }
 
         function focusReviewGenerator() {
@@ -3395,6 +3574,100 @@
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
+
+        function renderAdaptiveWaButtons(categoryKey = null, detectedServices = []) {
+            const grid = document.getElementById('waQuickButtonsGrid');
+            const directLink = document.getElementById('waDirectBtn');
+            if (!grid) return;
+
+            let items = [
+                { icon: '✂️', label: 'Hair Spa', query: 'Hair Spa Treatment' },
+                { icon: '💇', label: 'Haircut', query: 'Haircut and Styling' },
+                { icon: '🌸', label: 'Facial', query: 'Hydrating Facial' },
+                { icon: '🌿', label: 'Waxing', query: 'Full Body Waxing' }
+            ];
+
+            if (categoryKey === 'HAIR') {
+                items = [
+                    { icon: '✂️', label: 'Hair Spa', query: 'Hair Spa Treatment' },
+                    { icon: '💇', label: 'Haircut & Styling', query: 'Haircut and Styling' },
+                    { icon: '🎨', label: 'Hair Colour', query: 'Hair Colour / Highlights' },
+                    { icon: '✨', label: 'Keratin / Smoothening', query: 'Keratin / Smoothening' }
+                ];
+            } else if (categoryKey === 'BEAUTY') {
+                items = [
+                    { icon: '🌿', label: 'Waxing', query: 'Waxing Treatment' },
+                    { icon: '🧵', label: 'Threading', query: 'Eyebrow Threading' },
+                    { icon: '👰', label: 'Bridal Makeup', query: 'Bridal Makeup Package' },
+                    { icon: '💄', label: 'Party Makeup', query: 'Party Makeup' }
+                ];
+            } else if (categoryKey === 'SKIN') {
+                items = [
+                    { icon: '🌸', label: 'Hydrating Facial', query: 'Hydrating Facial' },
+                    { icon: '🧼', label: 'Clean-up', query: 'Deep Face Cleanup' },
+                    { icon: '✨', label: 'D-Tan Pack', query: 'Detan & Brightening Pack' },
+                    { icon: '💎', label: 'Gold Facial', query: 'Gold Radiance Facial' }
+                ];
+            } else if (categoryKey === 'NAILS') {
+                items = [
+                    { icon: '💅', label: 'Nail Art', query: 'Nail Art' },
+                    { icon: '💎', label: 'Gel Extensions', query: 'Gel Nail Extensions' },
+                    { icon: '🦶', label: 'Spa Pedicure', query: 'Luxury Spa Pedicure' },
+                    { icon: '🤲', label: 'Classic Manicure', query: 'Classic Manicure' }
+                ];
+            }
+
+            const sLabel = formatServicesListText(detectedServices.length > 0 ? detectedServices : confirmedServicesList);
+            if (directLink) {
+                const msg = `Hi THE UNISEX SALON Clement Town, I would like to book an appointment for ${sLabel}.`;
+                directLink.href = `https://wa.me/${STORE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(msg)}`;
+            }
+
+            grid.innerHTML = items.map(it => `
+                <button type="button" onclick="sendWhatsAppInquiry('${it.query}')"
+                    class="p-2 sm:p-2.5 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-200 text-charcoal hover:text-emerald-900 transition-all text-left shadow-xs flex items-center justify-between group active:scale-95 cursor-pointer">
+                    <span class="text-xs font-bold truncate flex items-center gap-1.5">
+                        <span>${it.icon}</span>
+                        <span class="truncate">${it.label}</span>
+                    </span>
+                    <span class="text-emerald-600 text-xs font-black group-hover:translate-x-0.5 transition-transform flex-shrink-0 ml-1">➔</span>
+                </button>
+            `).join('');
+        }
+
+        function renderCoreOfferings() {
+            // Retained for landing page display
+        }
+
+        function renderTestimonials() {
+            // Retained for landing page display
+        }
+
+        function renderFaqs() {
+            // Retained for landing page display
+        }
+
+        function quickSelectOffering(catKey, serviceName) {
+            selectServiceChip(catKey, serviceName);
+            continueWithCuratedService();
+        }
+
+        function openWelcomeModal() {}
+        function closeWelcomeModal() {}
+        function toggleWelcomeItem() {}
+        function confirmWelcomeModal() {}
+        function openSubOptionSheet() {}
+        function closeSubOptionSheet() {}
+        function toggleShowMoreSubOptions() {}
+        function clearCurrentCategorySelections() {}
+        function confirmSubOptionSheet() {}
+        function restoreOriginalWriting() {}
+        function renderReviewCategoryPills() {}
+        function setReviewCategoryFilter() {}
+        function renderCuratedReviewChips() { renderDynamicGroupedHighlights(); }
+        function toggleCuratedChip() {}
+        function clearAllSelections() { clearAllExperienceHighlights(); }
+        function updateSelectionSummary() { updateHighlightsSummaryTray(); }
 
         /* ========================================================
            STORE PHOTO GALLERY & LIGHTBOX
@@ -4017,21 +4290,37 @@
                 </p>
             </div>
 
-            <!-- Writing Box with Inline Submit/Enter Button -->
+            <!-- Writing Box with Inline Submit/Enter Button (Supports Multi-Service Input) -->
             <div class="relative mb-3">
                 <div class="relative flex items-center">
                     <input type="text" id="serviceSearchInput"
                         class="luxury-field w-full text-xs sm:text-[13.5px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl py-3.5 pl-4 pr-12 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner"
-                        placeholder="Haircut" autocomplete="off"
+                        placeholder="Type a service e.g. Facial, Waxing..." autocomplete="off"
                         oninput="handleServiceSearchInput()"
                         onkeydown="if(event.key==='Enter')submitServiceInput()">
                     
-                    <!-- Inline Submit Button right in front of the writing box -->
+                    <!-- Inline Add/Submit Button right in front of the writing box -->
                     <button type="button" id="submitSearchInputBtn" onclick="submitServiceInput()"
                         class="absolute right-2.5 w-8 h-8 rounded-xl bg-charcoal hover:bg-gold-deep text-ivory flex items-center justify-center font-black text-sm transition-all shadow-sm cursor-pointer active:scale-95"
-                        title="Enter service">
+                        title="Add service to selections">
                         ➔
                     </button>
+                </div>
+            </div>
+
+            <!-- Multi-Select Active Services Tray (Shows All Selected Services with Checkmarks) -->
+            <div id="modalSelectedTray"
+                class="hidden mb-3 p-2.5 rounded-2xl bg-gold-pale/80 border border-gold/60 text-charcoal transition-all">
+                <div class="flex items-center justify-between mb-1.5 px-0.5">
+                    <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-gold-deep flex items-center gap-1.5">
+                        <span>✓</span>
+                        <span>Selected Services (<span id="modalSelectedCount">0</span>):</span>
+                    </span>
+                    <button type="button" onclick="clearAllSelectedServices()"
+                        class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer">Clear All</button>
+                </div>
+                <div id="modalSelectedPillsList" class="flex flex-wrap gap-1.5">
+                    <!-- Populated dynamically via renderModalSelectedTray() -->
                 </div>
             </div>
 
