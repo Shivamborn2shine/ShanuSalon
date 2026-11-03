@@ -819,29 +819,29 @@
                         </div>
                     </div>
 
-                    <!-- 5B. REVIEW CONTROLS (Length + Language) -->
-                    <div class="pt-2.5 border-t border-champagne flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
-                        <!-- Review Length Selector -->
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-[11px] font-bold text-charcoal-soft mr-0.5">Length:</span>
-                            <div class="inline-flex p-0.5 rounded-xl bg-ivory border border-champagne text-[11px] font-bold">
+                    <!-- 5B. REVIEW CONTROLS (Length + Language - Clean Responsive Grid) -->
+                    <div class="pt-3 border-t border-champagne/80 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- Review Length Selector (Short by default) -->
+                        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
+                            <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Length:</span>
+                            <div class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
                                 <button type="button" onclick="setReviewLength('SHORT')" id="lenBtnShort"
-                                    class="length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Short</button>
+                                    class="length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer">Short</button>
                                 <button type="button" onclick="setReviewLength('BALANCED')" id="lenBtnBalanced"
-                                    class="length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer">Balanced</button>
+                                    class="length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Balanced</button>
                                 <button type="button" onclick="setReviewLength('DETAILED')" id="lenBtnDetailed"
                                     class="length-pill px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Detailed</button>
                             </div>
                         </div>
 
                         <!-- Language Selector (English / Hinglish) -->
-                        <div class="flex items-center gap-1.5 justify-end">
-                            <span class="text-[11px] font-bold text-charcoal-soft mr-0.5">Language:</span>
-                            <div class="inline-flex p-0.5 rounded-xl bg-ivory border border-champagne text-[11px] font-bold">
+                        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
+                            <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Language:</span>
+                            <div class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
                                 <button type="button" data-lang="ENGLISH" onclick="setLanguage('ENGLISH')"
-                                    class="lang-btn px-2.5 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer">English</button>
+                                    class="lang-btn px-3 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer">English</button>
                                 <button type="button" data-lang="HINGLISH" onclick="setLanguage('HINGLISH')"
-                                    class="lang-btn px-2.5 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Hinglish</button>
+                                    class="lang-btn px-3 py-1 rounded-lg text-charcoal-soft font-bold cursor-pointer">Hinglish</button>
                             </div>
                         </div>
                     </div>
@@ -862,8 +862,8 @@
                 <!-- DEDICATED REVIEW OUTPUT CARD -->
                 <div id="reviewOutputCard"
                     class="rounded-3xl bg-white border border-champagne p-4 sm:p-5 shadow-sm relative mt-2 transition-all">
-                    <!-- Review Card Header -->
-                    <div class="flex items-center justify-between mb-1.5">
+                    <!-- Review Card Header with Rephrase Button -->
+                    <div class="flex items-center justify-between mb-1.5 pb-2 border-b border-champagne/60">
                         <div class="flex items-center gap-2">
                             <div
                                 class="w-7 h-7 rounded-xl bg-gold-light border border-gold/60 flex items-center justify-center text-gold-dark text-xs font-black shadow-sm">
@@ -871,9 +871,17 @@
                             </div>
                             <span class="text-sm font-extrabold text-charcoal tracking-tight">Your Review Draft</span>
                         </div>
-                        <div
-                            class="px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep text-xs font-extrabold flex items-center gap-1 shadow-sm">
-                            <span class="text-gold">★</span> <span>5.0</span>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="regenerateReview(false)"
+                                class="inline-flex items-center gap-1 text-[11px] font-black text-gold-deep hover:text-charcoal bg-gold-pale/80 hover:bg-gold-pale px-2.5 py-1 rounded-xl border border-gold/50 shadow-xs transition-all cursor-pointer active:scale-95"
+                                title="Rephrase with smooth typing animation">
+                                <span>🔄</span>
+                                <span>Rephrase</span>
+                            </button>
+                            <div
+                                class="px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep text-xs font-extrabold flex items-center gap-1 shadow-sm">
+                                <span class="text-gold">★</span> <span>5.0</span>
+                            </div>
                         </div>
                     </div>
 
@@ -2230,7 +2238,7 @@
            STATE MANAGEMENT & INTENT ADAPTATION
            ======================================================== */
         let currentLang = 'ENGLISH';
-        let currentReviewLength = 'BALANCED'; // 'SHORT', 'BALANCED', 'DETAILED'
+        let currentReviewLength = 'SHORT'; // 'SHORT', 'BALANCED', 'DETAILED'
         let activeIntentCategory = 'HAIR'; // Default to Hair & Styling
         let userInitialIntent = 'REVIEW'; // 'REVIEW', 'BOOKING', 'EXPLORE'
         let activeSelectedService = 'Hair Spa';
@@ -2549,7 +2557,7 @@
         userInitialIntent = 'REVIEW';
         activeModalFilter = 'ALL';
         currentLang = 'ENGLISH';
-        currentReviewLength = 'BALANCED';
+        currentReviewLength = 'SHORT';
         typingTimer = null;
         let typewriterTimeout = null;
         let phraseIndex = 0;
@@ -3324,10 +3332,30 @@
                     parts.push("The salon is spotless, well-maintained, and the team is very welcoming.");
                 }
 
-                // 5. Closing based on length
+                // For SHORT: produce a brief, punchy 1-2 sentence review!
                 if (ctx.length === 'SHORT') {
-                    parts.push("Highly recommended!");
-                } else if (ctx.length === 'DETAILED') {
+                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                        const cleanNotes = ctx.customerNotes.trim();
+                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                        return `${formatted} Loved my visit for ${ctx.servicesText} at THE UNISEX SALON. Highly recommended!`;
+                    }
+
+                    const firstGroupKey = Object.keys(ctx.detailsByGroup).find(k => k !== 'overall');
+                    let highlightSnippet = '';
+                    if (firstGroupKey && ctx.detailsByGroup[firstGroupKey]?.length > 0) {
+                        highlightSnippet = `, especially the ${ctx.detailsByGroup[firstGroupKey][0].toLowerCase()}`;
+                    }
+
+                    const shortOpenings = [
+                        `Great experience getting ${ctx.servicesText} done at THE UNISEX SALON${highlightSnippet}! Clean space and polite staff. Highly recommend!`,
+                        `Loved my ${ctx.servicesText} at THE UNISEX SALON${highlightSnippet}! Super friendly team and great results. 5/5 stars!`,
+                        `Visited THE UNISEX SALON for ${ctx.servicesText} and had a fantastic time${highlightSnippet}. Definitely recommended!`
+                    ];
+                    return shortOpenings[Math.floor(Math.random() * shortOpenings.length)];
+                }
+
+                // 5. Closing based on length
+                if (ctx.length === 'DETAILED') {
                     parts.push("Great ambience, warm hospitality, and fair pricing. 5/5 stars, definitely looking forward to visiting again!");
                 } else {
                     parts.push("Definitely my go-to salon in Dehradun now. Would highly recommend to everyone!");
@@ -3372,10 +3400,29 @@
                     parts.push(`Staff kaafi polite aur supportive hai, aur salon bilkul neat, clean aur hygienic hai.`);
                 }
 
-                // 5. Closing
+                // For SHORT: produce a brief, punchy 1-2 sentence review!
                 if (ctx.length === 'SHORT') {
-                    parts.push("Highly recommended!");
-                } else if (ctx.length === 'DETAILED') {
+                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                        const cleanNotes = ctx.customerNotes.trim();
+                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                        return `${formatted} THE UNISEX SALON mein ${ctx.servicesText} karwaya, bohot accha laga. Highly recommend!`;
+                    }
+
+                    const firstGroupKey = Object.keys(ctx.detailsByGroup).find(k => k !== 'overall');
+                    let highlightSnippet = '';
+                    if (firstGroupKey && ctx.detailsByGroup[firstGroupKey]?.length > 0) {
+                        highlightSnippet = ` (${ctx.detailsByGroup[firstGroupKey][0]})`;
+                    }
+
+                    const shortOpenings = [
+                        `THE UNISEX SALON (Clement Town) mein ${ctx.servicesText} karwaya, bohot hi badhiya experience raha${highlightSnippet}! Staff aur cleanliness dono top notch. Highly recommended!`,
+                        `Post Office Road par THE UNISEX SALON visit kiya for ${ctx.servicesText}${highlightSnippet}. Kaafi satisfying results rahe. Zaroor visit karein!`
+                    ];
+                    return shortOpenings[Math.floor(Math.random() * shortOpenings.length)];
+                }
+
+                // 5. Closing
+                if (ctx.length === 'DETAILED') {
                     parts.push("Ambience bohot relaxing tha aur results 100% satisfying. Aage bhi zaroor visit karunga/karungi!");
                 } else {
                     parts.push("Sabhi ko zaroor try karna chahiye. 5 stars!");
@@ -3433,7 +3480,22 @@
 
         function typeReviewText(text, isFast = false) {
             const display = document.getElementById('aiReviewDisplay');
+            const ta = document.getElementById('aiReviewOutput');
+            const editBtnText = document.getElementById('editReviewBtnText');
+
+            if (display) display.classList.remove('hidden');
+            if (ta) {
+                ta.classList.add('hidden');
+                ta.value = text;
+            }
+            if (editBtnText) editBtnText.textContent = 'Edit';
+
             if (!display) return;
+
+            if (typingTimer) {
+                clearTimeout(typingTimer);
+                typingTimer = null;
+            }
 
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (prefersReducedMotion || isFast) {
@@ -3441,9 +3503,10 @@
                 return;
             }
 
+            // Always run typewriter animation on generation or rephrasing
             display.innerHTML = '<span class="inline-block w-1.5 h-3 bg-gold animate-pulse ml-0.5"></span>';
             let i = 0;
-            const speed = 12;
+            const speed = 14;
 
             function typeNext() {
                 if (i < text.length) {
@@ -3571,7 +3634,26 @@
             regenerateReview(false);
             const card = document.getElementById('reviewOutputCard');
             if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Scroll smoothly so the review draft card falls right at the top of the viewport
+                if (card.getBoundingClientRect) {
+                    const rect = card.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || (document.documentElement ? document.documentElement.scrollTop : 0);
+                    const targetY = rect.top + scrollTop - 75; // 75px offset below header
+                    if (window.scrollTo) {
+                        window.scrollTo({
+                            top: targetY,
+                            behavior: 'smooth'
+                        });
+                    }
+                } else if (card.scrollIntoView) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Subtle golden highlight ring
+                card.classList.add('ring-2', 'ring-gold', 'shadow-xl');
+                setTimeout(() => {
+                    card.classList.remove('ring-2', 'ring-gold');
+                }, 1600);
             }
         }
 
@@ -3636,15 +3718,101 @@
         }
 
         function renderCoreOfferings() {
-            // Retained for landing page display
+            const grid = document.getElementById('coreOfferingsGrid');
+            if (!grid) return;
+
+            let offerings = [...CORE_OFFERINGS];
+            if (activeIntentCategory) {
+                offerings.sort((a, b) => (a.cat === activeIntentCategory ? -1 : (b.cat === activeIntentCategory ? 1 : 0)));
+            }
+
+            grid.innerHTML = offerings.map(item => `
+                <button type="button" onclick="quickSelectOffering('${item.cat}', '${item.service.replace(/'/g, "\\'")}')"
+                    class="flex flex-col items-center justify-start px-1 group text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-1.5 shadow-sm border border-champagne group-hover:border-gold group-hover:scale-105 transition-all bg-champagne-light">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[11px] font-bold text-charcoal leading-tight">${item.title}</span>
+                </button>
+            `).join('');
         }
 
         function renderTestimonials() {
-            // Retained for landing page display
+            const track = document.getElementById('reviewsMarqueeTrack');
+            if (!track) return;
+
+            const cardHtml = (r) => `
+                <div class="w-[280px] sm:w-[310px] flex-shrink-0 p-4 rounded-2xl bg-white border border-champagne hover:border-gold shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-gold-pale border border-gold flex items-center justify-center font-black text-xs text-charcoal">
+                                    ${r.initial}
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black text-charcoal leading-none">${r.name}</h4>
+                                    <span class="text-[10px] font-bold text-greyx">${r.location}</span>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">${r.badge || 'Verified Client'}</span>
+                        </div>
+                        <div class="flex items-center gap-0.5 text-gold text-xs mb-2">
+                            ★★★★★
+                        </div>
+                        <p class="text-xs font-medium text-charcoal-soft leading-relaxed">
+                            "${r.text}"
+                        </p>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-champagne/60 flex items-center justify-between text-[11px] font-bold text-gold-deep">
+                        <span>Google Review</span>
+                        <span class="text-greyx text-[10px]">Clement Town</span>
+                    </div>
+                </div>
+            `;
+
+            track.innerHTML = TESTIMONIALS.map(cardHtml).join('') + TESTIMONIALS.map(cardHtml).join('');
         }
 
         function renderFaqs() {
-            // Retained for landing page display
+            const list = document.getElementById('faqList');
+            if (!list) return;
+
+            list.innerHTML = FAQS.map((f, idx) => `
+                <div class="faq-card border border-champagne rounded-2xl overflow-hidden bg-white shadow-sm hover:border-gold transition-all">
+                    <button type="button" class="w-full p-3.5 text-left font-bold text-xs sm:text-[13px] text-charcoal flex items-center justify-between gap-2 hover:bg-champagne-light transition-colors cursor-pointer"
+                        onclick="toggleFaq(this)">
+                        <span class="leading-tight">${f.q}</span>
+                        <span class="faq-icon text-gold text-sm font-black transition-transform duration-200 flex-shrink-0">+</span>
+                    </button>
+                    <div class="faq-ans hidden px-3.5 pb-3.5 text-xs text-charcoal-soft leading-relaxed border-t border-champagne/40 pt-2.5 bg-ivory">
+                        ${f.a}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFaq(btn) {
+            const card = btn.closest('.faq-card') || btn.parentElement;
+            const ans = card ? card.querySelector('.faq-ans') : btn.nextElementSibling;
+            const icon = btn.querySelector('.faq-icon');
+            if (!ans) return;
+
+            const isCurrentlyHidden = ans.classList.contains('hidden');
+
+            // Close other FAQs for smooth accordion feel
+            document.querySelectorAll('.faq-ans').forEach(a => a.classList.add('hidden'));
+            document.querySelectorAll('.faq-icon').forEach(i => {
+                i.textContent = '+';
+                i.classList.remove('rotate-45');
+            });
+
+            if (isCurrentlyHidden) {
+                ans.classList.remove('hidden');
+                if (icon) {
+                    icon.textContent = '✕';
+                    icon.classList.add('rotate-45');
+                }
+            }
         }
 
         function quickSelectOffering(catKey, serviceName) {
