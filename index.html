@@ -558,6 +558,40 @@
             box-shadow: 0 0 0 2px rgba(215, 178, 122, 0.45) !important;
         }
 
+
+        /* Step 1 Focus Cards */
+        .focus-intent-card {
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .focus-intent-card:hover {
+            border-color: #D7B27A !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(215, 178, 122, 0.25);
+        }
+        .focus-intent-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Plenty Service Chips in Modal */
+        .modal-service-chip {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-service-chip.is-active-service {
+            background: linear-gradient(135deg, #292929, #1C1C1C) !important;
+            color: #FAF9F7 !important;
+            border-color: #D7B27A !important;
+            box-shadow: 0 4px 14px rgba(41, 41, 41, 0.25) !important;
+            transform: scale(1.02);
+        }
+        .modal-service-chip.is-active-service .chip-check-icon {
+            background-color: #D7B27A !important;
+            color: #1C1C1C !important;
+        }
+
 </style>
 </head>
 
@@ -647,7 +681,7 @@
 
             <!-- 3. QUICK PERSONALIZATION TRIGGER PILL -->
             <div class="text-center my-3">
-                <button type="button" onclick="openEntryIntentModal()"
+                <button type="button" onclick="openEntryFocusModal()"
                     class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white hover:bg-gold-pale border border-gold/70 text-charcoal font-bold text-xs shadow-sm hover:shadow transition-all cursor-pointer active:scale-95">
                     <span class="text-gold-dark text-sm">✨</span>
                     <span>What brings you here?</span>
@@ -2159,6 +2193,9 @@
         let currentLang = 'ENGLISH';
         let currentReviewLength = 'BALANCED'; // 'SHORT', 'BALANCED', 'DETAILED'
         let activeIntentCategory = 'HAIR'; // Default to Hair & Styling
+        let userInitialIntent = 'REVIEW'; // 'REVIEW', 'BOOKING', 'EXPLORE'
+        let activeSelectedService = 'Hair Spa';
+        let activeModalFilter = 'ALL';
 
         let selectedCategoryData = {};
         Object.keys(REVIEW_CATEGORIES).forEach(k => {
@@ -2179,181 +2216,183 @@
         let hasTriggeredWhatsAppScrollGuide = false;
         let currentLightboxIndex = 0;
 
-        /* Typewriter Animation Controller for Welcome Popup */
-        let intentPlaceholderInterval = null;
-        let isIntentTypingActive = true;
-        let intentDebounceTimer = null;
+        /* Short 1-3 Word Phrases Bank for Snappy Animated Typewriter */
+        const SHORT_PHRASES_BANK = [
+            "Haircut",
+            "Hair Spa",
+            "Hydrating Facial",
+            "Waxing",
+            "Threading",
+            "Bridal Makeup",
+            "Nail Art",
+            "Hair Colour",
+            "Keratin Smoothening",
+            "Clean-up & D-Tan"
+        ];
+        let shortPhraseInterval = null;
+        let isShortPhraseTypingActive = true;
+        let searchDebounceTimer = null;
 
-        const INTENT_ANIMATION_EXAMPLES = [
-            "I'm looking for a fresh haircut...",
-            "I want to get my nails done...",
-            "Need a relaxing facial...",
-            "Looking for bridal makeup...",
-            "I recently got a hair spa...",
-            "Want to try a new hair colour...",
-            "Had an amazing experience here...",
-            "I'm planning a complete makeover..."
+        /* Plenty Curated Services List for Scrollable Modal Selection */
+        const PLENTY_SERVICES_LIST = [
+            { catKey: 'HAIR', name: 'Haircut', icon: '✂️' },
+            { catKey: 'HAIR', name: 'Hair Spa', icon: '💇' },
+            { catKey: 'HAIR', name: 'Hair Colour', icon: '🎨' },
+            { catKey: 'HAIR', name: 'Keratin / Smoothening', icon: '✨' },
+            { catKey: 'HAIR', name: 'Hair Styling', icon: '💆' },
+            { catKey: 'HAIR', name: 'Blow Dry', icon: '💨' },
+            { catKey: 'BEAUTY', name: 'Waxing', icon: '🌿' },
+            { catKey: 'BEAUTY', name: 'Threading', icon: '🧵' },
+            { catKey: 'BEAUTY', name: 'Bridal Makeup', icon: '💄' },
+            { catKey: 'BEAUTY', name: 'Party Makeup', icon: '✨' },
+            { catKey: 'BEAUTY', name: 'Eyebrow Shaping', icon: '👁️' },
+            { catKey: 'SKIN', name: 'Hydrating Facial', icon: '✨' },
+            { catKey: 'SKIN', name: 'Detan Treatment', icon: '🌿' },
+            { catKey: 'SKIN', name: 'Gold / Diamond Facial', icon: '💎' },
+            { catKey: 'SKIN', name: 'Face Massage', icon: '💆' },
+            { catKey: 'SKIN', name: 'Clean-up', icon: '✨' },
+            { catKey: 'NAILS', name: 'Nail Art', icon: '💅' },
+            { catKey: 'NAILS', name: 'Gel Extensions', icon: '✨' },
+            { catKey: 'NAILS', name: 'Spa Pedicure', icon: '🦶' },
+            { catKey: 'NAILS', name: 'Classic Manicure', icon: '🌸' },
+            { catKey: 'ALL', name: 'Overall Experience', icon: '⭐' }
         ];
 
         /* ========================================================
-           ENTRY MODAL (POP-UP BEFORE ENTERING PAGE)
+           STEP 1: INITIAL 3-OPTION FOCUS POP-UP
            ======================================================== */
-        function openEntryIntentModal() {
-            const modal = document.getElementById('entryIntentModal');
-            if (modal) {
-                modal.classList.remove('hidden');
+        function openEntryIntentModal() { openEntryFocusModal(); }
+    function openEntryFocusModal() {
+            const m1 = document.getElementById('entryFocusModal');
+            const m2 = document.getElementById('entryServiceModal');
+            if (m2) m2.classList.add('hidden');
+            if (m1) {
+                m1.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
-                initIntentPlaceholderTypewriter();
             }
         }
 
-        function closeEntryIntentModal() {
-            const modal = document.getElementById('entryIntentModal');
-            if (modal) {
-                modal.classList.add('hidden');
+        function closeEntryFocusModal() {
+            const m1 = document.getElementById('entryFocusModal');
+            if (m1) {
+                m1.classList.add('hidden');
                 document.body.style.overflow = '';
             }
         }
 
-        function selectModalCategory(catKey) {
-            activeIntentCategory = (catKey === 'ALL' || catKey === 'EXPLORE_ALL') ? null : catKey;
+        function selectInitialIntent(intent) {
+            userInitialIntent = intent;
+            closeEntryFocusModal();
 
-            // Highlight modal cards
-            document.querySelectorAll('.modal-cat-card').forEach(c => {
-                const cat = c.getAttribute('data-modal-cat');
-                if (cat === catKey || (!activeIntentCategory && (cat === 'ALL' || cat === 'EXPLORE_ALL'))) {
-                    c.classList.add('is-active');
-                } else {
-                    c.classList.remove('is-active');
-                }
-            });
-
-            // If selected, prefill a default service for that category
-            if (activeIntentCategory && REVIEW_CATEGORIES[activeIntentCategory]) {
-                const defService = REVIEW_CATEGORIES[activeIntentCategory].services[0];
-                if (!selectedCategoryData[activeIntentCategory].services.includes(defService)) {
-                    selectedCategoryData[activeIntentCategory].services = [defService];
-                }
-            }
-
-            const btnText = document.getElementById('continueBtnText');
-            if (btnText) {
-                const titles = {
-                    HAIR: 'Continue to Hair Care ➔',
-                    BEAUTY: 'Continue to Makeup & Beauty ➔',
-                    SKIN: 'Continue to Skincare & Facials ➔',
-                    NAILS: 'Continue to Nails & Manicure ➔'
-                };
-                btnText.textContent = activeIntentCategory ? (titles[activeIntentCategory] || 'Continue to Salon ➔') : 'Continue to Salon ➔';
-            }
-        }
-
-        function continueToSalonWithLoader() {
-            closeEntryIntentModal();
-
-            const loader = document.getElementById('salonCuratingLoader');
-            const loaderTitle = document.getElementById('loaderTitle');
-            const loaderSubtitle = document.getElementById('loaderSubtitle');
-
-            if (loader) {
-                const catNames = {
-                    HAIR: 'Hair Care & Styling options',
-                    BEAUTY: 'Makeup & Beauty packages',
-                    SKIN: 'Skincare & Facial treatments',
-                    NAILS: 'Nails & Manicure art'
-                };
-                const curatedName = activeIntentCategory ? (catNames[activeIntentCategory] || 'personalized salon services') : 'personalized salon services';
-
-                if (loaderTitle) loaderTitle.textContent = "Personalizing your salon visit... ✨";
-                if (loaderSubtitle) loaderSubtitle.textContent = `Curating ${curatedName} for you...`;
-
-                loader.classList.remove('hidden');
-                loader.classList.remove('opacity-0', 'pointer-events-none');
-            }
-
-            // Immediately apply curations
-            renderAdaptiveWaButtons(activeIntentCategory);
-            renderCoreOfferings();
-            renderReviewCategoryPills();
-            renderCuratedReviewChips(activeIntentCategory);
-            updateSelectionSummary();
-
-            // Smooth 850ms transition delay with skeleton breathing effect
-            setTimeout(() => {
-                if (loader) {
-                    loader.classList.add('opacity-0', 'pointer-events-none');
-                    setTimeout(() => loader.classList.add('hidden'), 320);
-                }
-                regenerateReview(true);
-                const label = activeIntentCategory ? REVIEW_CATEGORIES[activeIntentCategory]?.title : 'All Services';
-                showToast(`Welcome! Page curated for ${label} ✨`, '✨');
-            }, 850);
-        }
-
-        function skipToSalonDirect() {
-            closeEntryIntentModal();
-            renderAdaptiveWaButtons(activeIntentCategory);
-            renderCoreOfferings();
-            renderReviewCategoryPills();
-            renderCuratedReviewChips(activeIntentCategory);
-            updateSelectionSummary();
-            regenerateReview(true);
-            showToast('Welcome to THE UNISEX SALON! ✨', '✨');
-        }
-
-        /* ========================================================
-           INTENT & TYPEWRITER ANIMATION CONTROLLER (MODAL)
-           ======================================================== */
-        function initIntentPlaceholderTypewriter() {
-            const field = document.getElementById('intentWritingField');
-            if (!field) return;
-
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                field.placeholder = "Tell us what you're looking for, or choose below...";
+            if (intent === 'EXPLORE') {
+                skipToSalonDirect();
                 return;
             }
 
-            let exampleIdx = 0;
+            openEntryServiceModal();
+        }
+
+        /* ========================================================
+           STEP 2: SERVICE INPUT & PLENTY SUGGESTIONS MODAL
+           ======================================================== */
+        function openEntryServiceModal() {
+            const m1 = document.getElementById('entryFocusModal');
+            const m2 = document.getElementById('entryServiceModal');
+            if (m1) m1.classList.add('hidden');
+            if (!m2) return;
+
+            // Configure modal header & badge based on intent
+            const badge = document.getElementById('serviceModalBadge');
+            const title = document.getElementById('serviceModalTitle');
+            const sub = document.getElementById('serviceModalSubtitle');
+
+            if (userInitialIntent === 'REVIEW') {
+                if (badge) badge.textContent = "Review Mode";
+                if (title) title.textContent = "What service did you get? ✂️";
+                if (sub) sub.textContent = "Type below or tap from our popular services";
+            } else {
+                if (badge) badge.textContent = "Booking Mode";
+                if (title) title.textContent = "What are you looking to book? ✂️";
+                if (sub) sub.textContent = "Type below or tap to customize your appointment";
+            }
+
+            m2.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Start short phrase typewriter and render plenty service chips
+            initShortPhraseTypewriter();
+            renderModalPlentyChips();
+
+            const btnText = document.getElementById('continueServiceBtnText');
+            if (btnText) {
+                btnText.textContent = activeSelectedService ? `Continue with ${activeSelectedService} ➔` : "Continue to Salon ➔";
+            }
+        }
+
+        function closeEntryServiceModal() {
+            const m2 = document.getElementById('entryServiceModal');
+            if (m2) {
+                m2.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function goBackToStep1Focus() {
+            closeEntryServiceModal();
+            openEntryFocusModal();
+        }
+
+        /* Short Phrase Typewriter (Fast, Snappy, 1-3 Words) */
+        function initShortPhraseTypewriter() {
+            const input = document.getElementById('serviceSearchInput');
+            if (!input) return;
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                input.placeholder = "Search haircut, facial, waxing...";
+                return;
+            }
+
+            let phraseIdx = 0;
             let charIdx = 0;
             let isDeleting = false;
-            let currentText = INTENT_ANIMATION_EXAMPLES[0];
+            let currentText = SHORT_PHRASES_BANK[0];
 
             function step() {
-                if (!isIntentTypingActive) return;
-                if (document.activeElement === field || field.value.length > 0) return;
+                if (!isShortPhraseTypingActive) return;
+                if (document.activeElement === input || input.value.length > 0) return;
 
                 if (isDeleting) {
                     charIdx--;
-                    field.placeholder = currentText.substring(0, charIdx);
+                    input.placeholder = currentText.substring(0, charIdx);
                     if (charIdx <= 0) {
                         isDeleting = false;
-                        exampleIdx = (exampleIdx + 1) % INTENT_ANIMATION_EXAMPLES.length;
-                        currentText = INTENT_ANIMATION_EXAMPLES[exampleIdx];
-                        intentPlaceholderInterval = setTimeout(step, 350);
+                        phraseIdx = (phraseIdx + 1) % SHORT_PHRASES_BANK.length;
+                        currentText = SHORT_PHRASES_BANK[phraseIdx];
+                        shortPhraseInterval = setTimeout(step, 300);
                         return;
                     }
-                    intentPlaceholderInterval = setTimeout(step, 25);
+                    shortPhraseInterval = setTimeout(step, 20);
                 } else {
                     charIdx++;
-                    field.placeholder = currentText.substring(0, charIdx);
+                    input.placeholder = currentText.substring(0, charIdx);
                     if (charIdx >= currentText.length) {
                         isDeleting = true;
-                        intentPlaceholderInterval = setTimeout(step, 1800);
+                        shortPhraseInterval = setTimeout(step, 1400);
                         return;
                     }
-                    intentPlaceholderInterval = setTimeout(step, 50);
+                    shortPhraseInterval = setTimeout(step, 45);
                 }
             }
 
-            field.addEventListener('focus', () => {
-                isIntentTypingActive = false;
-                clearTimeout(intentPlaceholderInterval);
+            input.addEventListener('focus', () => {
+                isShortPhraseTypingActive = false;
+                clearTimeout(shortPhraseInterval);
             });
 
-            field.addEventListener('blur', () => {
-                if (field.value.trim().length === 0) {
-                    isIntentTypingActive = true;
+            input.addEventListener('blur', () => {
+                if (input.value.trim().length === 0) {
+                    isShortPhraseTypingActive = true;
                     charIdx = 0;
                     isDeleting = false;
                     step();
@@ -2363,85 +2402,234 @@
             step();
         }
 
-        function handleIntentInput() {
-            const field = document.getElementById('intentWritingField');
-            const clearBtn = document.getElementById('clearIntentBtn');
-            if (!field) return;
+        /* Keyword Intent Detection on User Typing */
+        function handleServiceSearchInput() {
+            const input = document.getElementById('serviceSearchInput');
+            if (!input) return;
 
-            const val = field.value;
-            if (clearBtn) {
-                clearBtn.classList.toggle('hidden', val.length === 0);
+            const val = input.value.trim();
+            const btnText = document.getElementById('continueServiceBtnText');
+            if (btnText && val) {
+                btnText.textContent = `Continue with ${val} ➔`;
             }
 
-            clearTimeout(intentDebounceTimer);
-            intentDebounceTimer = setTimeout(() => {
-                analyzeCustomerIntent(val);
-            }, 220);
-        }
-
-        function clearIntentInput() {
-            const field = document.getElementById('intentWritingField');
-            const clearBtn = document.getElementById('clearIntentBtn');
-            if (field) {
-                field.value = '';
-                if (clearBtn) clearBtn.classList.add('hidden');
-                clearDetectedIntent();
-                field.focus();
-            }
-        }
-
-        function clearDetectedIntent() {
-            const banner = document.getElementById('detectedIntentBanner');
-            if (banner) banner.classList.add('hidden');
-            activeIntentCategory = null;
-            document.querySelectorAll('.modal-cat-card').forEach(c => c.classList.remove('is-active'));
-        }
-
-        function analyzeCustomerIntent(rawText) {
-            const text = (rawText || '').trim().toLowerCase();
-            const banner = document.getElementById('detectedIntentBanner');
-            const bannerText = document.getElementById('detectedIntentText');
-
-            if (!text || text.length < 3) {
-                if (banner) banner.classList.add('hidden');
-                return;
-            }
-
-            const keywords = {
-                HAIR: ['hair', 'haircut', 'cut', 'spa', 'hair spa', 'styling', 'colour', 'color', 'highlights', 'keratin', 'smoothening', 'straightening', 'blow dry', 'trim', 'beard', 'shave', 'balayage'],
-                BEAUTY: ['makeup', 'make up', 'bridal', 'bride', 'party makeup', 'waxing', 'wax', 'threading', 'bleach', 'saree', 'draping', 'eyebrow', 'lashes', 'makeover'],
-                SKIN: ['facial', 'skincare', 'skin care', 'skin', 'cleanup', 'clean up', 'detan', 'd-tan', 'face massage', 'glow', 'hydrating', 'fruit facial', 'gold facial', 'diamond facial'],
-                NAILS: ['nail', 'nails', 'nail art', 'extensions', 'gel polish', 'gel nails', 'acrylic', 'manicure', 'pedicure', 'spa pedicure']
-            };
-
-            const detected = [];
-            for (const [cat, words] of Object.entries(keywords)) {
-                for (const w of words) {
-                    const regex = new RegExp('\\b' + w + '\\b', 'i');
-                    if (regex.test(text)) {
-                        detected.push(cat);
-                        break;
-                    }
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                if (!val) {
+                    clearServiceInput();
+                    return;
                 }
-            }
 
-            if (detected.length > 0) {
-                const primaryCat = detected[0];
-                selectModalCategory(primaryCat);
+                // Recognize keyword and category
+                const text = val.toLowerCase();
+                let matchedCat = 'HAIR';
+                let matchedService = val;
 
+                if (text.includes('wax') || text.includes('threading') || text.includes('makeup') || text.includes('bridal') || text.includes('bleach') || text.includes('saree')) {
+                    matchedCat = 'BEAUTY';
+                    if (text.includes('wax')) matchedService = 'Waxing';
+                    else if (text.includes('threading')) matchedService = 'Threading';
+                    else if (text.includes('bridal')) matchedService = 'Bridal Makeup';
+                    else matchedService = 'Party Makeup';
+                } else if (text.includes('facial') || text.includes('clean') || text.includes('detan') || text.includes('d-tan') || text.includes('skin') || text.includes('glow')) {
+                    matchedCat = 'SKIN';
+                    if (text.includes('clean')) matchedService = 'Clean-up';
+                    else if (text.includes('detan') || text.includes('d-tan')) matchedService = 'Detan Treatment';
+                    else matchedService = 'Hydrating Facial';
+                } else if (text.includes('nail') || text.includes('pedicure') || text.includes('manicure') || text.includes('extension')) {
+                    matchedCat = 'NAILS';
+                    if (text.includes('pedicure')) matchedService = 'Spa Pedicure';
+                    else if (text.includes('manicure')) matchedService = 'Classic Manicure';
+                    else if (text.includes('extension')) matchedService = 'Gel Extensions';
+                    else matchedService = 'Nail Art';
+                } else {
+                    matchedCat = 'HAIR';
+                    if (text.includes('spa')) matchedService = 'Hair Spa';
+                    else if (text.includes('colour') || text.includes('color') || text.includes('highlight')) matchedService = 'Hair Colour';
+                    else if (text.includes('keratin') || text.includes('smooth')) matchedService = 'Keratin / Smoothening';
+                    else matchedService = 'Haircut';
+                }
+
+                activeIntentCategory = matchedCat;
+                activeSelectedService = val.length < 3 ? matchedService : val.charAt(0).toUpperCase() + val.slice(1);
+
+                // Show feedback banner
+                const banner = document.getElementById('serviceDetectedBanner');
+                const bannerText = document.getElementById('serviceDetectedText');
                 if (banner && bannerText) {
-                    const titles = {
-                        HAIR: '✂️ Hair & Styling',
-                        BEAUTY: '💄 Makeup & Beauty',
-                        SKIN: '✨ Skincare & Facials',
-                        NAILS: '💅 Nails & Manicure'
-                    };
-                    bannerText.textContent = `Identified: ${titles[primaryCat]} — ready to curate`;
+                    const catTitle = REVIEW_CATEGORIES[matchedCat]?.title || 'Salon';
+                    bannerText.textContent = `Recognized: ${activeSelectedService} (${catTitle})`;
                     banner.classList.remove('hidden');
                 }
-            } else {
-                if (banner) banner.classList.add('hidden');
+
+                if (btnText) {
+                    btnText.textContent = `Continue with ${activeSelectedService} ➔`;
+                }
+
+                // Highlight corresponding chip
+                renderModalPlentyChips();
+            }, 180);
+        }
+
+        function submitServiceInput() {
+            const input = document.getElementById('serviceSearchInput');
+            if (input && input.value.trim().length > 0) {
+                const val = input.value.trim();
+                activeSelectedService = val.charAt(0).toUpperCase() + val.slice(1);
+
+                const text = val.toLowerCase();
+                if (text.includes('wax') || text.includes('threading') || text.includes('makeup') || text.includes('bridal') || text.includes('bleach') || text.includes('saree')) {
+                    activeIntentCategory = 'BEAUTY';
+                } else if (text.includes('facial') || text.includes('clean') || text.includes('detan') || text.includes('d-tan') || text.includes('skin') || text.includes('glow')) {
+                    activeIntentCategory = 'SKIN';
+                } else if (text.includes('nail') || text.includes('pedicure') || text.includes('manicure') || text.includes('extension')) {
+                    activeIntentCategory = 'NAILS';
+                } else {
+                    activeIntentCategory = 'HAIR';
+                }
             }
+            continueWithCuratedService();
+        }
+
+        function clearServiceInput() {
+            const input = document.getElementById('serviceSearchInput');
+            const banner = document.getElementById('serviceDetectedBanner');
+            const btnText = document.getElementById('continueServiceBtnText');
+
+            if (input) input.value = '';
+            if (banner) banner.classList.add('hidden');
+            if (btnText) {
+                btnText.textContent = activeSelectedService ? `Continue with ${activeSelectedService} ➔` : "Continue to Salon ➔";
+            }
+            renderModalPlentyChips();
+        }
+
+        function selectServiceChip(catKey, serviceName) {
+            activeIntentCategory = (catKey === 'ALL') ? 'HAIR' : catKey;
+            activeSelectedService = serviceName;
+
+            const input = document.getElementById('serviceSearchInput');
+            if (input) input.value = serviceName;
+
+            const banner = document.getElementById('serviceDetectedBanner');
+            const bannerText = document.getElementById('serviceDetectedText');
+            if (banner && bannerText) {
+                const catTitle = REVIEW_CATEGORIES[activeIntentCategory]?.title || 'Salon';
+                bannerText.textContent = `Selected: ${serviceName} (${catTitle})`;
+                banner.classList.remove('hidden');
+            }
+
+            const btnText = document.getElementById('continueServiceBtnText');
+            if (btnText) {
+                btnText.textContent = `Continue with ${serviceName} ➔`;
+            }
+
+            renderModalPlentyChips();
+        }
+
+        function filterModalServices(filterKey) {
+            activeModalFilter = filterKey;
+
+            document.querySelectorAll('.modal-filter-btn').forEach(btn => {
+                if (btn.id === 'modalFilterBtn' + filterKey) {
+                    btn.className = 'modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-charcoal text-ivory border border-charcoal flex-shrink-0 cursor-pointer';
+                } else {
+                    btn.className = 'modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-ivory text-charcoal hover:bg-champagne border border-champagne flex-shrink-0 cursor-pointer';
+                }
+            });
+
+            renderModalPlentyChips();
+        }
+
+        function renderModalPlentyChips() {
+            const grid = document.getElementById('modalPlentyChipsGrid');
+            if (!grid) return;
+
+            let list = PLENTY_SERVICES_LIST;
+            if (activeModalFilter !== 'ALL') {
+                list = PLENTY_SERVICES_LIST.filter(item => item.catKey === activeModalFilter);
+            }
+
+            grid.innerHTML = list.map(item => {
+                const isSelected = activeSelectedService && (activeSelectedService.toLowerCase() === item.name.toLowerCase());
+                return `
+                    <button type="button" onclick="selectServiceChip('${item.catKey}', '${item.name}')"
+                        class="modal-service-chip py-2 px-3 sm:px-3.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${isSelected ? 'is-active-service' : 'bg-white text-charcoal border-champagne hover:border-gold hover:shadow-sm'}">
+                        <span>${item.icon}</span>
+                        <span>${item.name}</span>
+                        <span class="chip-check-icon inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-black ${isSelected ? 'bg-gold text-charcoal' : 'text-greyx'}">
+                            ${isSelected ? '✓' : '+'}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        /* ========================================================
+           STEP 3 & 4: SCISSORS & COMB CURATION LOADER & FOCUSED LANDING
+           ======================================================== */
+        function continueWithCuratedService() {
+            closeEntryServiceModal();
+
+            // Set chosen service in selectedCategoryData
+            if (activeSelectedService && activeIntentCategory && selectedCategoryData[activeIntentCategory]) {
+                if (!selectedCategoryData[activeIntentCategory].services.includes(activeSelectedService)) {
+                    selectedCategoryData[activeIntentCategory].services = [activeSelectedService];
+                }
+            }
+
+            const loader = document.getElementById('salonCuratingLoader');
+            const loaderTitle = document.getElementById('loaderTitle');
+            const loaderSubtitle = document.getElementById('loaderSubtitle');
+
+            if (loader) {
+                const serviceLabel = activeSelectedService || 'personalized options';
+                if (loaderTitle) loaderTitle.textContent = "Personalizing your salon visit... ✨";
+                if (loaderSubtitle) loaderSubtitle.textContent = `Curating ${serviceLabel} for you...`;
+
+                loader.classList.remove('hidden');
+                loader.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            // Apply curations across whole page
+            renderAdaptiveWaButtons(activeIntentCategory, activeSelectedService ? [activeSelectedService] : []);
+            renderCoreOfferings();
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            updateSelectionSummary();
+
+            // Smooth 850ms transition with scissors & comb + skeleton breathing effect
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => loader.classList.add('hidden'), 320);
+                }
+                regenerateReview(true);
+
+                // Focused routing based on customer's initial intent
+                if (userInitialIntent === 'REVIEW') {
+                    focusReviewGenerator();
+                    showToast(`Ready to review ${activeSelectedService}! Tap highlights ✨`, '✍️');
+                } else if (userInitialIntent === 'BOOK' || userInitialIntent === 'BOOKING') {
+                    const waBox = document.getElementById('whatsAppInquiryBox');
+                    if (waBox) waBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showToast(`Ready to book ${activeSelectedService} on WhatsApp! 💬`, '💬');
+                } else {
+                    showToast(`Welcome! Curated for ${activeSelectedService || 'you'} ✨`, '✨');
+                }
+            }, 850);
+        }
+
+        function skipToSalonDirect() {
+            closeEntryFocusModal();
+            closeEntryServiceModal();
+            renderAdaptiveWaButtons(activeIntentCategory);
+            renderCoreOfferings();
+            renderReviewCategoryPills();
+            renderCuratedReviewChips(activeIntentCategory);
+            updateSelectionSummary();
+            regenerateReview(true);
+            showToast('Welcome to THE UNISEX SALON! ✨', '✨');
         }
 
         /* ========================================================
@@ -2493,10 +2681,6 @@
 
             const cat = categoryKey && REVIEW_CATEGORIES[categoryKey] ? REVIEW_CATEGORIES[categoryKey] : null;
 
-            // Collect direct actionable chips:
-            // 1. Direct services for this category (or top popular services if ALL)
-            // 2. Direct highlights for this category
-            // 3. Constant Salon Qualities: Friendly Staff, Value for Money, Clean & Hygienic, Overall Experience
             let items = [];
 
             if (cat) {
@@ -2576,7 +2760,6 @@
                 badge.textContent = `${totalSelected} selected`;
             }
 
-            // Render chips as 1-tap toggles
             grid.innerHTML = items.map(item => `
                 <button type="button" onclick="toggleCuratedChip('${item.type}', '${item.catKey}', '${item.name}')"
                     class="curated-chip py-2 px-3 sm:px-3.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${item.isSelected ? 'is-curated-active' : 'bg-white text-charcoal border-champagne hover:border-gold hover:shadow-sm'}">
@@ -2795,6 +2978,7 @@
                 selectedCategoryData[catKey].services.push(serviceName);
             }
             activeIntentCategory = catKey;
+            activeSelectedService = serviceName;
             renderCuratedReviewChips(activeIntentCategory);
             renderReviewCategoryPills();
             renderAdaptiveWaButtons(activeIntentCategory);
@@ -2809,7 +2993,6 @@
             showToast('Review refreshed! ↺', '↺');
         }
 
-        /* Modal & Sheet Compatibility Handlers */
         function openSubOptionSheet(catKey) {
             activeSheetCatKey = catKey;
             const modal = document.getElementById('subOptionSheetModal');
@@ -2838,7 +3021,7 @@
         }
 
         function openWelcomeModal() {
-            openEntryIntentModal();
+            openEntryFocusModal();
         }
 
         function closeWelcomeModal() {
@@ -3585,16 +3768,22 @@
             // Set language buttons initial state
             setLanguage('ENGLISH');
 
-            // Wire input event on modal writing space
-            const intentField = document.getElementById('intentWritingField');
-            if (intentField) {
-                intentField.addEventListener('input', handleIntentInput);
+            // Wire input events on service search field
+            const searchInput = document.getElementById('serviceSearchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleServiceSearchInput);
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        submitServiceInput();
+                    }
+                });
             }
 
-            // Pop up the "What brings you here?" onboarding dialogue immediately on entry
+            // Open Step 1 Focus Pop-up (Give Review / Book / Explore) immediately on entry
             setTimeout(() => {
-                openEntryIntentModal();
-            }, 300);
+                openEntryFocusModal();
+            }, 250);
 
             const galleryTrack = document.getElementById('galleryCarouselTrack');
             if (galleryTrack) {
@@ -3704,124 +3893,203 @@
     </script>
 
     <!-- ========================================================
-         ENTRY INTENT MODAL (POP-UP / DIALOGUE BOX BEFORE ENTERING PAGE)
+         STEP 1: INITIAL 3-OPTION FOCUS POP-UP (Give Review / Book / Explore)
          ======================================================== -->
-    <div id="entryIntentModal"
-        class="fixed inset-0 z-[120] bg-charcoal-deep/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
+    <div id="entryFocusModal"
+        class="fixed inset-0 z-[120] bg-charcoal-deep/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
         <div class="max-w-md w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-2xl border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
             onclick="event.stopPropagation()">
             
             <!-- Header -->
-            <div class="text-center mb-4">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-pale border border-gold/60 text-gold-deep mb-2 shadow-sm">
+            <div class="text-center mb-5">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-pale border border-gold/60 text-gold-deep mb-2.5 shadow-sm">
                     <span>✦</span>
                     <span>THE UNISEX SALON • CLEMENT TOWN</span>
                 </span>
                 <h2 class="text-xl sm:text-2xl font-black text-charcoal tracking-tight leading-tight">
-                    What brings you here? ✨
+                    Welcome to The Unisex Salon ✨
                 </h2>
                 <p class="text-xs sm:text-[13px] text-greyx font-medium mt-1 leading-snug">
-                    Tell us what you're looking for, or choose from our services below.
+                    How can we help you today?
                 </p>
             </div>
 
-            <!-- Interactive Writing Space with Real-time Animated Typing Placeholder -->
-            <div class="relative mb-3">
-                <textarea id="intentWritingField" rows="2"
-                    class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3.5 pr-10 leading-relaxed focus:bg-white focus:outline-none transition-all resize-none shadow-inner"
-                    placeholder="I'm looking for a fresh haircut..."></textarea>
-                
-                <button type="button" id="clearIntentBtn" onclick="clearIntentInput()"
-                    class="hidden absolute right-3 top-3.5 w-6 h-6 rounded-full bg-champagne hover:bg-champagne-light text-charcoal-soft text-xs flex items-center justify-center cursor-pointer transition-all"
-                    title="Clear text">✕</button>
-            </div>
-
-            <!-- Intelligent Intent Detection Banner -->
-            <div id="detectedIntentBanner"
-                class="hidden mb-3 px-3 py-2 rounded-xl bg-gold-pale border border-gold/60 text-[11.5px] font-semibold text-gold-deep flex items-center justify-between gap-2 transition-all">
-                <span class="flex items-center gap-1.5 truncate">
-                    <span>🎯</span>
-                    <span id="detectedIntentText" class="truncate font-bold text-charcoal">Matching services...</span>
-                </span>
-                <button type="button" onclick="clearDetectedIntent()"
-                    class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer flex-shrink-0">Clear</button>
-            </div>
-
-            <!-- Suggested Categories Grid -->
-            <div class="mb-4">
-                <div class="flex items-center justify-between mb-2 px-0.5">
-                    <span class="text-xs font-bold uppercase tracking-wider text-greyx">
-                        Or choose your interest:
-                    </span>
-                    <span class="text-[10.5px] font-semibold text-gold-dark">Tap to select</span>
-                </div>
-
-                <!-- 2x2 Grid for first 4 categories -->
-                <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
-                    <!-- 1. Hair & Styling -->
-                    <button type="button" onclick="selectModalCategory('HAIR')" data-modal-cat="HAIR"
-                        class="modal-cat-card is-active p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                            ✂️
+            <!-- 3 Focused Action Cards -->
+            <div class="space-y-3 mb-4">
+                <!-- 1. Give Review -->
+                <button type="button" onclick="selectInitialIntent('REVIEW')"
+                    class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-gold-pale/80 via-white to-gold-light/40 border-2 border-gold/70 text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-white border border-gold/60 text-gold-deep flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                            ⭐
                         </div>
-                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Hair &amp; Styling</h4>
-                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Cuts, Colour, Spa &amp; Keratin</p>
-                    </button>
-
-                    <!-- 2. Makeup & Beauty -->
-                    <button type="button" onclick="selectModalCategory('BEAUTY')" data-modal-cat="BEAUTY"
-                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                            💄
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm sm:text-base font-black text-charcoal leading-tight">
+                                    Give a Review
+                                </h3>
+                                <span class="px-2 py-0.5 rounded-full bg-gold-deep text-white text-[9px] font-extrabold uppercase tracking-wider">Fast AI</span>
+                            </div>
+                            <p class="text-xs text-greyx font-medium mt-0.5 leading-snug">
+                                Share what service you had &amp; post on Google in 1 tap
+                            </p>
                         </div>
-                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Makeup &amp; Beauty</h4>
-                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Bridal, Waxing &amp; Threading</p>
-                    </button>
+                    </div>
+                    <span class="w-8 h-8 rounded-xl bg-gold-light/80 text-gold-deep flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
+                </button>
 
-                    <!-- 3. Skincare & Facials -->
-                    <button type="button" onclick="selectModalCategory('SKIN')" data-modal-cat="SKIN"
-                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                            ✨
+                <!-- 2. Book Appointment -->
+                <button type="button" onclick="selectInitialIntent('BOOKING')"
+                    class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-50/70 via-white to-champagne-light border-2 border-emerald-300 text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-white border border-emerald-300 text-emerald-600 flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                            📅
                         </div>
-                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Skincare &amp; Facials</h4>
-                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Hydrating, Clean-up &amp; D-Tan</p>
-                    </button>
-
-                    <!-- 4. Nails & Manicure -->
-                    <button type="button" onclick="selectModalCategory('NAILS')" data-modal-cat="NAILS"
-                        class="modal-cat-card p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98]">
-                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm mb-1.5 shadow-sm group-hover:scale-105 transition-transform">
-                            💅
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm sm:text-base font-black text-charcoal leading-tight">
+                                    Book Appointment
+                                </h3>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-extrabold uppercase tracking-wider">WhatsApp</span>
+                            </div>
+                            <p class="text-xs text-greyx font-medium mt-0.5 leading-snug">
+                                Quick booking for haircut, facial, waxing, makeup &amp; spa
+                            </p>
                         </div>
-                        <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">Nails &amp; Manicure</h4>
-                        <p class="text-[10px] text-greyx mt-0.5 leading-snug">Nail Art, Gel &amp; Extensions</p>
-                    </button>
-                </div>
+                    </div>
+                    <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
+                </button>
 
-                <!-- 5. Something Else / Explore All (Full-width 5th option) -->
-                <button type="button" onclick="selectModalCategory('ALL')" data-modal-cat="ALL"
-                    class="modal-cat-card w-full mt-2 p-2.5 sm:p-3 rounded-2xl bg-ivory hover:bg-gold-pale border border-champagne hover:border-gold text-left transition-all group cursor-pointer shadow-sm active:scale-[0.98] flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-xl bg-white border border-champagne text-gold-deep flex items-center justify-center text-sm shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                <!-- 3. Explore Unisex Salon -->
+                <button type="button" onclick="selectInitialIntent('EXPLORE')"
+                    class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-champagne-light via-white to-ivory border-2 border-champagne text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-white border border-champagne text-charcoal flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                             🌟
                         </div>
                         <div>
-                            <h4 class="text-xs sm:text-[13px] font-extrabold text-charcoal leading-tight">
-                                Something Else / Explore All
-                            </h4>
-                            <p class="text-[10px] text-greyx mt-0.5 leading-snug">Browse all salon treatments, pricing &amp; reviews</p>
+                            <h3 class="text-sm sm:text-base font-black text-charcoal leading-tight">
+                                Explore Unisex Salon
+                            </h3>
+                            <p class="text-xs text-greyx font-medium mt-0.5 leading-snug">
+                                Browse all treatments, price menu, gallery &amp; store info
+                            </p>
                         </div>
                     </div>
-                    <span class="text-xs text-gold-deep font-bold mr-1">➔</span>
+                    <span class="w-8 h-8 rounded-xl bg-champagne text-charcoal flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
                 </button>
             </div>
 
-            <!-- CONTINUE BUTTON per user request -->
-            <button type="button" id="continueToSalonBtn" onclick="continueToSalonWithLoader()"
+            <!-- Footer note -->
+            <div class="text-center pt-2 border-t border-champagne/60">
+                <span class="text-[11px] text-greyx font-semibold">Open Daily 8:00 AM – 10:00 PM • Clement Town, Dehradun</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         STEP 2: SERVICE INPUT & PLENTY CURATED SUGGESTIONS MODAL
+         ======================================================== -->
+    <div id="entryServiceModal"
+        class="fixed inset-0 z-[125] hidden bg-charcoal-deep/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
+        <div class="max-w-md w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-2xl border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
+            onclick="event.stopPropagation()">
+            
+            <!-- Top bar with Back button -->
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-champagne/60">
+                <button type="button" onclick="goBackToStep1Focus()"
+                    class="inline-flex items-center gap-1.5 text-xs font-bold text-charcoal hover:text-gold-deep cursor-pointer transition-colors">
+                    <span>←</span>
+                    <span>Back</span>
+                </button>
+                <span id="serviceModalBadge" class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep">
+                    Review Mode
+                </span>
+            </div>
+
+            <!-- Dynamic Header -->
+            <div class="text-center mb-4">
+                <h2 id="serviceModalTitle" class="text-xl sm:text-2xl font-black text-charcoal tracking-tight leading-tight">
+                    What service did you get? ✂️
+                </h2>
+                <p id="serviceModalSubtitle" class="text-xs sm:text-[13px] text-greyx font-medium mt-1 leading-snug">
+                    Type below or tap from our popular services
+                </p>
+            </div>
+
+            <!-- Writing Box with Inline Submit/Enter Button -->
+            <div class="relative mb-3">
+                <div class="relative flex items-center">
+                    <input type="text" id="serviceSearchInput"
+                        class="luxury-field w-full text-xs sm:text-[13.5px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl py-3.5 pl-4 pr-12 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner"
+                        placeholder="Haircut" autocomplete="off"
+                        oninput="handleServiceSearchInput()"
+                        onkeydown="if(event.key==='Enter')submitServiceInput()">
+                    
+                    <!-- Inline Submit Button right in front of the writing box -->
+                    <button type="button" id="submitSearchInputBtn" onclick="submitServiceInput()"
+                        class="absolute right-2.5 w-8 h-8 rounded-xl bg-charcoal hover:bg-gold-deep text-ivory flex items-center justify-center font-black text-sm transition-all shadow-sm cursor-pointer active:scale-95"
+                        title="Enter service">
+                        ➔
+                    </button>
+                </div>
+            </div>
+
+            <!-- Intelligent Intent Feedback Banner -->
+            <div id="serviceDetectedBanner"
+                class="hidden mb-3 px-3 py-2 rounded-xl bg-gold-pale border border-gold/60 text-[11.5px] font-semibold text-gold-deep flex items-center justify-between gap-2 transition-all">
+                <span class="flex items-center gap-1.5 truncate">
+                    <span>🎯</span>
+                    <span id="serviceDetectedText" class="truncate font-bold text-charcoal">Matching service...</span>
+                </span>
+                <button type="button" onclick="clearServiceInput()"
+                    class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer flex-shrink-0">Clear</button>
+            </div>
+
+            <!-- "Or choose your service:" Section with PLENTY of options -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2 px-0.5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-greyx">
+                        Or choose your service:
+                    </span>
+                    <span class="text-[10.5px] font-semibold text-gold-dark">Tap any chip</span>
+                </div>
+
+                <!-- Filter pill row (All, Hair, Beauty, Skin, Nails) -->
+                <div class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar pb-2 mb-2">
+                    <button type="button" onclick="filterModalServices('ALL')" id="modalFilterBtnALL"
+                        class="modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-charcoal text-ivory border border-charcoal flex-shrink-0 cursor-pointer">
+                        All Services
+                    </button>
+                    <button type="button" onclick="filterModalServices('HAIR')" id="modalFilterBtnHAIR"
+                        class="modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-ivory text-charcoal hover:bg-champagne border border-champagne flex-shrink-0 cursor-pointer">
+                        ✂️ Hair
+                    </button>
+                    <button type="button" onclick="filterModalServices('BEAUTY')" id="modalFilterBtnBEAUTY"
+                        class="modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-ivory text-charcoal hover:bg-champagne border border-champagne flex-shrink-0 cursor-pointer">
+                        💄 Beauty
+                    </button>
+                    <button type="button" onclick="filterModalServices('SKIN')" id="modalFilterBtnSKIN"
+                        class="modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-ivory text-charcoal hover:bg-champagne border border-champagne flex-shrink-0 cursor-pointer">
+                        ✨ Skin
+                    </button>
+                    <button type="button" onclick="filterModalServices('NAILS')" id="modalFilterBtnNAILS"
+                        class="modal-filter-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-ivory text-charcoal hover:bg-champagne border border-champagne flex-shrink-0 cursor-pointer">
+                        💅 Nails
+                    </button>
+                </div>
+
+                <!-- Plenty of Service Chips (Scrollable / Wrap List) -->
+                <div id="modalPlentyChipsGrid" class="flex flex-wrap gap-2 max-h-[190px] overflow-y-auto p-1 rounded-2xl border border-champagne/50 bg-ivory/50">
+                    <!-- Populated dynamically via renderModalPlentyChips() -->
+                </div>
+            </div>
+
+            <!-- Prominent Golden Continue Button -->
+            <button type="button" id="continueServiceBtn" onclick="continueWithCuratedService()"
                 class="gold-glow-btn w-full py-3.5 px-6 rounded-2xl text-charcoal-deep font-extrabold text-sm sm:text-base shadow-lg shadow-gold/30 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#C9A266] via-[#E3C695] to-[#C9A266] cursor-pointer">
                 <span class="text-base">✨</span>
-                <span id="continueBtnText">Continue to Salon ➔</span>
+                <span id="continueServiceBtnText">Continue to Salon ➔</span>
             </button>
 
             <!-- Skip Link -->
@@ -3833,7 +4101,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- ========================================================
          SCISSORS & COMB LOADER WITH SKELETON BREATHING EFFECT
          ======================================================== -->
