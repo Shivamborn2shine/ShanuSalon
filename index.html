@@ -1979,7 +1979,7 @@
 
     <!-- CLIENT SCRIPT RUNTIME -->
     <script>
-        const STORE_CONFIG = {
+        const STORE_CONFIG = window.STORE_CONFIG = {
             id: "the-unisex-salon",
             name: "THE UNISEX SALON",
             shortName: "The Unisex Salon",
@@ -1989,7 +1989,13 @@
             contact: {
                 phone: "+918755527539",
                 phoneDisplay: "87555 27539",
-                whatsapp: "918755527539"
+                whatsapp: "918755527539",
+                mapsUrl: "https://www.google.com/maps?cid=9438144801872518145"
+            },
+            reviews: {
+                writeReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I",
+                rating: 4.9,
+                count: "500+"
             },
             links: {
                 googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I",
@@ -3546,26 +3552,74 @@
             }
         }
 
-        function copyAndRedirectReview() {
-            const ta = document.getElementById('aiReviewOutput');
-            const textToCopy = (ta && !ta.classList.contains('hidden') && ta.value) ? ta.value : (currentFullReviewText || "Had a wonderful experience at THE UNISEX SALON!");
-
+        function copyTextToClipboard(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showToast('Review copied! Opening Google... ⭐', '📋');
-                    setTimeout(() => {
-                        window.open(STORE_CONFIG.reviews.writeReviewUrl, '_blank');
-                    }, 650);
-                }).catch(() => {
-                    openGoogleGuideModal();
+                navigator.clipboard.writeText(text).catch(err => {
+                    console.warn('Clipboard writeText failed, using fallback execCommand:', err);
+                    fallbackCopyText(text);
                 });
             } else {
-                openGoogleGuideModal();
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                textArea.setAttribute('readonly', '');
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            } catch (err) {
+                console.error('Fallback execCommand copy failed:', err);
+            }
+        }
+
+        function copyAndRedirectReview() {
+            const ta = document.getElementById('aiReviewOutput');
+            const textToCopy = (ta && !ta.classList.contains('hidden') && ta.value) 
+                ? ta.value 
+                : (currentFullReviewText || "Had a wonderful experience at THE UNISEX SALON!");
+
+            const reviewUrl = (STORE_CONFIG.reviews && STORE_CONFIG.reviews.writeReviewUrl) 
+                || (STORE_CONFIG.links && STORE_CONFIG.links.googleReviewUrl)
+                || "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I";
+
+            // 1. Copy text to clipboard immediately using both modern API & execCommand fallback
+            copyTextToClipboard(textToCopy);
+            showToast('Review copied! Opening Google... ⭐', '📋');
+
+            // 2. Open Google Review URL immediately within the user gesture (prevents browser popup blocker)
+            try {
+                const win = window.open(reviewUrl, '_blank', 'noopener,noreferrer');
+                if (!win || win.closed || typeof win.closed === 'undefined') {
+                    // Popup blocker was active or mobile webview: navigate directly
+                    window.location.href = reviewUrl;
+                }
+            } catch (err) {
+                window.location.href = reviewUrl;
             }
         }
 
         function confirmOpenGoogleMaps() {
-            window.open(STORE_CONFIG.contact.mapsUrl, '_blank');
+            const mapsUrl = (STORE_CONFIG.links && STORE_CONFIG.links.googleMapsUrl)
+                || (STORE_CONFIG.contact && STORE_CONFIG.contact.mapsUrl)
+                || (STORE_CONFIG.reviews && STORE_CONFIG.reviews.writeReviewUrl)
+                || "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I";
+            try {
+                const win = window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+                if (!win || win.closed || typeof win.closed === 'undefined') {
+                    window.location.href = mapsUrl;
+                }
+            } catch (e) {
+                window.location.href = mapsUrl;
+            }
         }
 
         function openGoogleGuideModal() {
