@@ -762,78 +762,75 @@
                     class="p-3.5 sm:p-4 rounded-3xl bg-white border border-transparent transition-all">
 
                     <!-- Heading & Subtitle -->
-                    <div class="mb-3.5 pb-3 border-b border-champagne flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gold-light border border-gold/60 flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <span class="text-gold-dark text-lg font-black">✦</span>
-                            </div>
-                            <div>
-                                <h2
-                                    class="text-base sm:text-lg font-extrabold text-charcoal tracking-tight uppercase leading-none">
-                                    How was your experience? ✨
-                                </h2>
-                                <p class="text-xs sm:text-[13px] font-semibold text-greyx mt-1">
-                                    Select highlights below or write your thoughts — zero friction!
-                                </p>
-                            </div>
+                    <div class="mb-3.5 pb-3 border-b border-champagne/80 flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gold-light/90 border border-gold/60 flex items-center justify-center flex-shrink-0 shadow-xs">
+                            <span class="text-gold-dark text-base font-black">✦</span>
                         </div>
-                        <span class="text-gold text-base select-none">✨</span>
+                        <div class="min-w-0 flex-1">
+                            <h2
+                                class="text-[15px] sm:text-base font-extrabold text-charcoal tracking-tight uppercase leading-snug">
+                                How was your experience? ✨
+                            </h2>
+                            <p class="text-[11.5px] sm:text-xs font-medium text-greyx mt-0.5 leading-snug">
+                                Select highlights below or add a quick note — zero friction!
+                            </p>
+                        </div>
                     </div>
 
-                    <!-- STEP 2: CONFIRMED SERVICES BAR (Never asks for services again, with quick Edit action) -->
+                    <!-- STEP 2: CONFIRMED SERVICES BAR -->
                     <div id="confirmedServicesBar"
-                        class="mb-3.5 p-3 rounded-2xl bg-gradient-to-r from-gold-pale/90 via-white to-gold-light/40 border border-gold/70 text-charcoal flex items-center justify-between gap-2 shadow-xs transition-all">
-                        <div class="flex-1 overflow-hidden">
-                            <div class="flex items-center gap-2 mb-1.5">
+                        class="mb-3.5 p-3 rounded-2xl bg-gradient-to-br from-gold-pale/85 via-white to-gold-light/30 border border-gold/60 text-charcoal shadow-xs transition-all">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <div class="flex items-center gap-1.5 min-w-0">
                                 <span
-                                    class="text-[10px] font-extrabold uppercase tracking-widest text-gold-deep flex items-center gap-1">
+                                    class="text-[10px] font-extrabold uppercase tracking-wider text-gold-deep flex items-center gap-1 whitespace-nowrap">
                                     <span>✦</span>
-                                    <span>YOUR CONFIRMED SERVICES</span>
+                                    <span>Confirmed Services</span>
                                 </span>
                                 <span id="confirmedServicesCountBadge"
-                                    class="text-[9.5px] font-black px-2 py-0.2 rounded-full bg-gold/25 text-charcoal border border-gold/50">
+                                    class="text-[10px] font-black px-2 py-0.5 rounded-full bg-gold/25 text-charcoal border border-gold/50 whitespace-nowrap flex-shrink-0">
                                     0 services
                                 </span>
                             </div>
-                            <div id="confirmedServicesPills" class="flex flex-wrap gap-1.5">
-                                <!-- Populated dynamically e.g. <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-white text-charcoal border border-gold/60 shadow-xs">✓ Facial</span> -->
-                            </div>
+                            <button type="button" onclick="editConfirmedServices()"
+                                class="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white hover:bg-gold-light border border-gold/70 text-charcoal font-bold text-[11px] shadow-xs hover:shadow transition-all cursor-pointer active:scale-95 whitespace-nowrap"
+                                title="Modify selected services">
+                                <span>✏️</span>
+                                <span>Edit</span>
+                            </button>
                         </div>
-                        <button type="button" onclick="editConfirmedServices()"
-                            class="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-gold-light border border-gold/70 text-charcoal font-black text-xs shadow-xs hover:shadow transition-all cursor-pointer active:scale-95"
-                            title="Modify selected services">
-                            <span>✏️</span>
-                            <span>Edit</span>
-                        </button>
+                        <div id="confirmedServicesPills" class="flex flex-wrap gap-1.5">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
 
                     <!-- STEP 6: WRITING-FIRST OPTIONAL TEXTAREA (Preserves customer's words) -->
                     <div class="mb-4">
                         <div class="flex items-center justify-between mb-1.5 px-0.5">
                             <label for="reviewCustomerNotes"
-                                class="text-xs font-bold text-charcoal flex items-center gap-1.5">
+                                class="text-[11.5px] font-bold text-charcoal flex items-center gap-1.5">
                                 <span>✍️</span>
                                 <span>Describe your experience <span
-                                        class="text-greyx font-normal">(optional)</span>:</span>
+                                        class="text-greyx font-normal">(optional)</span></span>
                             </label>
-                            <span id="reviewWordCount" class="text-[10px] font-semibold text-greyx">0 words</span>
+                            <span id="reviewWordCount" class="text-[10px] font-semibold text-greyx whitespace-nowrap">0 words</span>
                         </div>
                         <textarea id="reviewCustomerNotes" rows="2" oninput="handleCustomerNotesInput(this.value)"
-                            class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner resize-none"
+                            class="luxury-field w-full text-xs font-medium text-charcoal bg-ivory/70 border border-champagne-dark/50 focus:border-gold rounded-xl px-3 py-2.5 leading-relaxed focus:bg-white focus:outline-none transition-all resize-none placeholder:text-greyx/75"
                             placeholder="Loved your visit? Add personal details, or simply tap highlights below..."></textarea>
                     </div>
 
                     <!-- STEP 3, 4, 5: DYNAMIC GROUPED EXPERIENCE HIGHLIGHTS (Per selected service + universal visit) -->
                     <div class="mb-3">
-                        <div class="flex items-center justify-between mb-2 px-0.5">
+                        <div class="flex items-center justify-between gap-2 mb-2 px-0.5">
                             <span
-                                class="text-xs font-black uppercase tracking-wider text-charcoal flex items-center gap-1.5">
+                                class="text-[11px] sm:text-xs font-black uppercase tracking-wider text-charcoal flex items-center gap-1.5 leading-tight">
                                 <span>✨</span>
                                 <span>Tap what made your visit memorable:</span>
                             </span>
                             <span id="totalHighlightsBadge"
-                                class="text-[10.5px] font-bold text-gold-deep bg-gold-pale px-2.5 py-0.5 rounded-full border border-gold/40">
+                                class="text-[10px] font-bold text-gold-deep bg-gold-pale px-2.5 py-0.5 rounded-full border border-gold/40 whitespace-nowrap flex-shrink-0">
                                 0 selected
                             </span>
                         </div>
