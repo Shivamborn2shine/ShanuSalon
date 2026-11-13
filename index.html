@@ -154,7 +154,7 @@
             }
         }
 
-        
+
         /* Intent card styling */
         .intent-cat-card {
             transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
@@ -193,8 +193,15 @@
 
         /* Subtle typewriter cursor effect */
         @keyframes blinkCursor {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         .typewriter-cursor {
@@ -507,28 +514,44 @@
             opacity: 0 !important;
             pointer-events: none !important;
         }
-    
+
         /* Skeleton Breathing Animation for Curation Loader */
         @keyframes skeletonBreathe {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0.35;
                 transform: scale(0.985);
             }
+
             50% {
                 opacity: 0.95;
                 transform: scale(1.008);
             }
         }
+
         .skeleton-breathe {
             animation: skeletonBreathe 1.3s ease-in-out infinite;
         }
 
         @keyframes scissorRotate {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            75% { transform: rotate(10deg); }
-            100% { transform: rotate(0deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-10deg);
+            }
+
+            75% {
+                transform: rotate(10deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
         }
+
         .scissor-rotate {
             animation: scissorRotate 2s ease-in-out infinite;
         }
@@ -539,6 +562,7 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
+
         .curated-chip.is-curated-active {
             background: linear-gradient(135deg, #292929, #1C1C1C) !important;
             color: #FAF9F7 !important;
@@ -546,6 +570,7 @@
             box-shadow: 0 4px 14px rgba(41, 41, 41, 0.25) !important;
             transform: scale(1.02);
         }
+
         .curated-chip.is-curated-active .curated-chip-check {
             background-color: #D7B27A !important;
             color: #1C1C1C !important;
@@ -565,11 +590,13 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
+
         .focus-intent-card:hover {
             border-color: #D7B27A !important;
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(215, 178, 122, 0.25);
         }
+
         .focus-intent-card:active {
             transform: scale(0.98);
         }
@@ -580,6 +607,7 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
+
         .modal-service-chip.is-active-service {
             background: linear-gradient(135deg, #292929, #1C1C1C) !important;
             color: #FAF9F7 !important;
@@ -587,12 +615,12 @@
             box-shadow: 0 4px 14px rgba(41, 41, 41, 0.25) !important;
             transform: scale(1.02);
         }
+
         .modal-service-chip.is-active-service .chip-check-icon {
             background-color: #D7B27A !important;
             color: #1C1C1C !important;
         }
-
-</style>
+    </style>
 </head>
 
 <body class="antialiased selection:bg-gold selection:text-charcoal pb-32"
@@ -615,8 +643,7 @@
 
                 <!-- Interactive tap hotspot for WhatsApp over signboard WhatsApp badge -->
                 <a href="https://wa.me/918755527539?text=Hi%20THE%20UNISEX%20SALON%2C%20I'd%20like%20to%20book%20an%20appointment."
-                    target="_blank" rel="noopener"
-                    class="absolute top-[26%] right-[4%] w-[26%] h-[8%] z-10"
+                    target="_blank" rel="noopener" class="absolute top-[26%] right-[4%] w-[26%] h-[8%] z-10"
                     title="WhatsApp THE UNISEX SALON" aria-label="WhatsApp THE UNISEX SALON"></a>
             </div>
 
@@ -630,14 +657,17 @@
             <!-- SALON TITLE & VERIFIED BRAND BADGE -->
             <div class="text-center pt-2 pb-0.5">
                 <div class="inline-flex items-center justify-center gap-2 mb-1">
-                    <div class="relative w-10 h-10 rounded-full bg-charcoal border-2 border-gold shadow-sm overflow-hidden flex-shrink-0">
+                    <div
+                        class="relative w-10 h-10 rounded-full bg-charcoal border-2 border-gold shadow-sm overflow-hidden flex-shrink-0">
                         <img src="./assets/images/salon/profile-logo.jpg" alt="THE UNISEX SALON logo"
                             class="w-full h-full object-cover scale-[1.5]">
                     </div>
-                    <h2 class="font-display text-[26px] sm:text-[30px] font-bold text-charcoal tracking-[0.08em] uppercase leading-none">
+                    <h2
+                        class="font-display text-[26px] sm:text-[30px] font-bold text-charcoal tracking-[0.08em] uppercase leading-none">
                         The Unisex Salon
                     </h2>
-                    <span class="w-5 h-5 rounded-full bg-emerald-500 border-2 border-ivory flex items-center justify-center shadow-sm flex-shrink-0"
+                    <span
+                        class="w-5 h-5 rounded-full bg-emerald-500 border-2 border-ivory flex items-center justify-center shadow-sm flex-shrink-0"
                         title="Verified Salon">
                         <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
                             viewBox="0 0 24 24">
@@ -685,7 +715,8 @@
                     class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white hover:bg-gold-pale border border-gold/70 text-charcoal font-bold text-xs shadow-sm hover:shadow transition-all cursor-pointer active:scale-95">
                     <span class="text-gold-dark text-sm">✨</span>
                     <span>What brings you here?</span>
-                    <span class="px-2 py-0.5 rounded-full bg-gold-pale border border-gold/40 text-[10px] text-gold-deep font-extrabold uppercase">Personalize</span>
+                    <span
+                        class="px-2 py-0.5 rounded-full bg-gold-pale border border-gold/40 text-[10px] text-gold-deep font-extrabold uppercase">Personalize</span>
                 </button>
             </div>
 
@@ -707,7 +738,8 @@
                         <span class="text-emerald-700 text-xs sm:text-sm font-black -ml-0.5 leading-none">➔</span>
                     </div>
 
-                    <a id="waDirectBtn" href="https://wa.me/918755527539?text=Hi%20THE%20UNISEX%20SALON%2C%20I%27d%20like%20to%20book%20an%20appointment"
+                    <a id="waDirectBtn"
+                        href="https://wa.me/918755527539?text=Hi%20THE%20UNISEX%20SALON%2C%20I%27d%20like%20to%20book%20an%20appointment"
                         target="_blank" rel="noopener"
                         class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-extrabold shadow-sm whitespace-nowrap transition-all flex-shrink-0 cursor-pointer">
                         <span>WhatsApp Karo!</span>
@@ -728,7 +760,7 @@
                 <!-- 5A. REVIEW HEADING & CURATED 1-TAP OPTIONS (NO WRITING TEXTAREA) -->
                 <div id="reviewSelectionSection"
                     class="p-3.5 sm:p-4 rounded-3xl bg-white border border-transparent transition-all">
-                    
+
                     <!-- Heading & Subtitle -->
                     <div class="mb-3.5 pb-3 border-b border-champagne flex items-center justify-between">
                         <div class="flex items-center gap-3">
@@ -737,7 +769,8 @@
                                 <span class="text-gold-dark text-lg font-black">✦</span>
                             </div>
                             <div>
-                                <h2 class="text-base sm:text-lg font-extrabold text-charcoal tracking-tight uppercase leading-none">
+                                <h2
+                                    class="text-base sm:text-lg font-extrabold text-charcoal tracking-tight uppercase leading-none">
                                     How was your experience? ✨
                                 </h2>
                                 <p class="text-xs sm:text-[13px] font-semibold text-greyx mt-1">
@@ -753,7 +786,8 @@
                         class="mb-3.5 p-3 rounded-2xl bg-gradient-to-r from-gold-pale/90 via-white to-gold-light/40 border border-gold/70 text-charcoal flex items-center justify-between gap-2 shadow-xs transition-all">
                         <div class="flex-1 overflow-hidden">
                             <div class="flex items-center gap-2 mb-1.5">
-                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold-deep flex items-center gap-1">
+                                <span
+                                    class="text-[10px] font-extrabold uppercase tracking-widest text-gold-deep flex items-center gap-1">
                                     <span>✦</span>
                                     <span>YOUR CONFIRMED SERVICES</span>
                                 </span>
@@ -777,14 +811,15 @@
                     <!-- STEP 6: WRITING-FIRST OPTIONAL TEXTAREA (Preserves customer's words) -->
                     <div class="mb-4">
                         <div class="flex items-center justify-between mb-1.5 px-0.5">
-                            <label for="reviewCustomerNotes" class="text-xs font-bold text-charcoal flex items-center gap-1.5">
+                            <label for="reviewCustomerNotes"
+                                class="text-xs font-bold text-charcoal flex items-center gap-1.5">
                                 <span>✍️</span>
-                                <span>Describe your experience <span class="text-greyx font-normal">(optional)</span>:</span>
+                                <span>Describe your experience <span
+                                        class="text-greyx font-normal">(optional)</span>:</span>
                             </label>
                             <span id="reviewWordCount" class="text-[10px] font-semibold text-greyx">0 words</span>
                         </div>
-                        <textarea id="reviewCustomerNotes" rows="2"
-                            oninput="handleCustomerNotesInput(this.value)"
+                        <textarea id="reviewCustomerNotes" rows="2" oninput="handleCustomerNotesInput(this.value)"
                             class="luxury-field w-full text-xs sm:text-[13px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl p-3 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner resize-none"
                             placeholder="Loved your visit? Add personal details, or simply tap highlights below..."></textarea>
                     </div>
@@ -792,7 +827,8 @@
                     <!-- STEP 3, 4, 5: DYNAMIC GROUPED EXPERIENCE HIGHLIGHTS (Per selected service + universal visit) -->
                     <div class="mb-3">
                         <div class="flex items-center justify-between mb-2 px-0.5">
-                            <span class="text-xs font-black uppercase tracking-wider text-charcoal flex items-center gap-1.5">
+                            <span
+                                class="text-xs font-black uppercase tracking-wider text-charcoal flex items-center gap-1.5">
                                 <span>✨</span>
                                 <span>Tap what made your visit memorable:</span>
                             </span>
@@ -822,9 +858,12 @@
                     <!-- 5B. REVIEW CONTROLS (Length + Language - Clean Responsive Stack) -->
                     <div class="pt-3 border-t border-champagne/80 grid grid-cols-1 gap-2">
                         <!-- Review Length Selector (Short by default) -->
-                        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
-                            <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Length:</span>
-                            <div class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
+                        <div
+                            class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
+                            <span
+                                class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Length:</span>
+                            <div
+                                class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
                                 <button type="button" onclick="setReviewLength('SHORT')" id="lenBtnShort"
                                     class="length-pill px-2.5 py-1 rounded-lg is-active cursor-pointer">Short</button>
                                 <button type="button" onclick="setReviewLength('BALANCED')" id="lenBtnBalanced"
@@ -835,9 +874,12 @@
                         </div>
 
                         <!-- Language Selector (English / Hinglish) -->
-                        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
-                            <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Language:</span>
-                            <div class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
+                        <div
+                            class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-ivory/80 border border-champagne/70 shadow-xs">
+                            <span
+                                class="text-[10.5px] font-extrabold uppercase tracking-wider text-greyx pl-1.5">Language:</span>
+                            <div
+                                class="inline-flex p-0.5 rounded-xl bg-white border border-champagne text-[11px] font-bold shadow-xs">
                                 <button type="button" data-lang="ENGLISH" onclick="setLanguage('ENGLISH')"
                                     class="lang-btn px-3 py-1 rounded-lg bg-charcoal text-ivory font-black cursor-pointer">English</button>
                                 <button type="button" data-lang="HINGLISH" onclick="setLanguage('HINGLISH')"
@@ -853,7 +895,8 @@
                     <span id="generateBtnIcon" class="text-base">✨</span>
                     <span id="generateBtnText">Help Me Write Review ➔</span>
                 </button>
-                <div class="text-center text-[11px] sm:text-xs text-greyx font-semibold mt-2 mb-3.5 flex items-center justify-center gap-2">
+                <div
+                    class="text-center text-[11px] sm:text-xs text-greyx font-semibold mt-2 mb-3.5 flex items-center justify-center gap-2">
                     <span>1-Tap AI review from your highlights</span>
                     <span class="w-1 h-1 rounded-full bg-greyx"></span>
                     <span>100% editable</span>
@@ -911,7 +954,7 @@
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
                             <span id="reviewBasisText" class="truncate font-semibold">Strictly uses your details</span>
                         </span>
-                        
+
                         <div class="flex items-center gap-1.5 flex-shrink-0">
                             <!-- Restore Original Writing (appears when customer wrote text) -->
                             <button type="button" id="restoreWritingBtn" onclick="restoreOriginalWriting()"
@@ -972,7 +1015,7 @@
                 </div>
 
             </div>
-<!-- 6. CORE OFFERINGS STRIP (6 services, under Copy Review CTA) -->
+            <!-- 6. CORE OFFERINGS STRIP (6 services, under Copy Review CTA) -->
             <div class="mt-4 rounded-3xl bg-white border border-champagne shadow-sm overflow-hidden">
                 <div class="px-4 pt-3 pb-1 flex items-center justify-between">
                     <h3 class="text-[11px] font-bold uppercase tracking-wider text-greyx">Our Core Services</h3>
@@ -2573,7 +2616,7 @@
         let charIndex = 0;
         let isDeleting = false;
 
-// Using preceding SHORT_PHRASES_BANK definition
+        // Using preceding SHORT_PHRASES_BANK definition
 
         /* ========================================================
            STEP 1: INITIAL 3-OPTION FOCUS POP-UP
@@ -2753,7 +2796,7 @@
             if (input && input.value.trim().length > 0) {
                 const val = input.value.trim();
                 const formatted = val.charAt(0).toUpperCase() + val.slice(1);
-                
+
                 // Add to multi-select list if not already present
                 if (!confirmedServicesList.some(s => s.toLowerCase() === formatted.toLowerCase())) {
                     confirmedServicesList.push(formatted);
@@ -2785,7 +2828,7 @@
         function selectServiceChip(catKey, serviceName) {
             // MULTI-SELECT: Toggle service in confirmedServicesList
             const existingIdx = confirmedServicesList.findIndex(s => s.toLowerCase() === serviceName.toLowerCase());
-            
+
             if (existingIdx !== -1) {
                 // Deselect
                 confirmedServicesList.splice(existingIdx, 1);
@@ -3265,178 +3308,341 @@
         }
 
         /* ========================================================
-           STEP 7: MULTI-SERVICE AI REVIEW SYNTHESIS ENGINE (POLISHED)
+           STEP 7: HUMANIZED MULTI-SERVICE REVIEW DATABASE ENGINE
            ======================================================== */
         const REVIEW_AI_ENGINE = {
+            _lastPickByKey: {},
+
+            _pickNonRepeating(key, arr) {
+                if (!arr || arr.length === 0) return '';
+                if (arr.length === 1) return arr[0];
+                const last = this._lastPickByKey[key];
+                let idx = Math.floor(Math.random() * arr.length);
+                if (idx === last) idx = (idx + 1) % arr.length;
+                this._lastPickByKey[key] = idx;
+                return arr[idx];
+            },
+
+            _detectServiceBucket(services) {
+                const joined = (services || []).join(' ').toLowerCase();
+                if ((services || []).length > 2) return 'multi';
+                if (/bridal|party|makeup|engagement|reception/.test(joined)) return 'makeup';
+                if (/keratin|smoothening|straightening|botox/.test(joined)) return 'keratin';
+                if (/colour|color|balayage|highlights/.test(joined)) return 'colour';
+                if (/hair spa|spa treatment/.test(joined)) return 'hairspa';
+                if (/haircut|hair cut|trim|fade/.test(joined)) return 'haircut';
+                if (/blow dry|styling/.test(joined)) return 'styling';
+                if (/beard|grooming/.test(joined)) return 'beard';
+                if (/facial|cleanup|clean-up|detan|d-tan|brightening|face massage/.test(joined)) return 'facial';
+                if (/waxing|threading|eyebrow/.test(joined)) return 'waxing';
+                if (/nail|manicure|pedicure/.test(joined)) return 'nails';
+                return 'general';
+            },
+
+            _formatHighlightList(items, conj = 'and') {
+                const clean = items.map(h => h.trim().toLowerCase()).filter(Boolean);
+                if (clean.length === 0) return '';
+                if (clean.length === 1) return clean[0];
+                if (clean.length === 2) return `${clean[0]} ${conj} ${clean[1]}`;
+                return `${clean.slice(0, -1).join(', ')}, ${conj} ${clean[clean.length - 1]}`;
+            },
+
             generate(lang = 'ENGLISH', length = 'BALANCED') {
                 const confirmed = confirmedServicesList.length > 0 ? confirmedServicesList : ["Hair Spa"];
                 const customerNotes = customerWrittenReviewNotes;
 
-                // Group highlights for AI synthesis
                 const detailsByGroup = {};
+                const serviceHighlightsFlat = [];
                 for (const [groupKey, list] of Object.entries(selectedHighlightsMap)) {
                     if (list && list.length > 0) {
                         detailsByGroup[groupKey] = list;
+                        if (groupKey !== 'overall') {
+                            list.forEach(item => {
+                                if (!serviceHighlightsFlat.includes(item)) serviceHighlightsFlat.push(item);
+                            });
+                        }
                     }
                 }
 
                 const ctx = {
                     services: confirmed,
                     servicesText: formatServicesListText(confirmed),
+                    bucket: this._detectServiceBucket(confirmed),
                     detailsByGroup,
+                    serviceHighlightsFlat,
+                    overallHighlights: detailsByGroup['overall'] || [],
                     customerNotes,
                     length,
                     lang
                 };
 
-                if (lang === 'HINGLISH') {
-                    return this.synthesizeHinglish(ctx);
-                } else {
-                    return this.synthesizeEnglish(ctx);
-                }
+                return lang === 'HINGLISH'
+                    ? this.synthesizeHinglish(ctx)
+                    : this.synthesizeEnglish(ctx);
             },
 
             synthesizeEnglish(ctx) {
-                const parts = [];
+                const s = ctx.servicesText;
+                const hl1 = ctx.serviceHighlightsFlat[0] ? ctx.serviceHighlightsFlat[0].toLowerCase() : '';
+                const hlAll = this._formatHighlightList(ctx.serviceHighlightsFlat, 'and');
+                const ovAll = this._formatHighlightList(ctx.overallHighlights, 'and');
 
-                // 1. Customer Written Note (if present)
+                const EN_OPENERS = {
+                    haircut: [
+                        `Got my ${s} done at THE UNISEX SALON in Clement Town and finally walked out with the exact look I asked for.`,
+                        `Stopped by THE UNISEX SALON on Post Office Road for ${s} — really happy with how neat and fresh it turned out.`,
+                        `Had a great ${s} session at THE UNISEX SALON. The stylist actually took time to listen before starting.`,
+                        `Tried THE UNISEX SALON in Clement Town for ${s} and honestly loved the final cut.`
+                    ],
+                    hairspa: [
+                        `Booked ${s} at THE UNISEX SALON and it felt like a proper reset — super relaxing from start to finish.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${s} and my hair felt noticeably softer right away.`,
+                        `Had such a calming ${s} experience at THE UNISEX SALON in Clement Town. Worth every minute.`,
+                        `Got ${s} done here today and walked out with smooth, manageable hair without any heaviness.`
+                    ],
+                    colour: [
+                        `Got ${s} done at THE UNISEX SALON in Clement Town — the tone and blend came out so natural.`,
+                        `Really glad I trusted THE UNISEX SALON on Post Office Road for ${s}. The shade suited me right away.`,
+                        `Had my ${s} done at THE UNISEX SALON and the colour looks super even and vibrant without feeling dry.`,
+                        `Visited THE UNISEX SALON for ${s} and their shade suggestion turned out spot-on.`
+                    ],
+                    keratin: [
+                        `Got ${s} done at THE UNISEX SALON — my frizz is gone and my hair still has natural movement.`,
+                        `Tried THE UNISEX SALON in Clement Town for ${s} and the smooth finish made my daily styling so much easier.`,
+                        `Very happy with my ${s} results from THE UNISEX SALON on Post Office Road. Neat, careful application throughout.`,
+                        `Visited THE UNISEX SALON for ${s} and genuinely impressed by how soft and shiny my hair feels.`
+                    ],
+                    styling: [
+                        `Dropped into THE UNISEX SALON for ${s} before heading out — held its shape really well and looked effortless.`,
+                        `Got ${s} done at THE UNISEX SALON in Clement Town and loved the volume and clean finish.`,
+                        `Quick, neat ${s} at THE UNISEX SALON on Post Office Road. Exactly what I needed.`
+                    ],
+                    beard: [
+                        `Got ${s} at THE UNISEX SALON in Clement Town — crisp lines, clean tools, and zero rush.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${s} and the detailing was super sharp.`,
+                        `Great ${s} experience at THE UNISEX SALON. Friendly vibe and very neat work.`
+                    ],
+                    makeup: [
+                        `Got my ${s} done at THE UNISEX SALON in Clement Town — stayed fresh for hours and looked natural in photos too.`,
+                        `Really happy with my ${s} from THE UNISEX SALON on Post Office Road. Blended seamlessly without feeling heavy.`,
+                        `Booked ${s} at THE UNISEX SALON and they matched the exact reference look I had in mind.`
+                    ],
+                    facial: [
+                        `Went in for ${s} at THE UNISEX SALON in Clement Town and my skin felt genuinely clean, calm, and hydrated afterward.`,
+                        `Had a super relaxing ${s} session at THE UNISEX SALON on Post Office Road — noticed a fresh glow right away.`,
+                        `Tried ${s} at THE UNISEX SALON and loved how gentle and thorough the whole session was.`,
+                        `Got ${s} done at THE UNISEX SALON today — soothing massage, zero harshness, and very clean setup.`
+                    ],
+                    waxing: [
+                        `Very hygienic and comfortable ${s} experience at THE UNISEX SALON in Clement Town.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${s} — gentle, quick, and clean throughout.`,
+                        `Really appreciated how neat and painless the ${s} session was at THE UNISEX SALON.`
+                    ],
+                    nails: [
+                        `Got ${s} done at THE UNISEX SALON in Clement Town and the finishing is super clean.`,
+                        `Loved my ${s} from THE UNISEX SALON on Post Office Road — they didn't rush the detailing at all.`,
+                        `Visited THE UNISEX SALON for ${s} and walked out obsessed with how neat my nails look.`
+                    ],
+                    multi: [
+                        `Spent a couple of hours at THE UNISEX SALON in Clement Town for ${s} and everything went smoothly.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${s} — great coordination and consistent quality across every step.`,
+                        `Got ${s} done together at THE UNISEX SALON and walked out feeling completely refreshed.`
+                    ],
+                    general: [
+                        `Had a really pleasant visit to THE UNISEX SALON in Clement Town for ${s}.`,
+                        `Visited THE UNISEX SALON on Post Office Road for ${s} and left genuinely satisfied with the results.`,
+                        `Tried THE UNISEX SALON for ${s} today — warm team and great attention to detail.`
+                    ]
+                };
+
+                const EN_SHORT_TEMPLATES = [
+                    `Great ${s} experience at THE UNISEX SALON in Clement Town${hl1 ? ` — loved the ${hl1}` : ''}! Clean space and polite staff. Definitely coming back.`,
+                    `Visited THE UNISEX SALON on Post Office Road for ${s}${hl1 ? `, especially appreciated the ${hl1}` : ''}. Super friendly team and great results.`,
+                    `Really happy with my ${s} at THE UNISEX SALON${hl1 ? ` (${hl1})` : ''}. Hygienic setup, no rush, and fair pricing!`,
+                    `Stopped by THE UNISEX SALON for ${s} and walked out super satisfied${hl1 ? ` with the ${hl1}` : ''}. Easily one of the best spots in Clement Town.`
+                ];
+
+                const EN_CLOSINGS_BALANCED = [
+                    `Clean, comfortable setup and polite staff — definitely my go-to spot in Clement Town now.`,
+                    `Would happily recommend THE UNISEX SALON to anyone around Dehradun looking for reliable service.`,
+                    `Great experience overall without any pushy upselling. Will be back soon!`
+                ];
+
+                const EN_CLOSINGS_DETAILED = [
+                    `The place is spotless, the team is welcoming without rushing you, and pricing is fair for the quality. Easily 5/5 stars — looking forward to my next visit!`,
+                    `Warm hospitality, hygienic tools, and genuine care throughout the appointment. Definitely recommending THE UNISEX SALON to friends and family in Dehradun!`,
+                    `From the consultation to the final finish, everything felt thoughtful and well-paced. Worth visiting if you're near Clement Town or Post Office Road.`
+                ];
+
+                if (ctx.length === 'SHORT') {
+                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                        const cleanNotes = ctx.customerNotes.trim();
+                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                        return `${formatted} Great ${s} at THE UNISEX SALON in Clement Town — highly recommended!`;
+                    }
+                    return this._pickNonRepeating(`en_short_${ctx.bucket}`, EN_SHORT_TEMPLATES);
+                }
+
+                const parts = [];
                 if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
                     const cleanNotes = ctx.customerNotes.trim();
                     const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
                     parts.push(formatted);
                 }
 
-                // 2. Opening mentioning all confirmed services
-                const openings = [
-                    `Had a wonderful experience getting ${ctx.servicesText} done at THE UNISEX SALON in Clement Town.`,
-                    `Visited THE UNISEX SALON on Post Office Road for ${ctx.servicesText}, and the results were exceptional!`,
-                    `Really happy with my ${ctx.servicesText} at THE UNISEX SALON.`
-                ];
-                // Only add opening if customer note didn't already fully describe the visit
                 if (!ctx.customerNotes || ctx.customerNotes.length < 50) {
-                    parts.push(openings[Math.floor(Math.random() * openings.length)]);
+                    const openers = EN_OPENERS[ctx.bucket] || EN_OPENERS.general;
+                    parts.push(this._pickNonRepeating(`en_open_${ctx.bucket}`, openers));
                 }
 
-                // 3. Service Specific Highlights
-                for (const [groupKey, highlights] of Object.entries(ctx.detailsByGroup)) {
-                    if (groupKey === 'overall') continue;
-                    const hItems = highlights.map(h => h.trim());
-                    if (hItems.length === 1) {
-                        parts.push(`For the ${groupKey.toLowerCase()}, I really appreciated the ${hItems[0].toLowerCase()}.`);
-                    } else if (hItems.length === 2) {
-                        parts.push(`For the ${groupKey.toLowerCase()}, loved the ${hItems[0].toLowerCase()} with a ${hItems[1].toLowerCase()}.`);
-                    } else {
-                        parts.push(`For the ${groupKey.toLowerCase()}, appreciated the ${hItems.slice(0, -1).map(h => h.toLowerCase()).join(', ')}, and ${hItems[hItems.length - 1].toLowerCase()}.`);
-                    }
-                }
-
-                // 4. Overall Highlights
-                const overallList = ctx.detailsByGroup['overall'] || [];
-                if (overallList.length > 0) {
-                    const oText = overallList.map(h => h.toLowerCase());
-                    if (oText.length === 1) {
-                        parts.push(`Also appreciated the ${oText[0]}.`);
-                    } else {
-                        parts.push(`Also appreciated the ${oText.slice(0, -1).join(', ')}, and ${oText[oText.length - 1]}.`);
-                    }
-                } else if (!ctx.customerNotes) {
-                    parts.push("The salon is spotless, well-maintained, and the team is very welcoming.");
-                }
-
-                // For SHORT: produce a brief, punchy 1-2 sentence review!
-                if (ctx.length === 'SHORT') {
-                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
-                        const cleanNotes = ctx.customerNotes.trim();
-                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
-                        return `${formatted} Loved my visit for ${ctx.servicesText} at THE UNISEX SALON. Highly recommended!`;
-                    }
-
-                    const firstGroupKey = Object.keys(ctx.detailsByGroup).find(k => k !== 'overall');
-                    let highlightSnippet = '';
-                    if (firstGroupKey && ctx.detailsByGroup[firstGroupKey]?.length > 0) {
-                        highlightSnippet = `, especially the ${ctx.detailsByGroup[firstGroupKey][0].toLowerCase()}`;
-                    }
-
-                    const shortOpenings = [
-                        `Great experience getting ${ctx.servicesText} done at THE UNISEX SALON${highlightSnippet}! Clean space and polite staff. Highly recommend!`,
-                        `Loved my ${ctx.servicesText} at THE UNISEX SALON${highlightSnippet}! Super friendly team and great results. 5/5 stars!`,
-                        `Visited THE UNISEX SALON for ${ctx.servicesText} and had a fantastic time${highlightSnippet}. Definitely recommended!`
+                // Service-specific highlights woven naturally
+                const groupEntries = Object.entries(ctx.detailsByGroup).filter(([k]) => k !== 'overall');
+                if (groupEntries.length === 1 && hlAll) {
+                    const hlConnectors = [
+                        `What stood out most was the ${hlAll}.`,
+                        `Really appreciated the ${hlAll}.`,
+                        `Especially loved the ${hlAll}.`
                     ];
-                    return shortOpenings[Math.floor(Math.random() * shortOpenings.length)];
+                    parts.push(this._pickNonRepeating('en_hl_single', hlConnectors));
+                } else if (groupEntries.length > 1) {
+                    groupEntries.forEach(([groupKey, list]) => {
+                        const txt = this._formatHighlightList(list, 'and');
+                        if (txt) parts.push(`For ${groupKey.toLowerCase()}, loved the ${txt}.`);
+                    });
                 }
 
-                // 5. Closing based on length
+                if (ovAll) {
+                    const ovConnectors = [
+                        `Also really liked the ${ovAll}.`,
+                        `The ${ovAll} made the whole visit even better.`
+                    ];
+                    parts.push(this._pickNonRepeating('en_ov', ovConnectors));
+                }
+
                 if (ctx.length === 'DETAILED') {
-                    parts.push("Great ambience, warm hospitality, and fair pricing. 5/5 stars, definitely looking forward to visiting again!");
+                    parts.push(this._pickNonRepeating('en_close_det', EN_CLOSINGS_DETAILED));
                 } else {
-                    parts.push("Definitely my go-to salon in Dehradun now. Would highly recommend to everyone!");
+                    parts.push(this._pickNonRepeating('en_close_bal', EN_CLOSINGS_BALANCED));
                 }
 
                 return parts.join(' ');
             },
 
             synthesizeHinglish(ctx) {
-                const parts = [];
+                const s = ctx.servicesText;
+                const hl1 = ctx.serviceHighlightsFlat[0] ? ctx.serviceHighlightsFlat[0].toLowerCase() : '';
+                const hlAll = this._formatHighlightList(ctx.serviceHighlightsFlat, 'aur');
+                const ovAll = this._formatHighlightList(ctx.overallHighlights, 'aur');
 
-                // 1. Customer Written Note (if present)
+                const HI_OPENERS = {
+                    haircut: [
+                        `THE UNISEX SALON (Clement Town) mein ${s} karwaya — bilkul waisa hi look mila jaisa chahiye tha!`,
+                        `Post Office Road par THE UNISEX SALON mein ${s} try kiya, cutting bohot neat aur fresh lagi.`,
+                        `Yahan ka ${s} experience kaafi sahi raha, stylist ne pehle achhe se samjha aur bina jaldi kiye kaam kiya.`
+                    ],
+                    hairspa: [
+                        `THE UNISEX SALON mein ${s} liya, bohot relaxing session tha aur baal ekdum soft ho gaye.`,
+                        `Clement Town mein ${s} ke liye THE UNISEX SALON visit kiya — head massage aur result dono zabardast the.`,
+                        `Aaj THE UNISEX SALON mein ${s} karwaya, baal kaafi smooth aur manageable feel ho rahe hain.`
+                    ],
+                    colour: [
+                        `THE UNISEX SALON mein ${s} karwaya — shade bilkul natural aur even aaya hai.`,
+                        `Post Office Road wale THE UNISEX SALON se ${s} karwaya, jo shade suggest kiya tha woh bohot suit kiya.`
+                    ],
+                    keratin: [
+                        `THE UNISEX SALON (Clement Town) se ${s} karwaya — frizz bilkul khatam ho gaya aur hair natural lag rahe hain.`,
+                        `Yahan ${s} ka result genuinely impressive raha, baal bohot smooth aur shiny ho gaye hain.`
+                    ],
+                    styling: [
+                        `Function se pehle THE UNISEX SALON mein ${s} karwaya — volume aur finishing kaafi der tak set rahi.`,
+                        `THE UNISEX SALON mein ${s} bohot neatly aur fast hua, look bilkul classy aaya.`
+                    ],
+                    beard: [
+                        `THE UNISEX SALON (Clement Town) mein ${s} karwaya — lines ekdum sharp aur clean setup tha.`,
+                        `Post Office Road par ${s} ke liye THE UNISEX SALON gaya, kaafi neat aur comfortable experience raha.`
+                    ],
+                    makeup: [
+                        `THE UNISEX SALON mein ${s} karwaya — base bilkul natural tha aur kaafi der tak fresh raha.`,
+                        `Clement Town mein THE UNISEX SALON se ${s} karwaya, bilkul waisa hi look mila jaisa main chahti thi.`
+                    ],
+                    facial: [
+                        `THE UNISEX SALON mein ${s} karwaya — skin bilkul clean, hydrated aur glowing feel ho rahi hai.`,
+                        `Clement Town mein ${s} ke liye THE UNISEX SALON visit kiya, bohot soothing aur hygienic session tha.`
+                    ],
+                    waxing: [
+                        `THE UNISEX SALON (Clement Town) mein ${s} bohot cleanly aur comfortably hua — staff kaafi gentle hai.`,
+                        `Post Office Road par ${s} ke liye THE UNISEX SALON gayi, hygiene aur speed dono top notch the.`
+                    ],
+                    nails: [
+                        `THE UNISEX SALON mein ${s} karwaya aur finishing ekdum neat aayi hai — bilkul rush nahi kiya.`,
+                        `Clement Town mein THE UNISEX SALON par ${s} try kiya, detailing bohot pyaari ki.`
+                    ],
+                    multi: [
+                        `THE UNISEX SALON (Clement Town) mein ${s} ek saath karwaya — har service mein proper time aur care mili.`,
+                        `Post Office Road par THE UNISEX SALON visit kiya for ${s}, overall experience bohot smooth aur relaxing raha.`
+                    ],
+                    general: [
+                        `THE UNISEX SALON (Clement Town) mein ${s} karwaya, experience genuinely bohot accha raha!`,
+                        `Post Office Road par THE UNISEX SALON visit kiya for ${s}, results dekh kar dil khush ho gaya.`
+                    ]
+                };
+
+                const HI_SHORT_TEMPLATES = [
+                    `THE UNISEX SALON (Clement Town) mein ${s} karwaya${hl1 ? ` — ${hl1} sabse best laga` : ''}! Clean space aur polite staff. Zaroor visit karein!`,
+                    `Post Office Road par THE UNISEX SALON visit kiya for ${s}${hl1 ? ` (${hl1})` : ''}. Kaafi satisfying result aur fair price raha!`,
+                    `Clement Town mein ${s} ke liye THE UNISEX SALON best laga${hl1 ? `, khaaskar ${hl1}` : ''}. Friendly team aur neat kaam!`,
+                    `Aaj THE UNISEX SALON mein ${s} karwaya aur result 10/10 raha${hl1 ? ` — loved the ${hl1}` : ''}. Highly recommended!`
+                ];
+
+                const HI_CLOSINGS_BALANCED = [
+                    `Clean salon, polite staff aur fair pricing — Clement Town mein ab mera go-to salon yahi hai.`,
+                    `Dehradun mein reliable service chahiye toh ek baar zaroor try karein. 5 stars!`
+                ];
+
+                const HI_CLOSINGS_DETAILED = [
+                    `Salon ka ambience bohot relaxing aur hygienic hai, staff bina kisi rush ke kaam karta hai, aur pricing bhi bilkul genuine hai. Next visit ke liye definitely wapas aaunga/aaungi!`,
+                    `Cleanliness, polite behaviour aur kaam ki quality sab top class tha. Friends aur family ko bhi zaroor recommend karunga/karungi!`
+                ];
+
+                if (ctx.length === 'SHORT') {
+                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
+                        const cleanNotes = ctx.customerNotes.trim();
+                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
+                        return `${formatted} THE UNISEX SALON (Clement Town) mein ${s} karwaya, bohot accha laga. Highly recommend!`;
+                    }
+                    return this._pickNonRepeating(`hi_short_${ctx.bucket}`, HI_SHORT_TEMPLATES);
+                }
+
+                const parts = [];
                 if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
                     const cleanNotes = ctx.customerNotes.trim();
                     const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
                     parts.push(formatted);
                 }
 
-                // 2. Opening mentioning all confirmed services
-                const openings = [
-                    `THE UNISEX SALON (Clement Town) mein ${ctx.servicesText} karwaya, experience bohot hi badhiya raha!`,
-                    `Post Office Road par THE UNISEX SALON visit kiya for ${ctx.servicesText}, genuinely bohot accha laga.`
-                ];
                 if (!ctx.customerNotes || ctx.customerNotes.length < 50) {
-                    parts.push(openings[Math.floor(Math.random() * openings.length)]);
+                    const openers = HI_OPENERS[ctx.bucket] || HI_OPENERS.general;
+                    parts.push(this._pickNonRepeating(`hi_open_${ctx.bucket}`, openers));
                 }
 
-                // 3. Service Specific Highlights
-                for (const [groupKey, highlights] of Object.entries(ctx.detailsByGroup)) {
-                    if (groupKey === 'overall') continue;
-                    const hItems = highlights.map(h => h.trim());
-                    if (hItems.length === 1) {
-                        parts.push(`${groupKey} ka experience bohot badhiya raha (${hItems[0]}).`);
-                    } else {
-                        parts.push(`${groupKey} bohot neatly hua — ${hItems.slice(0, -1).join(', ')} aur ${hItems[hItems.length - 1]}.`);
-                    }
+                const groupEntries = Object.entries(ctx.detailsByGroup).filter(([k]) => k !== 'overall');
+                if (groupEntries.length === 1 && hlAll) {
+                    parts.push(`Khaaskar ${hlAll} bohot pasand aaya.`);
+                } else if (groupEntries.length > 1) {
+                    groupEntries.forEach(([groupKey, list]) => {
+                        const txt = this._formatHighlightList(list, 'aur');
+                        if (txt) parts.push(`${groupKey} mein ${txt} kaafi sahi laga.`);
+                    });
                 }
 
-                // 4. Overall Highlights
-                const overallList = ctx.detailsByGroup['overall'] || [];
-                if (overallList.length > 0) {
-                    parts.push(`Staff kaafi polite aur supportive hai, aur salon bilkul neat, clean aur hygienic hai.`);
+                if (ovAll) {
+                    parts.push(`Saath hi ${ovAll} bhi bohot accha raha.`);
                 }
 
-                // For SHORT: produce a brief, punchy 1-2 sentence review!
-                if (ctx.length === 'SHORT') {
-                    if (ctx.customerNotes && ctx.customerNotes.trim().length > 0) {
-                        const cleanNotes = ctx.customerNotes.trim();
-                        const formatted = /[.!?]$/.test(cleanNotes) ? cleanNotes : cleanNotes + '.';
-                        return `${formatted} THE UNISEX SALON mein ${ctx.servicesText} karwaya, bohot accha laga. Highly recommend!`;
-                    }
-
-                    const firstGroupKey = Object.keys(ctx.detailsByGroup).find(k => k !== 'overall');
-                    let highlightSnippet = '';
-                    if (firstGroupKey && ctx.detailsByGroup[firstGroupKey]?.length > 0) {
-                        highlightSnippet = ` (${ctx.detailsByGroup[firstGroupKey][0]})`;
-                    }
-
-                    const shortOpenings = [
-                        `THE UNISEX SALON (Clement Town) mein ${ctx.servicesText} karwaya, bohot hi badhiya experience raha${highlightSnippet}! Staff aur cleanliness dono top notch. Highly recommended!`,
-                        `Post Office Road par THE UNISEX SALON visit kiya for ${ctx.servicesText}${highlightSnippet}. Kaafi satisfying results rahe. Zaroor visit karein!`
-                    ];
-                    return shortOpenings[Math.floor(Math.random() * shortOpenings.length)];
-                }
-
-                // 5. Closing
                 if (ctx.length === 'DETAILED') {
-                    parts.push("Ambience bohot relaxing tha aur results 100% satisfying. Aage bhi zaroor visit karunga/karungi!");
+                    parts.push(this._pickNonRepeating('hi_close_det', HI_CLOSINGS_DETAILED));
                 } else {
-                    parts.push("Sabhi ko zaroor try karna chahiye. 5 stars!");
+                    parts.push(this._pickNonRepeating('hi_close_bal', HI_CLOSINGS_BALANCED));
                 }
 
                 return parts.join(' ');
@@ -3588,11 +3794,11 @@
 
         function copyAndRedirectReview() {
             const ta = document.getElementById('aiReviewOutput');
-            const textToCopy = (ta && !ta.classList.contains('hidden') && ta.value) 
-                ? ta.value 
+            const textToCopy = (ta && !ta.classList.contains('hidden') && ta.value)
+                ? ta.value
                 : (currentFullReviewText || "Had a wonderful experience at THE UNISEX SALON!");
 
-            const reviewUrl = (STORE_CONFIG.reviews && STORE_CONFIG.reviews.writeReviewUrl) 
+            const reviewUrl = (STORE_CONFIG.reviews && STORE_CONFIG.reviews.writeReviewUrl)
                 || (STORE_CONFIG.links && STORE_CONFIG.links.googleReviewUrl)
                 || "https://search.google.com/local/writereview?placeid=ChIJhWsCLwArCTkRAZxPHrEG-4I";
 
@@ -3879,20 +4085,20 @@
             continueWithCuratedService();
         }
 
-        function openWelcomeModal() {}
-        function closeWelcomeModal() {}
-        function toggleWelcomeItem() {}
-        function confirmWelcomeModal() {}
-        function openSubOptionSheet() {}
-        function closeSubOptionSheet() {}
-        function toggleShowMoreSubOptions() {}
-        function clearCurrentCategorySelections() {}
-        function confirmSubOptionSheet() {}
-        function restoreOriginalWriting() {}
-        function renderReviewCategoryPills() {}
-        function setReviewCategoryFilter() {}
+        function openWelcomeModal() { }
+        function closeWelcomeModal() { }
+        function toggleWelcomeItem() { }
+        function confirmWelcomeModal() { }
+        function openSubOptionSheet() { }
+        function closeSubOptionSheet() { }
+        function toggleShowMoreSubOptions() { }
+        function clearCurrentCategorySelections() { }
+        function confirmSubOptionSheet() { }
+        function restoreOriginalWriting() { }
+        function renderReviewCategoryPills() { }
+        function setReviewCategoryFilter() { }
         function renderCuratedReviewChips() { renderDynamicGroupedHighlights(); }
-        function toggleCuratedChip() {}
+        function toggleCuratedChip() { }
         function clearAllSelections() { clearAllExperienceHighlights(); }
         function updateSelectionSummary() { updateHighlightsSummaryTray(); }
 
@@ -4306,9 +4512,9 @@
         function skipReviewTour() {
             closeAllTourPopups();
         }
-/* ========================================================
-           INITIALIZATION ON DOM LOAD
-           ======================================================== */
+        /* ========================================================
+                   INITIALIZATION ON DOM LOAD
+                   ======================================================== */
         window.addEventListener('DOMContentLoaded', () => {
             // Render components
             renderReviewCategoryPills();
@@ -4454,10 +4660,11 @@
         class="fixed inset-0 z-[120] bg-charcoal-deep/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
         <div class="max-w-md w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-2xl border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
             onclick="event.stopPropagation()">
-            
+
             <!-- Header -->
             <div class="text-center mb-5">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-pale border border-gold/60 text-gold-deep mb-2.5 shadow-sm">
+                <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-pale border border-gold/60 text-gold-deep mb-2.5 shadow-sm">
                     <span>✦</span>
                     <span>THE UNISEX SALON • CLEMENT TOWN</span>
                 </span>
@@ -4475,7 +4682,8 @@
                 <button type="button" onclick="selectInitialIntent('REVIEW')"
                     class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-gold-pale/80 via-white to-gold-light/40 border-2 border-gold/70 text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
                     <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-2xl bg-white border border-gold/60 text-gold-deep flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                        <div
+                            class="w-11 h-11 rounded-2xl bg-white border border-gold/60 text-gold-deep flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                             ⭐
                         </div>
                         <div>
@@ -4483,21 +4691,25 @@
                                 <h3 class="text-sm sm:text-base font-black text-charcoal leading-tight">
                                     Give a Review
                                 </h3>
-                                <span class="px-2 py-0.5 rounded-full bg-gold-deep text-white text-[9px] font-extrabold uppercase tracking-wider">Fast AI</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-full bg-gold-deep text-white text-[9px] font-extrabold uppercase tracking-wider">Fast
+                                    AI</span>
                             </div>
                             <p class="text-xs text-greyx font-medium mt-0.5 leading-snug">
                                 Share what service you had &amp; post on Google in 1 tap
                             </p>
                         </div>
                     </div>
-                    <span class="w-8 h-8 rounded-xl bg-gold-light/80 text-gold-deep flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
+                    <span
+                        class="w-8 h-8 rounded-xl bg-gold-light/80 text-gold-deep flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
                 </button>
 
                 <!-- 2. Book Appointment -->
                 <button type="button" onclick="selectInitialIntent('BOOKING')"
                     class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-50/70 via-white to-champagne-light border-2 border-emerald-300 text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
                     <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-2xl bg-white border border-emerald-300 text-emerald-600 flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                        <div
+                            class="w-11 h-11 rounded-2xl bg-white border border-emerald-300 text-emerald-600 flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                             📅
                         </div>
                         <div>
@@ -4505,21 +4717,24 @@
                                 <h3 class="text-sm sm:text-base font-black text-charcoal leading-tight">
                                     Book Appointment
                                 </h3>
-                                <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-extrabold uppercase tracking-wider">WhatsApp</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-extrabold uppercase tracking-wider">WhatsApp</span>
                             </div>
                             <p class="text-xs text-greyx font-medium mt-0.5 leading-snug">
                                 Quick booking for haircut, facial, waxing, makeup &amp; spa
                             </p>
                         </div>
                     </div>
-                    <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
+                    <span
+                        class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
                 </button>
 
                 <!-- 3. Explore Unisex Salon -->
                 <button type="button" onclick="selectInitialIntent('EXPLORE')"
                     class="focus-intent-card w-full p-4 rounded-2xl bg-gradient-to-r from-champagne-light via-white to-ivory border-2 border-champagne text-left transition-all group cursor-pointer shadow-sm flex items-center justify-between">
                     <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-2xl bg-white border border-champagne text-charcoal flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                        <div
+                            class="w-11 h-11 rounded-2xl bg-white border border-champagne text-charcoal flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                             🌟
                         </div>
                         <div>
@@ -4531,13 +4746,15 @@
                             </p>
                         </div>
                     </div>
-                    <span class="w-8 h-8 rounded-xl bg-champagne text-charcoal flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
+                    <span
+                        class="w-8 h-8 rounded-xl bg-champagne text-charcoal flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:translate-x-0.5 transition-transform">➔</span>
                 </button>
             </div>
 
             <!-- Footer note -->
             <div class="text-center pt-2 border-t border-champagne/60">
-                <span class="text-[11px] text-greyx font-semibold">Open Daily 8:00 AM – 10:00 PM • Clement Town, Dehradun</span>
+                <span class="text-[11px] text-greyx font-semibold">Open Daily 8:00 AM – 10:00 PM • Clement Town,
+                    Dehradun</span>
             </div>
         </div>
     </div>
@@ -4549,7 +4766,7 @@
         class="fixed inset-0 z-[125] hidden bg-charcoal-deep/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto transition-opacity duration-300">
         <div class="max-w-md w-full bg-white rounded-[32px] p-5 sm:p-6 shadow-2xl border-2 border-gold/70 text-charcoal relative my-auto max-h-[95vh] overflow-y-auto"
             onclick="event.stopPropagation()">
-            
+
             <!-- Top bar with Back button -->
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-champagne/60">
                 <button type="button" onclick="goBackToStep1Focus()"
@@ -4557,14 +4774,16 @@
                     <span>←</span>
                     <span>Back</span>
                 </button>
-                <span id="serviceModalBadge" class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep">
+                <span id="serviceModalBadge"
+                    class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold-pale border border-gold/60 text-gold-deep">
                     Review Mode
                 </span>
             </div>
 
             <!-- Dynamic Header -->
             <div class="text-center mb-4">
-                <h2 id="serviceModalTitle" class="text-xl sm:text-2xl font-black text-charcoal tracking-tight leading-tight">
+                <h2 id="serviceModalTitle"
+                    class="text-xl sm:text-2xl font-black text-charcoal tracking-tight leading-tight">
                     What service did you get? ✂️
                 </h2>
                 <p id="serviceModalSubtitle" class="text-xs sm:text-[13px] text-greyx font-medium mt-1 leading-snug">
@@ -4578,9 +4797,8 @@
                     <input type="text" id="serviceSearchInput"
                         class="luxury-field w-full text-xs sm:text-[13.5px] font-medium text-charcoal bg-ivory border-2 border-champagne focus:border-gold rounded-2xl py-3.5 pl-4 pr-12 leading-relaxed focus:bg-white focus:outline-none transition-all shadow-inner"
                         placeholder="Type a service e.g. Facial, Waxing..." autocomplete="off"
-                        oninput="handleServiceSearchInput()"
-                        onkeydown="if(event.key==='Enter')submitServiceInput()">
-                    
+                        oninput="handleServiceSearchInput()" onkeydown="if(event.key==='Enter')submitServiceInput()">
+
                     <!-- Inline Add/Submit Button right in front of the writing box -->
                     <button type="button" id="submitSearchInputBtn" onclick="submitServiceInput()"
                         class="absolute right-2.5 w-8 h-8 rounded-xl bg-charcoal hover:bg-gold-deep text-ivory flex items-center justify-center font-black text-sm transition-all shadow-sm cursor-pointer active:scale-95"
@@ -4594,12 +4812,14 @@
             <div id="modalSelectedTray"
                 class="hidden mb-3 p-2.5 rounded-2xl bg-gold-pale/80 border border-gold/60 text-charcoal transition-all">
                 <div class="flex items-center justify-between mb-1.5 px-0.5">
-                    <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-gold-deep flex items-center gap-1.5">
+                    <span
+                        class="text-[10.5px] font-extrabold uppercase tracking-wider text-gold-deep flex items-center gap-1.5">
                         <span>✓</span>
                         <span>Selected Services (<span id="modalSelectedCount">0</span>):</span>
                     </span>
                     <button type="button" onclick="clearAllSelectedServices()"
-                        class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer">Clear All</button>
+                        class="text-[10px] text-gold-deep underline hover:text-charcoal font-bold cursor-pointer">Clear
+                        All</button>
                 </div>
                 <div id="modalSelectedPillsList" class="flex flex-wrap gap-1.5">
                     <!-- Populated dynamically via renderModalSelectedTray() -->
@@ -4651,7 +4871,8 @@
                 </div>
 
                 <!-- Plenty of Service Chips (Scrollable / Wrap List) -->
-                <div id="modalPlentyChipsGrid" class="flex flex-wrap gap-2 max-h-[190px] overflow-y-auto p-1 rounded-2xl border border-champagne/50 bg-ivory/50">
+                <div id="modalPlentyChipsGrid"
+                    class="flex flex-wrap gap-2 max-h-[190px] overflow-y-auto p-1 rounded-2xl border border-champagne/50 bg-ivory/50">
                     <!-- Populated dynamically via renderModalPlentyChips() -->
                 </div>
             </div>
@@ -4672,21 +4893,23 @@
             </div>
         </div>
     </div>
-    
+
     <!-- ========================================================
          SCISSORS & COMB LOADER WITH SKELETON BREATHING EFFECT
          ======================================================== -->
     <div id="salonCuratingLoader"
         class="fixed inset-0 z-[130] hidden bg-ivory/95 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-opacity duration-300">
         <div class="max-w-xs sm:max-w-sm w-full mx-auto flex flex-col items-center">
-            
+
             <!-- Animated Scissors & Comb Medallion -->
             <div class="relative w-20 h-20 mb-3 flex items-center justify-center">
                 <!-- Outer rotating golden orbit -->
-                <div class="absolute inset-0 rounded-full border-2 border-dashed border-gold/70 animate-spin" style="animation-duration: 5s;"></div>
-                
+                <div class="absolute inset-0 rounded-full border-2 border-dashed border-gold/70 animate-spin"
+                    style="animation-duration: 5s;"></div>
+
                 <!-- Glowing inner medallion -->
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-pale via-white to-gold-light border-2 border-gold flex items-center justify-center shadow-lg shadow-gold/30 scissor-rotate">
+                <div
+                    class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-pale via-white to-gold-light border-2 border-gold flex items-center justify-center shadow-lg shadow-gold/30 scissor-rotate">
                     <div class="relative flex items-center justify-center text-gold-dark text-2xl select-none">
                         <span>✂️</span>
                         <span class="text-lg -ml-1">💈</span>
@@ -4703,7 +4926,8 @@
             </p>
 
             <!-- Skeleton Breathing Effect Cards -->
-            <div class="w-full mt-5 p-4 rounded-3xl bg-white border border-champagne shadow-md skeleton-breathe text-left">
+            <div
+                class="w-full mt-5 p-4 rounded-3xl bg-white border border-champagne shadow-md skeleton-breathe text-left">
                 <!-- Skeleton Profile Bar -->
                 <div class="flex items-center gap-2.5 mb-3">
                     <div class="w-9 h-9 rounded-full bg-champagne"></div>
